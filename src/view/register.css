@@ -1,0 +1,63 @@
+.root {
+    -fx-background-color: #ffffff;
+}
+
+.header {
+    -fx-background-color: #111111;
+    -fx-padding: 28 40 28 40;
+}
+
+.header-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 52px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'SansSerif';
+}
+
+.field-label {
+    -fx-font-size: 14px;
+    -fx-font-family: 'SansSerif';
+    -fx-text-fill: #111111;
+}
+
+.error-label {
+    -fx-text-fill: red;
+}
+
+.input-field {
+    -fx-background-color: #c8e000;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-padding: 10 20 10 20;
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+    -fx-prompt-text-fill: #777777;
+}
+
+.avatar-border {
+    -fx-border-radius: 50%;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.dark-button {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 12 24 12 24;
+    -fx-cursor: hand;
+}
+
+.register-button {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 14 0 14 0;
+    -fx-cursor: hand;
+}

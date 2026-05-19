@@ -111,7 +111,7 @@ public class RegisterController implements Initializable {
                 checkPassword();
                 if (!validPassword.get()) {
                     if (paswordListener == null) {
-                        paswordListener = (a, b, c) -> checkEmail();
+                        paswordListener = (a, b, c) -> checkPassword();
                         passwordField.textProperty().addListener(paswordListener);
                     }
                 }            
@@ -123,7 +123,7 @@ public class RegisterController implements Initializable {
                 checkPasswordsMatch();
                 if (!validConfirm.get()) {
                     if (confirmListener == null) {
-                        confirmListener = (a, b, c) -> checkEmail();
+                        confirmListener = (a, b, c) -> checkPasswordsMatch();
                         confirmPasswordField.textProperty().addListener(confirmListener);
                     }
                 }            
@@ -175,7 +175,7 @@ public class RegisterController implements Initializable {
         validDate.setValue(Boolean.FALSE);
         
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Dashboard.FXML"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Dashboard.fxml"));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene (root);
             stage.setScene(scene);
@@ -196,7 +196,7 @@ public class RegisterController implements Initializable {
     
     private void checkEmail(){
         String email = emailField.getText();
-        boolean isValid = email.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9]+\\.)+[a-zA-Z]{2,6}$");
+        boolean isValid = email.matches("^[\\w._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
         validEmail.set(isValid); //actualiza la property asociada
         showError(isValid, emailField, emailError); //muestra o esconde el mensaje de error
     }

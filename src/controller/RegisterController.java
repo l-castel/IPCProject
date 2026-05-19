@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.io.File;
 import javafx. scene.image.Image;
 import javafx.stage.FileChooser;
+import javafx.util.converter.LocalDateStringConverter;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 /**
  * FXML Controller class
  *
@@ -64,6 +67,10 @@ public class RegisterController implements Initializable {
     private Button registerButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label phoneError;
+    @FXML
+    private Label birthdateError;
 
     /**
      * Initializes the controller class.
@@ -77,10 +84,7 @@ public class RegisterController implements Initializable {
     private ChangeListener<String> emailListener;
     private ChangeListener<String> paswordListener;
     private ChangeListener<String> confirmListener;
-    @FXML
-    private Label phoneError;
-    @FXML
-    private Label birthdateError;
+   
     
     
     @Override
@@ -133,7 +137,24 @@ public class RegisterController implements Initializable {
            ); 
         cancelButton.setOnAction( (event)->{
             cancelButton.getScene().getWindow().hide();
-});
+        });
+        
+        LocalDateStringConverter localDateStringConvert = new LocalDateStringConverter(){
+            @Override
+            public LocalDate fromString(String value) {
+                try {
+                    return super.fromString(value);
+                } catch (Exception e) {
+                    System.out.println("Exception in fromString");
+                    return LocalDate.now();
+                }
+            }
+            @Override
+            public String toString(LocalDate value) {
+                return super.toString(value);
+            }
+        };
+        birthdateField.setConverter(localDateStringConvert);
     }    
 
     @FXML
@@ -190,10 +211,10 @@ public class RegisterController implements Initializable {
         validConfirm.set(match);
         showError(match, confirmPasswordField, confirmError);
     }
-    /*private void checkDate(){
-        LocalDate value = dateField.getValue();
-        boolean isValid = value.isBefore(LocalDate.now().minus(16, YEARS));
+    private void checkDate(){
+        LocalDate value = birthdateField.getValue();
+        boolean isValid = value.isBefore(LocalDate.now().minus(12, ChronoUnit.YEARS));
         validDate.set(isValid);
-        showError(isValid, dateField, dateError);
-    }*/
+        showError(isValid, birthdateField, birthdateError);
+    }
 }

@@ -32,7 +32,7 @@
         <VBox spacing="8">
             <Label style="-fx-text-fill: white;                           -fx-font-size: 16px;                           -fx-font-weight: bold;" text="Type" />
             <HBox alignment="CENTER_LEFT" spacing="10">
-                <ComboBox fx:id="comboType" prefHeight="44" prefWidth="220" promptText="Select type" style="-fx-background-color: white;                                  -fx-background-radius: 10px;                                  -fx-font-size: 14px;                                  -fx-border-color: transparent;" />
+                <ComboBox fx:id="comboBoxType" prefHeight="44" prefWidth="220" promptText="Select type" style="-fx-background-color: white;                                  -fx-background-radius: 10px;                                  -fx-font-size: 14px;                                  -fx-border-color: transparent;" />
             </HBox>
         </VBox>
 

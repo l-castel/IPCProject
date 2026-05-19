@@ -40,31 +40,30 @@
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <Label styleClass="field-label" text="Nickname" />
                     <TextField fx:id="nickname" promptText="Nickname" styleClass="input-field" />
-                     <Label fx:id="nicknameError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Not valid Nickname" visible="false" wrapText="true" />
+                     <Label fx:id="nicknameError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Must be 6-15 characters, only letters,digits, hypen or underscore" visible="false" wrapText="true" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <VBox spacing="8">
                         <Label styleClass="field-label" text="Birthdate" />
                         <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
-                  <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Not valid age" visible="false" wrapText="true" />
+                  <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="You must be older than 12 years" visible="false" wrapText="true" />
                     </VBox>
                 </VBox>
 
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <Label styleClass="field-label" text="Email Address" />
-                    <TextField fx:id="emailField" promptText="Email Address" styleClass="input-field" />
-                    <Label fx:id="emailError" styleClass="error-label" text="Not a valid email" visible="false" />
+                    <TextField fx:id="emailField" promptText="user@domain" styleClass="input-field" />
+                    <Label fx:id="emailError" styleClass="error-label" text="Invalid email format. Ex: &quot;user@domain&quot;" visible="false" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <Label styleClass="field-label" text="Telephone number" />
                     <TextField fx:id="phoneField" promptText="Telephone number" styleClass="input-field" />
-                    <Label fx:id="phoneError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Incorrect phone, it must be 9 numbers" visible="false" wrapText="true" />
                 </VBox>
 
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <Label styleClass="field-label" text="Password" />
                     <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
-                    <Label fx:id="passwordError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="It must be 8-20 chars with uppercase, lowercase, digit and symbol" visible="false" wrapText="true" />
+                    <Label fx:id="passwordError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Must be 8-20 chars with at least one uppercase,  one lowercase, one digit and one symbol" visible="false" wrapText="true" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <Label styleClass="field-label" text="Confirm Password" />

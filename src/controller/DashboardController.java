@@ -145,7 +145,8 @@ public class DashboardController implements Initializable {
     private void handleElevationProfile(ActionEvent event) {
     }
     public void initUser(User user){
-        user.getNickName();
+        labelName.setText(user.getNickName());
+        labelSurname.setText(user.getEmail());
     }
     
 }

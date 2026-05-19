@@ -46,6 +46,7 @@
                     <VBox spacing="8">
                         <Label styleClass="field-label" text="Birthdate" />
                         <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
+                  <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Not valid age" visible="false" wrapText="true" />
                     </VBox>
                 </VBox>
 

@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import java.io.IOException;
 /**
  * FXML Controller class
  *
@@ -117,6 +118,15 @@ public class RegisterController implements Initializable {
                 }            
             }      
         });
+        BooleanBinding validFields = Bindings.and(validEmail, validPassword)
+                 .and(validConfirm);
+        
+        registerButton.disableProperty().bind(
+                Bindings.not(validFields)
+           ); 
+        cancelButton.setOnAction( (event)->{
+            cancelButton.getScene().getWindow().hide();
+});
     }    
 
     @FXML
@@ -134,13 +144,15 @@ public class RegisterController implements Initializable {
         validConfirm.setValue(Boolean.FALSE);
         validDate.setValue(Boolean.FALSE);
         
-        
-        Parent root = FMXLLoader.load(getClass().getResources("/view/Dashboard.FXML"));
-        Stage stage = (Stage)((Node) event.getSources()).getScene().getWindow();
-        Scene scene = new Scene (root);
-        stage.setScene(scene);
-        stage.show();
-        
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Dashboard.FXML"));
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene (root);
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     @FXML

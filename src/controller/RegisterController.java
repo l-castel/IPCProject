@@ -265,7 +265,23 @@ public class RegisterController implements Initializable {
         cancelButton.getScene().getWindow().hide();
     }
     
-   
+    private void goToDashhboard(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
+            Parent root = loader.load();
+            
+            DashboardController db =loader.getController();
+            db.initUser(app.getCurrentUser());
+            
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("");
+            stage.show();
+            
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     private void showError(boolean isValid, Node field, Node errorMessage){
         errorMessage.setVisible(!isValid);
         field.setStyle(((isValid) ? "" : "-fx-background-color: #FCE5E0"));

@@ -5,7 +5,6 @@
 package com.example;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -18,6 +17,14 @@ import javafx.scene.input.ScrollEvent;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import javafx.event.ActionEvent;
+
+import upv.ipc.sportlib.SportActivityApp;
+import upv.ipc.sportlib.User;
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import java.io.File;
 
 /**
  * FXML Controller class
@@ -65,6 +72,15 @@ public class ProfileController implements Initializable {
             "\\+34\\d{9}");
     @FXML
     private Label avatarIcon;
+    
+    private SportActivityApp app;
+    @FXML
+    private Circle CircleAvatar;
+    @FXML
+    private Label sidebarAvatarIcon;
+    
+    
+    
     /**
      * 
      * Initializes the controller class.
@@ -74,6 +90,31 @@ public class ProfileController implements Initializable {
         MouseScroll();
         setUpValidations();
         hideAllErrors();
+        
+        app = SportActivityApp.getInstance();
+        
+        User user = app.getCurrentUser();
+        
+        if(user != null) {
+            
+            if(user.getAvatar() != null) {
+                ImagePattern pattern = new ImagePattern(user.getAvatar());
+                
+                sidebarAvatarCircle.setFill(pattern);
+                CircleAvatar.setFill(pattern);
+                
+                avatarIcon.setVisible(false);
+                sidebarAvatarIcon.setVisible(false);
+                
+            } else {
+                avatarIcon.setVisible(true);
+                sidebarAvatarIcon.setVisible(true);
+            }
+           
+            
+        } 
+        
+        
     }    
     
     private void MouseScroll() {
@@ -145,7 +186,7 @@ private void validatePhone() {
     String text = phoneField.getText().trim();
     boolean valid = PHONE_PATTERN.matcher(text).matches();
     phoneError.setVisible(!valid);
-    phoneError.setVisible(!valid);
+    phoneError.setManaged(!valid);
     
 }
 private void validateDob() {
@@ -178,7 +219,37 @@ private void validateDob() {
     }
     
 }
+
+    @FXML
+    private void handleChangeAvatar(ActionEvent event) {
         
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Avatar");
         
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
+        
+        File file = fileChooser.showOpenDialog(null);
+        
+        if(file!=null) {
+            
+            avatarPath = file.getAbsolutePath();
+            
+            Image image = new Image(file.toURI().toString());
+            ImagePattern pattern = new ImagePattern(image);
+            
+            sidebarAvatarCircle.setFill(pattern);
+            CircleAvatar.setFill(pattern);
+            
+            avatarIcon.setVisible(false);
+            sidebarAvatarIcon.setVisible(false);
+            
+        }
         
         }
+        
+        
+    }
+        
+        
+        
+        

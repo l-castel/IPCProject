@@ -19,8 +19,12 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-
-
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 /**
  * FXML Controller class
  *
@@ -60,9 +64,59 @@ public class RegisterController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    private BooleanProperty validEmail;
+    private BooleanProperty validPassword;
+    private BooleanProperty validConfirm;
+    private BooleanProperty validDate;
+    
+    private ChangeListener<String> emailListener;
+    private ChangeListener<String> paswordListener;
+    private ChangeListener<String> confirmListener;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        validEmail = new SimpleBooleanProperty();
+        validPassword = new SimpleBooleanProperty();
+        validConfirm = new SimpleBooleanProperty();
+        validDate = new SimpleBooleanProperty();
+        
+        emailField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(!newValue){ //focus lost
+                checkEmail();
+                if (!validEmail.get()) {
+                    if (emailListener == null) {
+                        emailListener = (a, b, c) -> checkEmail();
+                        emailField.textProperty().addListener(emailListener);
+                    }
+                }            
+            }      
+        });
+        passwordField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(!newValue){ //focus lost
+                checkPassword();
+                if (!validPassword.get()) {
+                    if (paswordListener == null) {
+                        paswordListener = (a, b, c) -> checkEmail();
+                        passwordField.textProperty().addListener(paswordListener);
+                    }
+                }            
+            }      
+        });
+        
+        confirmPasswordField.focusedProperty().addListener((observable, oldValue, newValue)->{
+            if(!newValue){ //focus lost
+                checkPasswordsMatch();
+                if (!validConfirm.get()) {
+                    if (confirmListener == null) {
+                        confirmListener = (a, b, c) -> checkEmail();
+                        confirmPasswordField.textProperty().addListener(confirmListener);
+                    }
+                }            
+            }      
+        });
     }    
 
     @FXML
@@ -71,10 +125,54 @@ public class RegisterController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
+        emailField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        birthdateField.setValue(null);
+        validEmail.setValue(Boolean.FALSE);
+        validPassword.setValue(Boolean.FALSE);
+        validConfirm.setValue(Boolean.FALSE);
+        validDate.setValue(Boolean.FALSE);
+        
+        
+        Parent root = FMXLLoader.load(getClass().getResources("/view/Dashboard.FXML"));
+        Stage stage = (Stage)((Node) event.getSources()).getScene().getWindow();
+        Scene scene = new Scene (root);
+        stage.setScene(scene);
+        stage.show();
+        
     }
 
     @FXML
     private void cancel(ActionEvent event) {
     }
     
+    private void showError(boolean isValid, Node field, Node errorMessage){
+        errorMessage.setVisible(!isValid);
+        field.setStyle(((isValid) ? "" : "-fx-background-color: #FCE5E0"));
+    }
+    
+    private void checkEmail(){
+        String email = emailField.getText();
+        boolean isValid = email.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9]+\\.)+[a-zA-Z]{2,6}$");
+        validEmail.set(isValid); //actualiza la property asociada
+        showError(isValid, emailField, emailError); //muestra o esconde el mensaje de error
+    }
+    private void checkPassword() {
+        String password = passwordField.getText();
+        boolean isValid = password.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{8,15}$");
+        validPassword.set(isValid); //actualiza la property asociada
+        showError(isValid, passwordField, passwordError); //muestra o esconde el mensaje de error
+    }
+    private void checkPasswordsMatch() {
+        boolean match = passwordField.getText().equals(confirmPasswordField.getText());
+        validConfirm.set(match);
+        showError(match, confirmPasswordField, confirmError);
+    }
+    /*private void checkDate(){
+        LocalDate value = dateField.getValue();
+        boolean isValid = value.isBefore(LocalDate.now().minus(16, YEARS));
+        validDate.set(isValid);
+        showError(isValid, dateField, dateError);
+    }*/
 }

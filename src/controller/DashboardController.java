@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import upv.ipc.sportlib.User;
 
 /**
  * FXML Controller class
@@ -142,6 +143,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleElevationProfile(ActionEvent event) {
+    }
+    public void initUser(User user){
+        user.getNickName();
     }
     
 }

@@ -15,6 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.ScrollEvent;
 
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
 /**
  * FXML Controller class
  *
@@ -24,6 +28,8 @@ public class ProfileController implements Initializable {
 
     @FXML
     private Circle sidebarAvatarCircle;
+    
+    private String avatarPath;
     @FXML
     private TextField emailField;
     @FXML
@@ -49,12 +55,25 @@ public class ProfileController implements Initializable {
     
     private static final double SCROLL_SPEED = 0.003;
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=]).{8,20}$");
+    
+    private static final Pattern PHONE_PATTERN = Pattern.compile(
+            "\\+34\\d{9}");
+    @FXML
+    private Label avatarIcon;
     /**
+     * 
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MouseScroll();
+        setUpValidations();
+        hideAllErrors();
     }    
     
     private void MouseScroll() {
@@ -68,4 +87,98 @@ public class ProfileController implements Initializable {
         });
     }
     
+    private void hideAllErrors() {
+        emailError.setVisible(false);
+        emailError.setManaged(false);
+        
+        passwordError.setVisible(false);
+        passwordError.setManaged(false);
+        
+        phoneError.setVisible(false);
+        phoneError.setManaged(false);
+        
+        dobError.setVisible(false);
+        dobError.setManaged(false);
+    }
+    
+    private void setUpValidations() {
+        
+        emailField.setOnAction(e -> validateEmail());
+        passwordField.setOnAction(e -> validatePassword());
+        phoneField.setOnAction(e -> validatePhone());
+        dobDay.setOnAction(e -> validateDob());
+        dobMonth.setOnAction(e -> validateDob());
+        dobYear.setOnAction(e -> validateDob());
+            
+
+        dobDay.textProperty().addListener((obs, oldValue, newValue) -> {
+            if(!newValue.matches("\\d*")) dobDay.setText(newValue.replaceAll("[^\\d]",""));
+            if(newValue.length() > 2) dobDay.setText(newValue.substring(0, 2));
+        });
+        
+        dobMonth.textProperty().addListener((obs, oldValue, newValue) -> {
+            if(!newValue.matches("\\d*")) dobMonth.setText(newValue.replaceAll("[^\\d]", ""));
+            if (newValue.length() > 2)   dobMonth.setText(newValue.substring(0,2));
+        });
+        
+        dobYear.textProperty().addListener((obs, oldValue, newValue) -> {
+            if(!newValue.matches("\\d*")) dobYear.setText(newValue.replaceAll("[^\\d]",""));
+            if(newValue.length() > 4) dobYear.setText(newValue.substring(0, 4));
+        });
+    }
+    
+private void validateEmail() {
+    String text = emailField.getText().trim();
+    boolean valid = EMAIL_PATTERN.matcher(text).matches();
+    emailError.setVisible(!valid);
+    emailError.setManaged(!valid);
 }
+
+private void validatePassword() {
+    String text = passwordField.getText();
+    boolean valid = PASSWORD_PATTERN.matcher(text).matches();
+    passwordError.setVisible(!valid);
+    passwordError.setManaged(!valid);
+}
+
+private void validatePhone() {
+    String text = phoneField.getText().trim();
+    boolean valid = PHONE_PATTERN.matcher(text).matches();
+    phoneError.setVisible(!valid);
+    phoneError.setVisible(!valid);
+    
+}
+private void validateDob() {
+    String dayStr = dobDay.getText().trim();
+    String monStr = dobMonth.getText().trim();
+    String yearStr = dobYear.getText().trim();
+    
+    if(dayStr.isEmpty() || monStr.isEmpty() || yearStr.isEmpty()) {
+        dobError.setVisible(false);
+        dobError.setManaged(false);
+        return;
+    }
+    
+    try {
+        int day = Integer.parseInt(dayStr);
+        int month = Integer.parseInt(monStr);
+        int year = Integer.parseInt(yearStr);
+        
+        LocalDate birthDate = LocalDate.of(year, month, day);
+        LocalDate minDate = LocalDate.now().minusYears(12);
+        
+        boolean valid = !birthDate.isAfter(minDate);
+        dobError.setVisible(!valid);
+        dobError.setManaged(!valid);
+        
+        
+    } catch (Exception e) {
+        dobError.setVisible(true);
+        dobError.setManaged(true);
+    }
+    
+}
+        
+        
+        
+        }

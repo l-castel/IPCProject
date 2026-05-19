@@ -10,8 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Circle;
+import javafx.scene.input.ScrollEvent;
 
 /**
  * FXML Controller class
@@ -42,13 +44,28 @@ public class ProfileController implements Initializable {
     private TextField dobYear;
     @FXML
     private Label dobError;
+    @FXML
+    private ScrollPane ScrollPane;
+    
+    private static final double SCROLL_SPEED = 0.003;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        MouseScroll();
     }    
+    
+    private void MouseScroll() {
+        ScrollPane.setOnMouseEntered(event -> ScrollPane.requestFocus());
+
+        ScrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+            double newValue = ScrollPane.getVvalue() - (event.getDeltaY() * SCROLL_SPEED);
+            newValue = Math.max(0.0, Math.min(1.0, newValue));
+            ScrollPane.setVvalue(newValue);
+            event.consume();
+        });
+    }
     
 }

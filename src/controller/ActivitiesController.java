@@ -20,6 +20,7 @@ import upv.ipc.sportlib.SportActivityApp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ActivitiesController
 {
@@ -110,14 +111,6 @@ public class ActivitiesController
     @javafx.fxml.FXML
     public void handleActivities(Event event) {
         MapaDemoApp.setRoot("Activities");
-    }
-
-    @Deprecated
-    public void handleEdit(Event event) {
-    }
-
-    @Deprecated
-    public void handleDelete(Event event) {
     }
 }
 

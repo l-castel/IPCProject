@@ -15,21 +15,24 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="840" prefWidth="1300" styleClass="root" stylesheets="@register.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+<BorderPane prefHeight="840" prefWidth="1300" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+
+    <!-- ===== TOP HEADER ===== -->
     <top>
-        <HBox alignment="CENTER_LEFT" styleClass="header">
-            <Label styleClass="header-title" text="REGISTER" HBox.hgrow="ALWAYS" />
-            <Label>
-                <graphic>
-                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                </graphic>
-            </Label>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #111111; -fx-padding: 28 40 28 40;">
+            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 52px; -fx-font-weight: bold; -fx-font-family: 'SansSerif';" text="REGISTER" HBox.hgrow="ALWAYS" />
+            <Label style="-fx-font-size: 56px; -fx-text-fill: #ffffff;">
+            <graphic>
+               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            </graphic></Label>
         </HBox>
     </top>
 
+    <!-- ===== CENTER FORM ===== -->
     <center>
-        <VBox alignment="TOP_CENTER" spacing="0" style="-fx-padding: 40 0 40 0;">
+        <VBox alignment="TOP_CENTER" spacing="0" style="-fx-background-color: #ffffff; -fx-padding: 40 0 40 0;">
 
+            <!-- Form grid -->
             <GridPane alignment="CENTER" hgap="30" style="-fx-padding: 0 0 20 0;" vgap="18">
 
                 <columnConstraints>
@@ -37,66 +40,78 @@
                     <ColumnConstraints prefWidth="310" />
                 </columnConstraints>
 
+                <!-- Row 0: Name | Surname -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <Label styleClass="field-label" text="Nickname" />
-                    <TextField fx:id="nickname" promptText="Nickname" styleClass="input-field" />
-                     <Label fx:id="nicknameError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Must be 6-15 characters, only letters,digits, hypen or underscore" visible="false" wrapText="true" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Nickname" />
+                    <TextField fx:id="nickname" promptText="Name" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" text="Nickname" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <VBox spacing="8">
-                        <Label styleClass="field-label" text="Birthdate" />
-                        <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
-                  <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="You must be older than 12 years" visible="false" wrapText="true" />
-                    </VBox>
+               <children>
+      
+                      <!-- Row 3: Date of birth | Avatar -->
+                      <VBox spacing="8">
+                          <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Birthdate" />
+                          <HBox alignment="CENTER_LEFT" spacing="8" />
+                     <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
+                     <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" text="Age must be more than 12 hours" textFill="RED" visible="false" wrapText="true" />
+                      </VBox>
+               </children>
                 </VBox>
 
+                <!-- Row 1: Email | Telephone -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <Label styleClass="field-label" text="Email Address" />
-                    <TextField fx:id="emailField" promptText="user@domain" styleClass="input-field" />
-                    <Label fx:id="emailError" styleClass="error-label" text="Invalid email format. Ex: &quot;user@domain&quot;" visible="false" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Email Address" />
+                    <TextField fx:id="emailField" promptText="Email Address" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
+               <Label fx:id="emailError" text="Not a valid email" textFill="RED" visible="false" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <Label styleClass="field-label" text="Telephone number" />
-                    <TextField fx:id="phoneField" promptText="Telephone number" styleClass="input-field" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Telephone number" />
+                    <TextField fx:id="phoneField" promptText="Telephone number" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
+               <Label fx:id="phoneError" maxWidth="640.0" prefWidth="640.0" text="Incorrect phone, it must be 9 numbers" textFill="RED" visible="false" wrapText="true" />
                 </VBox>
 
+                <!-- Row 2: Password | Confirm Password -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <Label styleClass="field-label" text="Password" />
-                    <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
-                    <Label fx:id="passwordError" maxWidth="640.0" prefWidth="640.0" styleClass="error-label" text="Must be 8-20 chars with at least one uppercase,  one lowercase, one digit and one symbol" visible="false" wrapText="true" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Password" />
+                    <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
+               <Label fx:id="passwordError" maxWidth="640.0" prefWidth="640.0" text="It must be a combination of 8 to 15 numbers or letters, without blank spaces" textFill="RED" visible="false" wrapText="true" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <Label styleClass="field-label" text="Confirm Password" />
-                    <PasswordField fx:id="confirmPasswordField" promptText="Password" styleClass="input-field" />
-                    <Label fx:id="confirmError" styleClass="error-label" text="Password does not match" visible="false" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Confirm Password" />
+                    <PasswordField fx:id="confirmPasswordField" promptText="Password" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
+               <Label fx:id="confirmError" text="Password does not match" textFill="#ff0505" visible="false" />
                 </VBox>
 
-                <HBox alignment="CENTER_LEFT" spacing="20" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <!-- Avatar selector -->
+                <HBox alignment="CENTER_LEFT" spacing="20" GridPane.rowIndex="3">
                     <StackPane>
-                        <StackPane prefHeight="100.0" prefWidth="100.0" styleClass="avatar-border">
-                            <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                        </StackPane>
+                  <StackPane prefHeight="100.0" prefWidth="100.0" style="-fx-border-radius: 50%; -fx-border-color: black; -fx-border-width: 1px;">
+                     <children>
+                        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
                     </StackPane>
-                    <Button fx:id="buttonSelectAvatar" onAction="#selectAvatar" styleClass="dark-button" text="Select Avatar" />
+                    <Button fx:id="buttonSelectAvatar" onAction="#selectAvatar" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 12 24 12 24; -fx-cursor: hand;" text="Select Avatar" />
                 </HBox>
-
-                <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="1075.0" spacing="16.0" style="-fx-padding: 24 0 0 0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                    <Button fx:id="registerButton" onAction="#register" prefHeight="49.0" prefWidth="118.0" styleClass="register-button" text="Register" />
-                    <Button fx:id="cancelButton" onAction="#cancel" prefHeight="49.0" prefWidth="92.0" styleClass="register-button" text="Cancel">
-                        <HBox.margin>
-                            <Insets />
-                        </HBox.margin>
-                    </Button>
-                </HBox>
-
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
+   
+                  <!-- Buttons: Register | Cancel -->
+               <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="1075.0" spacing="16.0" style="-fx-padding: 24 0 0 0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                   <Button fx:id="registerButton" onAction="#register" prefHeight="49.0" prefWidth="118.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Register" />
+                   <Button fx:id="cancelButton" onAction="#cancel" prefHeight="49.0" prefWidth="92.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Cancel">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Button>
+               </HBox>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
 
             </GridPane>
+
         </VBox>
     </center>
 

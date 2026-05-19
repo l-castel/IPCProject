@@ -43,13 +43,10 @@
 
                 <!-- Row 0: Name | Surname -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Name" />
-                    <TextField fx:id="nameField" promptText="Name" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
+                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Nickname" />
+                    <TextField fx:id="nickname" promptText="Name" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" text="Nickname" />
                 </VBox>
-                <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Surname" />
-                    <TextField fx:id="surnameField" promptText="Surname" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" />
-                </VBox>
+                <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                 <!-- Row 1: Email | Telephone -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">

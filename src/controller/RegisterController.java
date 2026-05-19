@@ -32,6 +32,7 @@ import javafx.stage.FileChooser;
 import javafx.util.converter.LocalDateStringConverter;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import mapademo.User;
 /**
  * FXML Controller class
  *
@@ -39,10 +40,6 @@ import java.time.temporal.ChronoUnit;
  */
 public class RegisterController implements Initializable {
 
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextField surnameField;
     @FXML
     private TextField emailField;
     @FXML
@@ -71,6 +68,8 @@ public class RegisterController implements Initializable {
     private Label phoneError;
     @FXML
     private Label birthdateError;
+    @FXML
+    private TextField nickname;
 
     /**
      * Initializes the controller class.
@@ -84,6 +83,8 @@ public class RegisterController implements Initializable {
     private ChangeListener<String> emailListener;
     private ChangeListener<String> paswordListener;
     private ChangeListener<String> confirmListener;
+    
+    private String avatarPath="";
    
     
     
@@ -165,6 +166,10 @@ public class RegisterController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
+        
+        User user;
+        user = new User(nickname.getText(),emailField.getText(),phoneField.getText(),passwordField.getText(),avatarPath,birthdateField.getValue() );
+        
         emailField.clear();
         passwordField.clear();
         confirmPasswordField.clear();
@@ -217,4 +222,5 @@ public class RegisterController implements Initializable {
         validDate.set(isValid);
         showError(isValid, birthdateField, birthdateError);
     }
-}
+    
+   }

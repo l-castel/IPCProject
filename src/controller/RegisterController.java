@@ -26,6 +26,9 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import java.io.IOException;
+import java.io.File;
+import javafx. scene.image.Image;
+import javafx.stage.FileChooser;
 /**
  * FXML Controller class
  *
@@ -74,6 +77,10 @@ public class RegisterController implements Initializable {
     private ChangeListener<String> emailListener;
     private ChangeListener<String> paswordListener;
     private ChangeListener<String> confirmListener;
+    @FXML
+    private Label phoneError;
+    @FXML
+    private Label birthdateError;
     
     
     @Override
@@ -131,6 +138,8 @@ public class RegisterController implements Initializable {
 
     @FXML
     private void selectAvatar(ActionEvent event) {
+        
+        FileChooser avatarSelected = new FileChooser();
     }
 
     @FXML

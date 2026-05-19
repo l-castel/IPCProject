@@ -117,7 +117,7 @@ public class RegisterController implements Initializable {
         validConfirm = new SimpleBooleanProperty(false);
         validDate = new SimpleBooleanProperty(false);
         
-        /*nickname.fontProperty().addListener((obv,oldValue, newValue)->{
+        nickname.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkNickname();
                 if(!validNickname.get() && nicknameListener == null){
@@ -125,7 +125,7 @@ public class RegisterController implements Initializable {
                     nickname.textProperty().addListener(nicknameListener);
                 }
             }
-        });*/
+        });
         emailField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkEmail();
@@ -138,7 +138,7 @@ public class RegisterController implements Initializable {
         passwordField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkPassword();
-                if(!validEmail.get() && passwordListener == null){
+                if(!validPassword.get() && passwordListener == null){
                     passwordListener = (a,b,c)-> checkPassword();
                     passwordField.textProperty().addListener(passwordListener);
                 }
@@ -147,7 +147,7 @@ public class RegisterController implements Initializable {
         confirmPasswordField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkConfirm();
-                if(!validEmail.get() && confirmListener == null){
+                if(!validConfirm.get() && confirmListener == null){
                     confirmListener = (a,b,c)-> checkConfirm();
                     confirmPasswordField.textProperty().addListener(confirmListener);
                 }
@@ -158,7 +158,7 @@ public class RegisterController implements Initializable {
         });
         birthdateField.valueProperty().addListener((observable, oldVal, newVal)->checkDate());
         
-        BooleanBinding validFields = Bindings.and(validNickname, validDate)
+        BooleanBinding validFields = Bindings.and(validNickname, validEmail)
                 .and(validPassword)
                 .and(validConfirm)
                 .and(validDate);
@@ -184,6 +184,10 @@ public class RegisterController implements Initializable {
             }
         };
         birthdateField.setConverter(localDateStringConvert);
+        
+       imageView.setFitWidth(100);
+       imageView.setFitHeight(100);
+       imageView.setPreserveRatio(false);
        Circle clip = new Circle(50,50,50);
        imageView.setClip(clip);
     }
@@ -226,12 +230,14 @@ public class RegisterController implements Initializable {
     private void selectAvatar(ActionEvent event) {
         FileChooser chosen = new FileChooser();
         chosen.setTitle("Select Avatar");
-        chosen.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", ".png",".jpg",".jpeg"));
+        chosen.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images","*.png","*.jpg","*.jpeg"));
         Stage stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         File file = chosen.showOpenDialog(stage);
         if(file != null){
             avatarPath = file.getAbsolutePath();
             imageView.setImage(new Image(file.toURI().toString()));
+            Circle newClip = new Circle(50,50,50);
+            imageView.setClip(newClip);
         }
     }
 

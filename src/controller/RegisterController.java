@@ -64,8 +64,6 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField phoneField;
     @FXML
-    private Label phoneError;
-    @FXML
     private PasswordField passwordField;
     @FXML
     private Label passwordError;
@@ -221,7 +219,7 @@ public class RegisterController implements Initializable {
             birthdateError.setVisible(true);
             return;
         }
-        boolean isValid = value.isBefore(LocalDate.now().minus(16,ChronoUnit.YEARS));
+        boolean isValid = User.isOlderThan(value, 12);
         validDate.set(isValid);
         showError(isValid, birthdateField, birthdateError);
     }

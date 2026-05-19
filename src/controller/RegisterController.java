@@ -168,7 +168,7 @@ public class RegisterController implements Initializable {
     private void register(ActionEvent event) {
         
         User user;
-        user = new User(nickname.getText(),emailField.getText(),phoneField.getText(),passwordField.getText(),avatarPath,birthdateField.getValue() );
+        user = new User(nickname.getText(),emailField.getText(),phoneField.getText(),passwordField.getText(),avatarPath,birthdateField.getValue());
         
         emailField.clear();
         passwordField.clear();
@@ -182,7 +182,7 @@ public class RegisterController implements Initializable {
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/Dashboard.fxml"));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene (root);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }catch(IOException e){

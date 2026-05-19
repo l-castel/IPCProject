@@ -5,7 +5,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -46,7 +45,18 @@
                     <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Nickname" />
                     <TextField fx:id="nickname" promptText="Name" style="-fx-background-color: #c8e000; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 20 10 20; -fx-font-size: 14px; -fx-text-fill: #555555; -fx-prompt-text-fill: #777777;" text="Nickname" />
                 </VBox>
-                <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+               <children>
+      
+                      <!-- Row 3: Date of birth | Avatar -->
+                      <VBox spacing="8">
+                          <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Birthdate" />
+                          <HBox alignment="CENTER_LEFT" spacing="8" />
+                     <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
+                     <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" text="Age must be more than 12 hours" textFill="RED" visible="false" wrapText="true" />
+                      </VBox>
+               </children>
+                </VBox>
 
                 <!-- Row 1: Email | Telephone -->
                 <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
@@ -72,16 +82,8 @@
                <Label fx:id="confirmError" text="Password does not match" textFill="#ff0505" visible="false" />
                 </VBox>
 
-                <!-- Row 3: Date of birth | Avatar -->
-                <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                    <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Birthdate" />
-                    <HBox alignment="CENTER_LEFT" spacing="8" />
-               <DatePicker fx:id="birthdateField" prefHeight="30.0" prefWidth="204.0" promptText="Date of birth" />
-               <Label fx:id="birthdateError" maxWidth="640.0" prefWidth="640.0" text="Age must be more than 12 hours" textFill="RED" visible="false" wrapText="true" />
-                </VBox>
-
                 <!-- Avatar selector -->
-                <HBox alignment="CENTER_LEFT" spacing="20" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <HBox alignment="CENTER_LEFT" spacing="20" GridPane.rowIndex="3">
                     <StackPane>
                   <StackPane prefHeight="100.0" prefWidth="100.0" style="-fx-border-radius: 50%; -fx-border-color: black; -fx-border-width: 1px;">
                      <children>
@@ -91,6 +93,16 @@
                     </StackPane>
                     <Button fx:id="buttonSelectAvatar" onAction="#selectAvatar" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 12 24 12 24; -fx-cursor: hand;" text="Select Avatar" />
                 </HBox>
+   
+                  <!-- Buttons: Register | Cancel -->
+               <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="1075.0" spacing="16.0" style="-fx-padding: 24 0 0 0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                   <Button fx:id="registerButton" onAction="#register" prefHeight="49.0" prefWidth="118.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Register" />
+                   <Button fx:id="cancelButton" onAction="#cancel" prefHeight="49.0" prefWidth="92.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Cancel">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Button>
+               </HBox>
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
@@ -99,17 +111,6 @@
             </rowConstraints>
 
             </GridPane>
-         <Separator prefWidth="200.0" />
-
-            <!-- Buttons: Register | Cancel -->
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="1075.0" spacing="16" style="-fx-padding: 24 0 0 0;">
-                <Button fx:id="registerButton" onAction="#register" prefHeight="49.0" prefWidth="118.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Register" />
-                <Button fx:id="cancelButton" onAction="#cancel" prefHeight="49.0" prefWidth="92.0" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 14 0 14 0; -fx-cursor: hand;" text="Cancel">
-               <HBox.margin>
-                  <Insets right="325.0" />
-               </HBox.margin>
-            </Button>
-            </HBox>
 
         </VBox>
     </center>

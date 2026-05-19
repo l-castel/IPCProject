@@ -42,20 +42,7 @@ import javafx.util.converter.LocalDateStringConverter;
  * @author laura
  */
 
-private BooleanProperty validNickname;
-private BooleanProperty validEmail;
-private BooleanProperty validPassword;
-private BooleanProperty validConfirm;
-private BooleanProperty validDate;
 
-private ChangeListener<String> nicknameListener;
-private ChangeListener<String> emailListener;
-private ChangeListener<String> passwordListener;
-private ChangeListener<String> confirmListener;
-
-private String avatarPath ="";
-
-private final SportActivityApp app = SportActivityApp.getInstance();
 
 public class RegisterController implements Initializable {
 
@@ -63,8 +50,6 @@ public class RegisterController implements Initializable {
     private TextField nickname;
     @FXML
     private DatePicker birthdateField;
-    @FXML
-    private Label birthdateError;
     @FXML
     private TextField emailField;
     @FXML
@@ -89,7 +74,25 @@ public class RegisterController implements Initializable {
     private Button registerButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label nicknameError;
+    
+    
+    private BooleanProperty validNickname;
+    private BooleanProperty validEmail;
+    private BooleanProperty validPassword;
+    private BooleanProperty validConfirm;
+    private BooleanProperty validDate;
 
+    private ChangeListener<String> nicknameListener;
+    private ChangeListener<String> emailListener;
+    private ChangeListener<String> passwordListener;
+    private ChangeListener<String> confirmListener;
+
+    private String avatarPath ="";
+
+    private final SportActivityApp app = SportActivityApp.getInstance();
+    
  
     
     /**
@@ -104,7 +107,7 @@ public class RegisterController implements Initializable {
         validConfirm = new SimpleBooleanProperty(false);
         validDate = new SimpleBooleanProperty(false);
         
-        nickname.fontProperty().addListener((obv,oldValue, newValue)->{
+        /*nickname.fontProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkNickname();
                 if(!validNickname.get() && nicknameListener == null){
@@ -112,7 +115,7 @@ public class RegisterController implements Initializable {
                     nickname.textProperty().addListener(nicknameListener);
                 }
             }
-        });
+        });*/
         emailField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkEmail();
@@ -171,8 +174,35 @@ public class RegisterController implements Initializable {
             }
         };
         birthdateField.setConverter(localDateStringConvert);
-       
-    }    
+       Circle clip = new Circle(50,50,50);
+       imageView.setClip(clip);
+    }
+
+    public void checkNickname(){
+        boolean isValid = User.checkNickName(nickname.getText().trim());
+        validNickname.set(isValid);
+        showError(isValid, nickname, nicknameError);
+    }
+    public void checkEmail(){
+        boolean isValid = User.checkEmail(emailField.getText().trim());
+        validEmail.set(isValid);
+        showError(isValid, emailField, emailError);
+    }
+    public void checkPassword(){
+        boolean isValid = User.checkPassword(passwordField.getText().trim());
+        validPassword.set(isValid);
+        showError(isValid, passwordField, passwordError);
+    }
+    public void checkConfirm(){
+        boolean same = !passwordField.getText().isEmpty()
+                && passwordField.getText().equals(confirmPasswordField.getText());
+        validConfirm.set(same);
+        showError(same, confirmPasswordField, confirmError);
+    }
+    
+    public void checkDate(){
+        
+    }
 
     @FXML
     private void selectAvatar(ActionEvent event) {
@@ -185,6 +215,9 @@ public class RegisterController implements Initializable {
     @FXML
     private void cancel(ActionEvent event) {
     }
-    
+    private void showError(boolean isValid, Node field, Node errorMessage){
+        errorMessage.setVisible(!isValid);
+        field.setStyle(((isValid) ? "" : "-fx-background-color: #FCE5E0"));
+    }
     
 }

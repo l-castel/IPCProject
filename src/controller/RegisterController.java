@@ -35,6 +35,13 @@ import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.util.converter.LocalDateStringConverter;
+import java.time.temporal.ChronoUnit;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+
 
 /**
  * FXML Controller class
@@ -76,6 +83,8 @@ public class RegisterController implements Initializable {
     private Button cancelButton;
     @FXML
     private Label nicknameError;
+    @FXML
+    private Label birthdateError;
     
     
     private BooleanProperty validNickname;
@@ -92,6 +101,7 @@ public class RegisterController implements Initializable {
     private String avatarPath ="";
 
     private final SportActivityApp app = SportActivityApp.getInstance();
+    
     
  
     
@@ -201,11 +211,28 @@ public class RegisterController implements Initializable {
     }
     
     public void checkDate(){
-        
+        LocalDate value = birthdateField.getValue();
+        if(value == null){
+            validDate.set(false);
+            birthdateError.setVisible(true);
+            return;
+        }
+        boolean isValid = value.isBefore(LocalDate.now().minus(16,ChronoUnit.YEARS));
+        validDate.set(isValid);
+        showError(isValid, birthdateField, birthdateError);
     }
 
     @FXML
     private void selectAvatar(ActionEvent event) {
+        FileChooser chosen = new FileChooser();
+        chosen.setTitle("Select Avatar");
+        chosen.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", ".png",".jpg",".jpeg"));
+        Stage stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+        File file = chosen.showOpenDialog(stage);
+        if(file != null){
+            avatarPath = file.getAbsolutePath();
+            imageView.setImage(new Image(file.toURI().toString()));
+        }
     }
 
     @FXML

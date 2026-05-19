@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +20,6 @@ import upv.ipc.sportlib.SportActivityApp;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ActivitiesController
 {
@@ -73,7 +72,7 @@ public class ActivitiesController
 
     @Deprecated
     public void handleEditActivity(Event event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/RenameActivity.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RenameActivity.fxml"));
         Parent renRoot = loader.load();
         RenameActivityController renController = loader.getController();
         Activity act = (Activity) activitiesListView.getSelectionModel().getSelectedItem();

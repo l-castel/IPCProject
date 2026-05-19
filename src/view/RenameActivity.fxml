@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefWidth="360.0" spacing="18.0" style="-fx-background-color: #3a363d; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RenameActivityController">
+<VBox alignment="CENTER" prefWidth="360.0" spacing="18.0" style="-fx-background-color: #3a363d; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RenameActivityController">
    <children>
       <Label text="Rename Activity" textFill="WHITE">
          <font>

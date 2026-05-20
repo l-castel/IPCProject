@@ -60,7 +60,6 @@ public class ModifyMapController implements Initializable {
 
     @FXML
     private TextField name;
-    @FXML
     private Button searchButton;
     @FXML
     private TextField maxLatitud;
@@ -74,25 +73,93 @@ public class ModifyMapController implements Initializable {
     private Button gpxButton;
     @FXML
     private Button modifyButton;
-
+    
+    private MapRegion current;
+    
+    private File image;
+    
+    private final SportActivityApp app = SportActivityApp.getInstance();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+       modifyButton.disableProperty().bind(name.textProperty().isEmpty()
+               .or(minLatitud.textProperty().isEmpty())
+               .or(maxLatitud.textProperty().isEmpty())
+               .or(maxLongitud.textProperty().isEmpty())
+               .or(minLongitud.textProperty().isEmpty())
+               );
+    }  
+    public void initMap(MapRegion map){
+            current = map;
+            name.setText(map.getName());
+            minLatitud.setText(String.valueOf(map.getLatMin()));
+            maxLatitud.setText(String.valueOf(map.getLatMax()));
+            minLongitud.setText(String.valueOf(map.getLonMin()));
+            maxLongitud.setText(String.valueOf(map.getLonMax()));
+    }
+
 
     @FXML
-    private void handleSearchFile(ActionEvent event) {
+    private void GPXUpload(ActionEvent event) {
+        FileChooser chose = new FileChooser();
+        chose.setTitle("Select image");
+        chose.getExtensionFilters().addAll(new FileChooser
+                .ExtensionFilter("Images", "*.gpx"));
+        Stage stage = (Stage)gpxButton.getScene().getWindow();
+        image = chose.showOpenDialog(stage);
+        
+        if(image != null){
+            gpxButton.setText(image.getName());
+        }
     }
 
     @FXML
-    private void handleUploadGpx(ActionEvent event) {
+    private void modify(ActionEvent event) {
+        double minLat = 0, maxLat = 0, minLon = 0, maxLon = 0;
+        try{
+         minLat = Double.parseDouble(minLatitud.getText().trim());
+         maxLat = Double.parseDouble(maxLatitud.getText().trim());
+         minLon = Double.parseDouble(minLongitud.getText().trim());
+         maxLon = Double.parseDouble(maxLongitud.getText().trim());
+        }catch(NumberFormatException e){
+            
+        }
+        /*if(minLat >= maxLat){
+            
+        }
+        if(minLon >= maxLon){
+            
+        }*/
+        
+        boolean coordenatesChange = minLat != current.getLatMin()
+                ||maxLat!= current.getLatMax() 
+                ||minLon != current.getLonMin() 
+                ||maxLon != current.getLonMax();
+        boolean imageChange = image != null;
+        
+        if(!coordenatesChange || !imageChange){
+            ((Stage)modifyButton.getScene().getWindow()).close();
+        }
+        String name = current.getName();
+        File img = imageChange ? image : new File(current.getImagePath());
+        
+        boolean remove = app.removeMapRegion(current);
+        if(!remove){
+            showError();
+        }
+        
+        MapRegion update = app.addMapRegion(name, img, minLat, maxLat, minLon, maxLon);
+        
+        if(update != null){
+            Stage stage = (Stage) modifyButton.getScene().getWindow();
+        }
     }
-
-    @FXML
-    private void handleConfirmAdd(ActionEvent event) {
+    
+    private void showError(){
+        
     }
     
 }

@@ -46,6 +46,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import mapademo.MapaDemoApp;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * FXML Controller class
@@ -81,6 +82,7 @@ public class MapsController implements Initializable {
     @FXML
     private Label nickname;
     
+    ObservableList<MapRegion> map = null;
 
     /**
      * Initializes the controller class.
@@ -89,6 +91,7 @@ public class MapsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         User currentUser = app.getCurrentUser();
+        
         if(currentUser!=null){
             nickname.setText(currentUser.getNickName());
             if(currentUser.getAvatar()!= null){
@@ -98,9 +101,9 @@ public class MapsController implements Initializable {
         
         avatarImage.setClip(avatarCircle);
         
-        mapsList.setItems(FXCollections.observableArrayList(app.getMapRegions()));
-        
-        mapsList.setCellFactory(param-> new ListCell<>(){
+        map = mapsList.getItems();
+        map.addAll(app.getMapRegions());
+        mapsList.setCellFactory(param-> new ListCell<MapRegion>(){
             
             protected void updateItem(MapRegion item, boolean empty){
                 super.updateItem(item, empty);
@@ -122,33 +125,69 @@ public class MapsController implements Initializable {
 
     @FXML
     private void goToProfile(ActionEvent event) {
+        MapaDemoApp.setRoot("Profile");
     }
 
     @FXML
     private void goToActivities(ActionEvent event) {
+        MapaDemoApp.setRoot("Activities");
     }
 
     @FXML
     private void goToMaps(ActionEvent event) {
+        MapaDemoApp.setRoot("Maps");
     }
 
     @FXML
     private void goToDashboard(ActionEvent event) {
+        MapaDemoApp.setRoot("Dashboard");
     }
 
     @FXML
     private void logOut(ActionEvent event) {
+        app.logout();
+        MapaDemoApp.setRoot("Login");
     }
 
-    @FXML
+    @javafx.fxml.FXML
     private void addMap(ActionEvent event) {
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddMap.fxml"));
+            Parent root = loader.load();
+            
+            AddMapController controller = loader.getController();;
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            MapRegion newMap = controller.getMap();
+            if(newMap != null) map.add(0,newMap);
+            mapsList.refresh();
+            
+        }
     }
 
-    @FXML
+    @javafx.fxml.FXML
     private void moddifyMap(ActionEvent event) {
+        MapRegion selectMap = mapsList.getSelectionModel().getSelectedItem();
+        if(selectMap == null) return;
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ModifyMap.fxml"));
+            Parent root = loader.load();
+            
+            ModifyMapController controller = loader.getController();
+            controller.initMap(selectMap);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            
+            mapsList.refresh();
+        }catch(Exception e){
+        }
     }
 
-    @FXML
+    @javafx.fxml.FXML
     private void deleteMap(ActionEvent event) {
     }
     

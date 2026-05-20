@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -24,8 +23,6 @@ public class AddMapController implements Initializable {
     private TextField mapNameField;
     @FXML
     private Button searchFileBtn;
-    @FXML
-    private ImageView mapImageView;
     @FXML
     private TextField maxLatField;
     @FXML

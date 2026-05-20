@@ -1,85 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox stylesheets="@ModifyMap.css" styleClass="root-container"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ModifyMapController">
+<VBox styleClass="root-container" stylesheets="@ModifyMap.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyMapController">
 
-    <Label text="MODIFY MAP" styleClass="title-label"/>
+    <Label styleClass="title-label" text="MODIFY MAP" />
 
-    <HBox styleClass="top-row" spacing="20">
+    <HBox spacing="20" styleClass="top-row">
         <VBox styleClass="field-group">
-            <Label text="Map Name" styleClass="field-label"/>
-            <TextField fx:id="mapNameField" promptText="Name" styleClass="text-field-green"/>
+            <Label styleClass="field-label" text="Map Name" />
+            <TextField fx:id="name" promptText="Name" styleClass="text-field-green" />
         </VBox>
-        <Button fx:id="searchFileBtn" text="Search File" styleClass="btn-outline" onAction="#handleSearchFile">
+        <Button fx:id="searchButton" onAction="#handleSearchFile" styleClass="btn-outline" text="Search File">
             <graphic>
             </graphic>
         </Button>
     </HBox>
 
-    <HBox styleClass="middle-row" spacing="30">
+    <HBox spacing="30" styleClass="middle-row">
 
-        <VBox styleClass="map-image-container">
-            <ImageView fx:id="mapImageView"
-                       fitWidth="190" fitHeight="190"
-                       preserveRatio="true"
-                       styleClass="map-image"/>
-        </VBox>
-
-        <VBox styleClass="coordinates-panel" spacing="10">
-            <Label text="Coordinates" styleClass="section-label"/>
+        <VBox spacing="10" styleClass="coordinates-panel">
+            <Label styleClass="section-label" text="Coordinates" />
 
             <GridPane hgap="20" vgap="12">
                 <columnConstraints>
-                    <ColumnConstraints minWidth="160" prefWidth="180"/>
-                    <ColumnConstraints minWidth="160" prefWidth="180"/>
+                    <ColumnConstraints minWidth="160" prefWidth="180" />
+                    <ColumnConstraints minWidth="160" prefWidth="180" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
                 </rowConstraints>
 
-                <Label text="Max Latitude" styleClass="coord-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label styleClass="coord-label" text="Max Latitude" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                <Label text="Min Latitude" styleClass="coord-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label styleClass="coord-label" text="Min Latitude" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                <TextField fx:id="maxLatField" styleClass="text-field-green"
-                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <TextField fx:id="minLatField" styleClass="text-field-green"
-                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="maxLatitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="minLatitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                <Label text="Max Longitud" styleClass="coord-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label styleClass="coord-label" text="Max Longitud" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                <Label text="Min Longitud" styleClass="coord-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label styleClass="coord-label" text="Min Longitud" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <TextField fx:id="maxLonField" styleClass="text-field-green"
-                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                <TextField fx:id="minLonField" styleClass="text-field-green"
-                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <TextField fx:id="maxLongitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="minLongitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             </GridPane>
         </VBox>
     </HBox>
 
-    <HBox styleClass="button-row" spacing="20">
-        <Button fx:id="uploadGpxBtn" text="Upload GPX map"
-                styleClass="btn-solid" onAction="#handleUploadGpx"/>
-        <Button fx:id="confirmAddBtn" text="Confirm add"
-                styleClass="btn-solid" onAction="#handleConfirmAdd"/>
+    <HBox spacing="20" styleClass="button-row">
+        <Button fx:id="gpxButton" onAction="#handleUploadGpx" styleClass="btn-solid" text="Upload GPX map" />
+        <Button fx:id="modifyButton" maxWidth="-Infinity" minWidth="100.0" onAction="#handleConfirmAdd" prefHeight="35.0" prefWidth="100.0" styleClass="btn-solid" text="Modify" />
     </HBox>
 
 </VBox>

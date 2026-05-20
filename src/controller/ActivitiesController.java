@@ -112,6 +112,14 @@ public class ActivitiesController
     public void handleActivities(Event event) {
         MapaDemoApp.setRoot("Activities");
     }
+
+    @Deprecated
+    public void handleEdit(Event event) {
+    }
+
+    @Deprecated
+    public void handleDelete(Event event) {
+    }
 }
 
     class ActivityCell extends ListCell<Activity> {

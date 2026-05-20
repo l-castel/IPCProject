@@ -16,12 +16,8 @@
     <HBox spacing="20" styleClass="top-row">
         <VBox styleClass="field-group">
             <Label styleClass="field-label" text="Map Name" />
-            <TextField fx:id="mapNameField" promptText="Name" styleClass="text-field-green" />
+            <TextField fx:id="name" promptText="Name" styleClass="text-field-green" />
         </VBox>
-        <Button fx:id="searchFileBtn" onAction="#handleSearchFile" styleClass="btn-outline" text="Search File">
-            <graphic>
-            </graphic>
-        </Button>
     </HBox>
 
     <HBox spacing="30" styleClass="middle-row">
@@ -45,22 +41,22 @@
 
                 <Label styleClass="coord-label" text="Min Latitude" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                <TextField fx:id="maxLatField" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="minLatField" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="maxLatitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="minLatitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                 <Label styleClass="coord-label" text="Max Longitud" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
                 <Label styleClass="coord-label" text="Min Longitud" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <TextField fx:id="maxLonField" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <TextField fx:id="minLonField" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="maxLongitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="minLongitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             </GridPane>
         </VBox>
     </HBox>
 
     <HBox spacing="20" styleClass="button-row">
-        <Button fx:id="uploadGpxBtn" onAction="#handleUploadGpx" styleClass="btn-solid" text="Upload GPX map" />
-        <Button fx:id="confirmAddBtn" onAction="#handleConfirmAdd" styleClass="btn-solid" text="Confirm add" />
+        <Button fx:id="gpxButton" onAction="#GPXUpload" styleClass="btn-solid" text="Upload GPX map" />
+        <Button fx:id="addButton" onAction="#add" styleClass="btn-solid" text="Confirm add" />
     </HBox>
 
 </VBox>

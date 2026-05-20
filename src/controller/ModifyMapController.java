@@ -108,7 +108,7 @@ public class ModifyMapController implements Initializable {
         chose.setTitle("Select image");
         chose.getExtensionFilters().addAll(new FileChooser
                 .ExtensionFilter("Images", "*.gpx"));
-        Stage stage = (Stage)searchButton.getScene().getWindow();
+        Stage stage = (Stage)gpxButton.getScene().getWindow();
         image = chose.showOpenDialog(stage);
         
         if(image != null){

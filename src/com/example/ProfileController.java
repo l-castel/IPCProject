@@ -25,6 +25,10 @@ import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import java.io.File;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -78,7 +82,20 @@ public class ProfileController implements Initializable {
     private Circle CircleAvatar;
     @FXML
     private Label sidebarAvatarIcon;
+    @FXML
+    private Button SaveButton;
     
+    private String originalEmail;
+    private String originalPhone;
+    private String originalPassword;
+    private String originalDobDay;
+    private String originalDobMonth;
+    private String originalDobYear;
+    private String originalAvatarPath;
+    @FXML
+    private Button ChangeAvatar;
+    @FXML
+    private Button EditButton;
     
     
     /**
@@ -92,10 +109,31 @@ public class ProfileController implements Initializable {
         hideAllErrors();
         
         app = SportActivityApp.getInstance();
+        loadUserData();
         
+        setEditMode(false);
+        
+    }
+        
+        
+        private void loadUserData() {
         User user = app.getCurrentUser();
+        if(user == null) return;
         
-        if(user != null) {
+        emailField.setText(user.getEmail() != null ? user.getEmail() : "");
+        phoneField.setText("");
+        passwordField.setText(user.getPassword() != null ? user.getPassword() : "");
+        
+        if(user.getBirthDate() != null) {
+            LocalDate bd = user.getBirthDate();
+            dobDay.setText(String.format("%02d", bd.getDayOfMonth()));
+            dobMonth.setText(String.format("&02d", bd.getMonthValue()));
+            dobYear.setText(String.valueOf(bd.getYear()));
+        }
+        
+        avatarPath = user.getAvatarPath();
+        
+        
             
             if(user.getAvatar() != null) {
                 ImagePattern pattern = new ImagePattern(user.getAvatar());
@@ -111,11 +149,68 @@ public class ProfileController implements Initializable {
                 sidebarAvatarIcon.setVisible(true);
             }
            
+    }
+    
+        private void setEditMode(boolean editing) {
+            emailField.setEditable(editing);
+            phoneField.setEditable(editing);
+            passwordField.setEditable(editing);
+            dobDay.setEditable(editing);
+            dobMonth.setEditable(editing);
+            dobYear.setEditable(editing);
+            ChangeAvatar.setDisable(!editing);
+            SaveButton.setDisable(!editing);
             
-        } 
+            String disabledStyle = "-fx-background-color: #c8f000; -fx.opacity: 0.6;";
+            String enabledStyle = "-fx-background-color: #c8f000; -fx.opacity: 1.0;";
+            String fieldStyle = editing ? enabledStyle : disabledStyle;
+            
+            emailField.setStyle(fieldStyle);
+            phoneField.setStyle(fieldStyle);
+            passwordField.setStyle(fieldStyle);
+            
+            if(!editing) hideAllErrors();
+            
+        }
         
+        private void saveOriginalValues() {
+            originalEmail = emailField.getText();
+            originalPhone = phoneField.getText();
+            originalPassword = passwordField.getText();
+            originalDobDay = dobDay.getText();
+            originalDobMonth = dobMonth.getText();
+            originalDobYear = dobYear.getText();
+            originalAvatarPath = avatarPath;
+        }
         
-    }    
+        private void restoreOriginalValues() {
+            emailField.setText(originalEmail);
+            phoneField.setText(originalPhone);
+            passwordField.setText(originalPassword);
+            dobDay.setText(originalDobDay);
+            dobMonth.setText(originalDobMonth);
+            dobYear.setText(originalDobYear);
+            avatarPath = originalAvatarPath;
+
+            if (avatarPath != null && !avatarPath.isEmpty()) {
+                Image img = new Image(new File(avatarPath).toURI().toString());
+                ImagePattern pattern = new ImagePattern(img);
+                sidebarAvatarCircle.setFill(pattern);
+                CircleAvatar.setFill(pattern);
+                avatarIcon.setVisible(false);
+                sidebarAvatarIcon.setVisible(false);
+                
+            } else {
+                sidebarAvatarCircle.setFill(javafx.scene.paint.Color.web("#c8f000"));
+                CircleAvatar.setFill(javafx.scene.paint.Color("#c8f000"));
+                
+            }
+        }
+       
+        
+   
+        
+       
     
     private void MouseScroll() {
         ScrollPane.setOnMouseEntered(event -> ScrollPane.requestFocus());
@@ -169,22 +264,27 @@ public class ProfileController implements Initializable {
     }
     
 private void validateEmail() {
-    String text = emailField.getText().trim();
-    boolean valid = EMAIL_PATTERN.matcher(text).matches();
+    
+    boolean valid = User.checkEmail(emailField.getText().trim());
     emailError.setVisible(!valid);
     emailError.setManaged(!valid);
 }
 
 private void validatePassword() {
     String text = passwordField.getText();
-    boolean valid = PASSWORD_PATTERN.matcher(text).matches();
+    if(text.isEmpty()) {
+    passwordError.setVisible(false);
+    passwordError.setManaged(false);
+    return;
+  }
+    boolean valid = User.checkPassword(text);
     passwordError.setVisible(!valid);
     passwordError.setManaged(!valid);
 }
 
 private void validatePhone() {
     String text = phoneField.getText().trim();
-    boolean valid = PHONE_PATTERN.matcher(text).matches();
+    boolean valid = text.isEmpty() || text.replaceAll("\\s", "").matches("\\+34\\d{9}");
     phoneError.setVisible(!valid);
     phoneError.setManaged(!valid);
     
@@ -201,6 +301,7 @@ private void validateDob() {
     }
     
     try {
+        
         int day = Integer.parseInt(dayStr);
         int month = Integer.parseInt(monStr);
         int year = Integer.parseInt(yearStr);
@@ -208,7 +309,7 @@ private void validateDob() {
         LocalDate birthDate = LocalDate.of(year, month, day);
         LocalDate minDate = LocalDate.now().minusYears(12);
         
-        boolean valid = !birthDate.isAfter(minDate);
+        boolean valid = User.isOlderThan(birthDate, 12);
         dobError.setVisible(!valid);
         dobError.setManaged(!valid);
         
@@ -226,7 +327,7 @@ private void validateDob() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Avatar");
         
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
         
         File file = fileChooser.showOpenDialog(null);
         
@@ -246,6 +347,82 @@ private void validateDob() {
         }
         
         }
+
+    @FXML
+    private void handleSave(ActionEvent event) {
+        validateEmail();
+        validatePassword();
+        validatePhone();
+        validateDob();
+        
+        if(emailError.isVisible() || passwordError.isVisible() || phoneError.isVisible() || dobError.isVisible()) {
+            return;
+        }
+        LocalDate birthDate;
+        
+        try{
+            int day = Integer.parseInt(dobDay.getText());
+            int month = Integer.parseInt(dobMonth.getText());
+            int year  = Integer.parseInt(dobYear.getText());
+            
+            birthDate = LocalDate.of(year, month, day);
+        } catch(Exception e) {
+            dobError.setVisible(false);
+            dobError.setVisible(true);
+            return;
+        }
+        
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        
+        alert.setTitle("Save Changes");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure yo want to save the changes?");
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            String email = emailField.getText().trim();
+            String password = passwordField.getText();
+            
+            if(!User.checkEmail(email)) {
+                emailError.setVisible(true);
+                emailError.setManaged(true);
+                return;
+            }
+            
+            if(!password.isEmpty() && !User.checkPassword(password)) {
+                passwordError.setVisible(true);
+                passwordError.setManaged(true);
+                return;
+            }
+            if(!User.isOlderThan(birthDate, 12)) {
+                dobError.setVisible(true);
+                dobError.setManaged(true);
+                return;
+            }
+            if (password.isEmpty()) {
+                password = app.getCurrentUser().getPassword();
+                
+            }
+            
+            String finalAvatar = (avatarPath != null) ? avatarPath : app.getCurrentUser().getAvatarPath();
+            
+            app.updateCurrentUser(email, password, birthDate, finalAvatar);
+            
+            setEditMode(false);
+        } else {
+            
+            restoreOriginalValues();
+            setEditMode(false);
+        }
+    }
+
+    @FXML
+    private void handleEdit(ActionEvent event) {
+        saveOriginalValues();
+        setEditMode(true);
+    }
         
         
     }

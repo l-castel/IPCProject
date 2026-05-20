@@ -31,6 +31,10 @@ public class RenameActivityController
         curr.close();
     }
 
+    public Activity getAct(){
+        return act;
+    }
+
     public void initAct(Activity selected){
         act = selected;
     }

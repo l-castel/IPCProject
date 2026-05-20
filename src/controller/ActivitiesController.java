@@ -23,14 +23,14 @@ import java.io.IOException;
 
 public class ActivitiesController
 {
+
+    private SportActivityApp sportsApp;
+
+    ObservableList<Activity> data = null;
+
+    private FileChooser fileChooser;
     @javafx.fxml.FXML
     private Button addActivityButton;
-    @javafx.fxml.FXML
-    private Label logoutNav;
-    @javafx.fxml.FXML
-    private Label userNameLabel;
-    @javafx.fxml.FXML
-    private Label userSurnameLabel;
     @javafx.fxml.FXML
     private Label mapsNav;
     @javafx.fxml.FXML
@@ -38,15 +38,15 @@ public class ActivitiesController
     @javafx.fxml.FXML
     private Label dashboardNav;
     @javafx.fxml.FXML
-    private Label profileNav;
-
-    private SportActivityApp sportsApp;
-
-    ObservableList<Activity> data = null;
+    private Label userNameLabel;
+    @javafx.fxml.FXML
+    private Label userSurnameLabel;
+    @javafx.fxml.FXML
+    private Label logoutNav;
     @javafx.fxml.FXML
     private ListView activitiesListView;
-
-    private FileChooser fileChooser;
+    @javafx.fxml.FXML
+    private Label profileNav;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -60,40 +60,13 @@ public class ActivitiesController
 
         data = activitiesListView.getItems();
 
-        activitiesListView.setCellFactory(c -> new ActivityCell());
+        activitiesListView.setCellFactory(c -> new ActivityCell(data, activitiesListView));
 
         for(Activity act : sportsApp.getUserActivities()){
             data.set(activitiesListView.getSelectionModel().getSelectedIndex(), act);
         }
 
     }
-
-
-
-    @Deprecated
-    public void handleEditActivity(Event event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RenameActivity.fxml"));
-        Parent renRoot = loader.load();
-        RenameActivityController renController = loader.getController();
-        Activity act = (Activity) activitiesListView.getSelectionModel().getSelectedItem();
-        renController.initAct(act);
-        Scene scene = new Scene(renRoot, 500, 300);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Rename Activity");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
-    }
-
-    @Deprecated
-    public void handleDeleteActivity(Event event) {
-        Activity sel = (Activity) activitiesListView.getSelectionModel().getSelectedItem();
-        if(sel != null) {
-            sportsApp.removeActivity(sel);
-            data.remove(sel);
-        }
-    }
-
     @javafx.fxml.FXML
     public void handleAddActivity(ActionEvent actionEvent) {
         Stage stage = (Stage) addActivityButton.getScene().getWindow();
@@ -103,7 +76,11 @@ public class ActivitiesController
         if(act == null){
 
         } else{
-            data.set(activitiesListView.getSelectionModel().getSelectedIndex(), act);
+            int id = activitiesListView.getSelectionModel().getSelectedIndex();
+            if(id == -1){
+                data.add(0, act);
+            } else data.add(id, act);
+
         }
 
 
@@ -134,25 +111,47 @@ public class ActivitiesController
     public void handleActivities(Event event) {
         MapaDemoApp.setRoot("Activities");
     }
+
+    @Deprecated
+    public void handleEdit(Event event) {
+    }
+
+    @Deprecated
+    public void handleDelete(Event event) {
+    }
 }
 
     class ActivityCell extends ListCell<Activity> {
+
+        ObservableList<Activity> data;
+        ListView<Activity> listView;
+
+        public ActivityCell(ObservableList<Activity> data, ListView<Activity> listView){
+            this.data = data;
+            this.listView = listView;
+        }
+
         @Override
         protected void updateItem(Activity item, boolean empty) {
             super.updateItem(item, empty);
             if (empty || item == null) {
-                setGraphic(null);
+
             } else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("activityCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ActivityCard.fxml"));
+
                 VBox card = null;
                 try {
                     card = loader.load();
+                    ActivityCardController cardController = loader.getController();
+                    cardController.initCard(item, data, listView);
                 } catch (Exception e) {
-                    System.out.println("Error loading Activity card");
+                    e.printStackTrace();
                 }
                 // populate labels via loader.getNamespace() or a mini-controller
                 // set alternating background based on getIndex()
                 setGraphic(card);
             }
         }
+
+
     }

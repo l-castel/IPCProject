@@ -60,7 +60,6 @@ public class ModifyMapController implements Initializable {
 
     @FXML
     private TextField name;
-    @FXML
     private Button searchButton;
     @FXML
     private TextField maxLatitud;
@@ -74,25 +73,40 @@ public class ModifyMapController implements Initializable {
     private Button gpxButton;
     @FXML
     private Button modifyButton;
-
+    
+    private MapRegion current;
+    
+    private File image;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+       
+    }  
+    public void initMap(MapRegion map){
+            current = map;
+            name.setText(map.getName());
+            minLatitud.setText(String.valueOf(map.getLatMin()));
+            maxLatitud.setText(String.valueOf(map.getLatMax()));
+            minLongitud.setText(String.valueOf(map.getLonMin()));
+            maxLongitud.setText(String.valueOf(map.getLonMax()));
+    }
+
 
     @FXML
-    private void handleSearchFile(ActionEvent event) {
+    private void GPXUpload(ActionEvent event) {
+        FileChooser chose = new FileChooser();
+        chose.setTitle("Select image");
+        chose.getExtensionFilters().addAll(new FileChooser
+                .ExtensionFilter("Images", "*.gpx"));
+        Stage stage = (Stage)searchButton.getScene().getWindow();
+        image = chose.showOpenDialog(stage);
     }
 
     @FXML
-    private void handleUploadGpx(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleConfirmAdd(ActionEvent event) {
+    private void modify(ActionEvent event) {
     }
     
 }

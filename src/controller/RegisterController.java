@@ -35,6 +35,13 @@ import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.util.converter.LocalDateStringConverter;
+import java.time.temporal.ChronoUnit;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import mapademo.MapaDemoApp;
 
 /**
  * FXML Controller class
@@ -42,20 +49,7 @@ import javafx.util.converter.LocalDateStringConverter;
  * @author laura
  */
 
-private BooleanProperty validNickname;
-private BooleanProperty validEmail;
-private BooleanProperty validPassword;
-private BooleanProperty validConfirm;
-private BooleanProperty validDate;
 
-private ChangeListener<String> nicknameListener;
-private ChangeListener<String> emailListener;
-private ChangeListener<String> passwordListener;
-private ChangeListener<String> confirmListener;
-
-private String avatarPath ="";
-
-private final SportActivityApp app = SportActivityApp.getInstance();
 
 public class RegisterController implements Initializable {
 
@@ -64,15 +58,11 @@ public class RegisterController implements Initializable {
     @FXML
     private DatePicker birthdateField;
     @FXML
-    private Label birthdateError;
-    @FXML
     private TextField emailField;
     @FXML
     private Label emailError;
     @FXML
     private TextField phoneField;
-    @FXML
-    private Label phoneError;
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -89,7 +79,28 @@ public class RegisterController implements Initializable {
     private Button registerButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label nicknameError;
+    @FXML
+    private Label birthdateError;
+    
+    
+    private BooleanProperty validNickname;
+    private BooleanProperty validEmail;
+    private BooleanProperty validPassword;
+    private BooleanProperty validConfirm;
+    private BooleanProperty validDate;
 
+    private ChangeListener<String> nicknameListener;
+    private ChangeListener<String> emailListener;
+    private ChangeListener<String> passwordListener;
+    private ChangeListener<String> confirmListener;
+
+    private String avatarPath ="";
+
+    private final SportActivityApp app = SportActivityApp.getInstance();
+    
+    
  
     
     /**
@@ -104,7 +115,7 @@ public class RegisterController implements Initializable {
         validConfirm = new SimpleBooleanProperty(false);
         validDate = new SimpleBooleanProperty(false);
         
-        nickname.fontProperty().addListener((obv,oldValue, newValue)->{
+        nickname.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkNickname();
                 if(!validNickname.get() && nicknameListener == null){
@@ -125,7 +136,7 @@ public class RegisterController implements Initializable {
         passwordField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkPassword();
-                if(!validEmail.get() && passwordListener == null){
+                if(!validPassword.get() && passwordListener == null){
                     passwordListener = (a,b,c)-> checkPassword();
                     passwordField.textProperty().addListener(passwordListener);
                 }
@@ -134,7 +145,7 @@ public class RegisterController implements Initializable {
         confirmPasswordField.focusedProperty().addListener((obv,oldValue, newValue)->{
             if(!newValue){
                 checkConfirm();
-                if(!validEmail.get() && confirmListener == null){
+                if(!validConfirm.get() && confirmListener == null){
                     confirmListener = (a,b,c)-> checkConfirm();
                     confirmPasswordField.textProperty().addListener(confirmListener);
                 }
@@ -145,7 +156,7 @@ public class RegisterController implements Initializable {
         });
         birthdateField.valueProperty().addListener((observable, oldVal, newVal)->checkDate());
         
-        BooleanBinding validFields = Bindings.and(validNickname, validDate)
+        BooleanBinding validFields = Bindings.and(validNickname, validEmail)
                 .and(validPassword)
                 .and(validConfirm)
                 .and(validDate);
@@ -171,20 +182,99 @@ public class RegisterController implements Initializable {
             }
         };
         birthdateField.setConverter(localDateStringConvert);
-       
-    }    
+        
+       imageView.setFitWidth(100);
+       imageView.setFitHeight(100);
+       imageView.setPreserveRatio(false);
+       Circle clip = new Circle(50,50,50);
+       imageView.setClip(clip);
+    }
+
+    public void checkNickname(){
+        boolean isValid = User.checkNickName(nickname.getText().trim());
+        validNickname.set(isValid);
+        showError(isValid, nickname, nicknameError);
+    }
+    public void checkEmail(){
+        boolean isValid = User.checkEmail(emailField.getText().trim());
+        validEmail.set(isValid);
+        showError(isValid, emailField, emailError);
+    }
+    public void checkPassword(){
+        boolean isValid = User.checkPassword(passwordField.getText().trim());
+        validPassword.set(isValid);
+        showError(isValid, passwordField, passwordError);
+    }
+    public void checkConfirm(){
+        boolean same = !passwordField.getText().isEmpty()
+                && passwordField.getText().equals(confirmPasswordField.getText());
+        validConfirm.set(same);
+        showError(same, confirmPasswordField, confirmError);
+    }
+    
+    public void checkDate(){
+        LocalDate value = birthdateField.getValue();
+        if(value == null){
+            validDate.set(false);
+            birthdateError.setVisible(true);
+            return;
+        }
+        boolean isValid = User.isOlderThan(value, 12);
+        validDate.set(isValid);
+        showError(isValid, birthdateField, birthdateError);
+    }
 
     @FXML
     private void selectAvatar(ActionEvent event) {
+        FileChooser chosen = new FileChooser();
+        chosen.setTitle("Select Avatar");
+        chosen.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images","*.png","*.jpg","*.jpeg"));
+        Stage stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+        File file = chosen.showOpenDialog(stage);
+        if(file != null){
+            avatarPath = file.getAbsolutePath();
+            imageView.setImage(new Image(file.toURI().toString()));
+            Circle newClip = new Circle(50,50,50);
+            imageView.setClip(newClip);
+        }
     }
 
     @FXML
     private void register(ActionEvent event) {
+        boolean ok = app.registerUser(nickname.getText().trim(), emailField.getText().trim(), passwordField.getText(), birthdateField.getValue(), avatarPath);
+        
+        nickname.clear();
+        emailField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        birthdateField.setValue(null);
+        avatarPath = "";
+        
+        validNickname.setValue(Boolean.FALSE);
+        validEmail.setValue(Boolean.FALSE);
+        validPassword.setValue(Boolean.FALSE);
+        validConfirm.setValue(Boolean.FALSE);
+        validDate.setValue(Boolean.FALSE);
+        
+        if(ok){
+            goToDashhboard(event);
+        }else{
+            nicknameError.setText("Nickname already in use");
+            showError(false, nickname, nicknameError);
+        }
     }
 
     @FXML
     private void cancel(ActionEvent event) {
+        cancelButton.getScene().getWindow().hide();
     }
     
+    private void goToDashhboard(ActionEvent event){
+        MapaDemoApp.setRoot("Dashboard");
+    }
+    private void showError(boolean isValid, Node field, Node errorMessage){
+        errorMessage.setVisible(!isValid);
+        field.setStyle(((isValid) ? "" : "-fx-background-color: #FCE5E0"));
+    }
     
 }

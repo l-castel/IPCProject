@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="550" prefWidth="800" stylesheets="@../view/maps.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MapController.java">
+
+    <left>
+        <VBox prefWidth="175" styleClass="sidebar">
+
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="sidebar-user">
+                <padding><Insets bottom="20" left="15" right="15" top="20" /></padding>
+                <StackPane>
+                    <Circle fx:id="avatarCircle" radius="28" styleClass="avatar-circle" />
+                    <ImageView fx:id="avatarImage" fitHeight="56" fitWidth="56" preserveRatio="false">
+                        <clip><Circle centerX="28" centerY="28" radius="28" /></clip>
+                    </ImageView>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label fx:id="labelName" styleClass="sidebar-name" text="Name" />
+                    <Label fx:id="labelSurname" styleClass="sidebar-surname" text="Surname" />
+                </VBox>
+            </HBox>
+
+            <VBox spacing="4" styleClass="nav-menu" VBox.vgrow="ALWAYS">
+                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                <Button fx:id="profileButton" maxWidth="Infinity" onAction="#goToProfile" styleClass="nav-btn" text="Profile" />
+                <Button fx:id="activitiesButton" maxWidth="Infinity" onAction="#goToActivities" styleClass="nav-btn" text="Activities" />
+                <Button fx:id="mapsButton" maxWidth="Infinity" onAction="#goToMaps" styleClass="nav-btn,nav-btn-active" text="Maps" />
+                <Button fx:id="dashboardButton" maxWidth="Infinity" onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+            </VBox>
+
+            <VBox styleClass="sidebar-footer">
+                <padding><Insets bottom="20" left="10" right="10" top="10" /></padding>
+                <Separator styleClass="sidebar-separator" />
+                <Button fx:id="logoutButton" maxWidth="Infinity" onAction="#logOut" styleClass="nav-btn,logout-btn" text="Log out" />
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20" styleClass="main-content">
+            <padding><Insets bottom="30" left="30" right="30" top="30" /></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label styleClass="page-title" text="MAPS" />
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <ScrollPane fitToWidth="true" styleClass="maps-scroll" VBox.vgrow="ALWAYS">
+            <content>
+               <ListView prefHeight="427.0" prefWidth="441.0" />
+            </content>
+            </ScrollPane>
+
+        </VBox>
+    </center>
+   <right>
+      <VBox prefHeight="503.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+                <Button fx:id="addButton" onAction="#addMap" styleClass="btn-add-map" text="Add map" />
+            <Button fx:id="modifyButton" onAction="#moddifyMap" styleClass="btn-add-map" text="Modify" />
+            <Button fx:id="deleteButton" onAction="#deleteMap" styleClass="btn-add-map" text="Delete" />
+         </children>
+         <BorderPane.margin>
+            <Insets right="20.0" top="100.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+
+</BorderPane>

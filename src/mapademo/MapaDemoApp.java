@@ -19,72 +19,70 @@ import java.util.HashMap;
  * @author jose
  */
 public class MapaDemoApp extends Application {
-    public static Scene scene;
+  public static Scene scene;
 
-    public static HashMap<String, Parent> router = new HashMap<String, Parent>();
+  public static HashMap<String, Parent> router = new HashMap<String, Parent>();
 
-    public static void setRoot(Parent root){
+  public static void setRoot(Parent root) {
 
-        scene.setRoot(root);
+    scene.setRoot(root);
+  }
+
+  public static void setRoot(String key) {
+    Parent root = router.get(key);
+    if (root != null) {
+      scene.setRoot(root);
+    } else {
+      System.out.printf("Requested root does not exist.");
     }
+  }
 
-    public static void setRoot(String key){
-        Parent root = router.get(key);
-        if(root != null){
-            scene.setRoot(root);
-        } else{
-            System.out.printf("Requested root does not exist.");
-        }
-    }
+  @Override
+  public void start(Stage stage) throws Exception {
+    Parent root;
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root;
+    FXMLLoader loader;
 
-        FXMLLoader loader;
+    loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
+    root = loader.load();
+    router.put("Register", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
-        root = loader.load();
-        router.put("Register", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Dashboard.fxml"));
+    root = loader.load();
+    router.put("Dashboard", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Dashboard.fxml"));
-        root = loader.load();
-        router.put("Dashboard", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
+    root = loader.load();
+    router.put("Activities", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
-        root = loader.load();
-        router.put("Activities", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+    root = loader.load();
+    router.put("Login", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
-        root = loader.load();
-        router.put("Login", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
+    root = loader.load();
+    router.put("Maps", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
-        root = loader.load();
-        router.put("Maps", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Profile.fxml"));
+    root = loader.load();
+    router.put("Profile", root);
 
+    scene = new Scene(router.get("Login"), 800, 600);
 
+    // 3. Attach scene to stage and configure
+    stage.setTitle("ProyectoIPC");
+    stage.setScene(scene);
 
-        scene = new Scene(router.get("Login"), 800, 600);
+    // 4. Display the window
+    stage.show();
 
+  }
 
-        // 3. Attach scene to stage and configure
-        stage.setTitle("ProyectoIPC");
-        stage.setScene(scene);
+  /**
+   * @param args the command line arguments
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
 
-        // 4. Display the window
-        stage.show();
-
-
-
-    }
-
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
 }

@@ -11,114 +11,78 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import upv.ipc.sportlib.SportActivityApp;
-import upv.ipc.sportlib.User;
+
 import java.util.HashMap;
-import java.time.LocalDate;
+
 /**
  *
  * @author jose
  */
 public class MapaDemoApp extends Application {
-    public static Scene scene;
+  public static Scene scene;
 
-    public static HashMap<String, Parent> router = new HashMap<String, Parent>();
+  public static HashMap<String, Parent> router = new HashMap<String, Parent>();
 
-    public static void setRoot(Parent root){
+  public static void setRoot(Parent root) {
 
-        scene.setRoot(root);
+    scene.setRoot(root);
+  }
+
+  public static void setRoot(String key) {
+    Parent root = router.get(key);
+    if (root != null) {
+      scene.setRoot(root);
+    } else {
+      System.out.printf("Requested root does not exist.");
     }
+  }
 
-    public static void setRoot(String key){
-        Parent root = router.get(key);
-        if(root != null){
-            scene.setRoot(root);
-        } else{
-            System.out.printf("Requested root does not exist.");
-        }
-    }
+  @Override
+  public void start(Stage stage) throws Exception {
+    Parent root;
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root;
-        
+    FXMLLoader loader;
 
-        
-        FXMLLoader loader;
-        
-        SportActivityApp app = SportActivityApp.getInstance();
-        
-        System.out.println("Directorio: " + System.getProperty("user.dir"));
-        
-        boolean registered = app.registerUser("dianaherasg", "dianaheras@gmail.com", "passPER21!", LocalDate.of(2000, 3, 14),(String) null);
-        System.out.println("Register: " + registered);
-        
-        boolean login1 = app.login("dianaherasg", "passPER21!");
-        System.out.println("Login 1: " + login1);
-        app.logout();
-        
-        boolean login2 = app.login("dianaherasg", "passPER21!");
-        System.out.println("Login 2: " + login2);
-        app.logout();
-         
-        boolean login3 = app.login("dianaherasg", "passPER21!");
-        System.out.println("Login 3: " + login3);
-        System.out.println("Actual user: " + app.getCurrentUser());
-        
-        if(app.getCurrentUser() != null) {
-            app.getSessionsByUser(app.getCurrentUser()).forEach(s ->
-            System.out.println("Session: " + s.getStartTime() + " -> " + s.getEndTime()));
-        }
-        
-        
+    loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
+    root = loader.load();
+    router.put("Register", root);
 
-       // loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
-        //root = loader.load();
-        //router.put("Register", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Dashboard.fxml"));
+    root = loader.load();
+    router.put("Dashboard", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Dashboard.fxml"));
-        //root = loader.load();
-       // router.put("Dashboard", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
+    root = loader.load();
+    router.put("Activities", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
-        //root = loader.load();
-        //router.put("Activities", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+    root = loader.load();
+    router.put("Login", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
-       // root = loader.load();
-       // router.put("Login", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
+    root = loader.load();
+    router.put("Maps", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
-        //root = loader.load();
-        //router.put("Maps", root);
+    loader = new FXMLLoader(getClass().getResource("../view/Profile.fxml"));
+    root = loader.load();
+    router.put("Profile", root);
 
-        loader = new FXMLLoader(getClass().getResource("../view/Profile.fxml"));
-        root = loader.load();
-        router.put("Profile", root);
+    scene = new Scene(router.get("Login"), 800, 600);
 
-        
-        
-        
-        scene = new Scene(router.get("Profile"), 800, 600);
+    // 3. Attach scene to stage and configure
+    stage.setTitle("ProyectoIPC");
+    stage.setScene(scene);
 
+    // 4. Display the window
+    stage.show();
 
-        // 3. Attach scene to stage and configure
-        stage.setTitle("ProyectoIPC");
-        stage.setScene(scene);
+  }
 
-        // 4. Display the window
-        stage.show();
+  /**
+   * @param args the command line arguments
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
 
-
-
-    }
-
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
 }

@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -47,6 +48,8 @@ import javafx.scene.control.ListView;
 import mapademo.MapaDemoApp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import java.util.Optional;
 
 /**
  * FXML Controller class
@@ -158,18 +161,21 @@ public class MapsController implements Initializable {
             
             AddMapController controller = loader.getController();;
             Stage stage = new Stage();
+            stage.setTitle("Add map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
             MapRegion newMap = controller.getMap();
             if(newMap != null) map.add(0,newMap);
             mapsList.refresh();
-            
+        }catch(Exception e){
         }
     }
 
     @javafx.fxml.FXML
     private void moddifyMap(ActionEvent event) {
-        MapRegion selectMap = mapsList.getSelectionModel().getSelectedItem();
+        
+        MapRegion selectMap = mapsList.getSelectionModel()
+                .getSelectedItem();
         if(selectMap == null) return;
         
         try{
@@ -179,6 +185,7 @@ public class MapsController implements Initializable {
             ModifyMapController controller = loader.getController();
             controller.initMap(selectMap);
             Stage stage = new Stage();
+            stage.setTitle("Modify map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
             
@@ -189,6 +196,21 @@ public class MapsController implements Initializable {
 
     @javafx.fxml.FXML
     private void deleteMap(ActionEvent event) {
+        MapRegion selectMap = mapsList.getSelectionModel()
+                .getSelectedItem();
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete map");
+        alert.setHeaderText("Delete " +selectMap.getName()+"?");
+        alert.setContentText("It wil be only deleted if it is not in use");
+        Optional<ButtonType> presh = alert.showAndWait();
+        
+        if(presh.isPresent()&& presh.get() == ButtonType.OK){
+            boolean delete = app.removeMapRegion(selectMap);
+            if(delete){
+                map.remove(selectMap);
+            }
+        }
     }
     
 }

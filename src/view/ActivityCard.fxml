@@ -2,12 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefWidth="700.0" spacing="6.0" style="-fx-background-radius: 12;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox spacing="8.0" style="-fx-background-color: #ccff00; -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivityCardController">
    <children>
       <HBox alignment="CENTER_LEFT">
          <children>
@@ -16,10 +18,13 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="editBtn" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleEdit" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/edit.png" />
+               </image>
+            </ImageView>
          </children>
-         <padding>
-            <Insets left="20.0" right="20.0" top="15.0" />
-         </padding>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="30.0">
          <children>
@@ -28,15 +33,16 @@
             <Label fx:id="distanceLabel" text="Distance:" />
             <Label fx:id="elevationLabel" text="Elevation:" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label fx:id="editLabel" text="✎" />
-            <Label fx:id="deleteLabel" text="🗑" />
+            <Label fx:id="deleteLabel" style="-fx-icon-code: bi-trash" />
+            <ImageView fx:id="deletBtn" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleDelete" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/trash.png" />
+               </image>
+            </ImageView>
          </children>
-         <padding>
-            <Insets bottom="15.0" left="20.0" right="20.0" />
-         </padding>
       </HBox>
    </children>
    <padding>
-      <Insets bottom="5.0" />
+      <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
    </padding>
 </VBox>

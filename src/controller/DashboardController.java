@@ -4,13 +4,20 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
+
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,50 +25,55 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
-import javafx.stage.FileChooser;
-import java.io.File;
-import javafx.scene.Group;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 import javafx.scene.input.MouseButton;
 
+import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.Annotation;
+import upv.ipc.sportlib.AnnotationType;
+import upv.ipc.sportlib.GeoPoint;
+import upv.ipc.sportlib.MapProjection;
+import upv.ipc.sportlib.MapRegion;
+import upv.ipc.sportlib.SportActivityApp;
+import upv.ipc.sportlib.TrackPoint;
 /**
  * FXML Controller class
  *
  * @author marti
  */
 public class DashboardController implements Initializable {
-
-    @FXML
-    private Circle avatarCircle;
-    @FXML
-    private Label labelName;
-    @FXML
-    private Label labelSurname;
-    @FXML
-    private Button btnProfile;
-    @FXML
-    private Button btnActivities;
-    @FXML
-    private Button btnMaps;
-    @FXML
-    private Button btnDashboard;
-    @FXML
-    private Button btnLogout;
     @FXML
     private Button btnAddAnnotations;
     @FXML
     private Button btnSelectMap;
     @FXML
+    private Button btnZoomOut;
+    @FXML
+    private Button btnZoomIn;
+    @FXML
+    private Slider zoomSlider;
+    @FXML
     private ScrollPane mapScrollPane;
+    
+    @FXML
+    private Circle avatarCircle;
+    
+    @FXML
+    private Label labelName;
+    @FXML
+    private Label labelSurname;
     @FXML
     private Label lblDuration;
     @FXML
@@ -78,33 +90,48 @@ public class DashboardController implements Initializable {
     private Label lblMaxElevation;
     @FXML
     private Label lblMinElevation;
+    
+    @FXML
+    private Button btnProfile;
+    @FXML
+    private Button btnActivities;
+    @FXML
+    private Button btnMaps;
+    @FXML
+    private Button btnDashboard;
+    @FXML
+    private Button btnLogout;
     @FXML
     private Button btnSpeedRoute;
     @FXML
     private Button btnElevationProfile;
     @FXML
     private Canvas elevationCanvas;
+    
     @FXML
     private StackPane mapContainer;
     @FXML
     private Pane annotationsPane;
     @FXML
     private ImageView mapImageView;
-    @FXML
-    private Button btnZoomOut;
-    @FXML
-    private Slider zoomSlider;
-    @FXML
-    private Button btnZoomIn;
     
-    private String pendingAnnotationText;
-    private String pendingAnnotationType;
-    private javafx.scene.paint.Color pendingAnnotationColor;
-    private boolean waitingMapClick = false;
-    private Polyline currentRoute;
-    private boolean routeDrawingMode = false;
+    private final SportActivityApp app = SportActivityApp.getInstance();
+   
     private Pane mapPane;
     private Group zoomGroup;
+    private MapProjection projection;
+    
+    private Activity currentActivity;
+    public static MapRegion selectedMapRegion;
+    
+    private String pendingAnnotationText;
+    private AnnotationType pendingAnnotationType;
+    private Color pendingAnnotationColor = Color.BLACK;
+    
+    private boolean waitingMapClick= false;
+    private final List<GeoPoint> pendingGeoPoints = new ArrayList<>();
+    
+    
     /**
      * Initializes the controller class*/
     @Override
@@ -126,48 +153,52 @@ public class DashboardController implements Initializable {
         btnZoomOut.setOnAction(event ->{
             zoomSlider.setValue(zoomSlider.getValue() - 0.1);
         });
-        buildMap(MapsController.selectedMapPath);
-               
+        MapRegion region = resolveInitialRegion();
         
-    
-    }
-    private void addPointToRoute(double x, double y){
-        if(currentRoute == null){
-            currentRoute = new Polyline();
-            currentRoute.setStroke(javafx.scene.paint.Color.RED);
-            currentRoute.setStrokeWidth(5);
-            mapPane.getChildren().add(currentRoute);
+        if(region != null){
+            buildMap(region);
         }
-        currentRoute.getPoints().addAll(x,y);
-        
-        Circle point = new Circle (x,y,3);
-        point.setFill(javafx.scene.paint.Color.WHITE);
-        point.setStroke(javafx.scene.paint.Color.RED);
-        point.setStrokeWidth(2);
-        
-        mapPane.getChildren().add(point);
-        
+    
     }
     
     private void zoom(double scaleValue){
         if(zoomGroup==null) return;
         
+        double scrollH = mapScrollPane.getHvalue();
+        double scrollV = mapScrollPane.getVvalue();
+        
         zoomGroup.setScaleX(scaleValue);
         zoomGroup.setScaleY(scaleValue);
+        
+        mapScrollPane.setHvalue(scrollH);
+        mapScrollPane.setVvalue(scrollV);
     }
     
     private void applyZoom(double zoomValue){
            zoom(zoomValue);
     }
+    private MapRegion resolveInitialRegion(){
+        if(selectedMapRegion != null){
+            return selectedMapRegion;
+        }
+        for(MapRegion region : app.getMapRegions()){
+            if(region.getName().toLowerCase().contains("calderona")){
+                return region;
+            }
+        }
+        if(!app.getMapRegions().isEmpty()){
+            return app.getMapRegions().get(0);
+        }
+        return null;
+    }   
     
-    private void buildMap(String imagePath){
-        Image img = new Image(getClass().getResourceAsStream(imagePath));
+    private void buildMap(MapRegion region){
+        
+        File imgFile = new File(region.getImagePath());
+        Image img = new Image(imgFile.toURI().toString());
         double W = img.getWidth();
         double H = img.getHeight();
 
-        // ── mapPane: lienzo del mapa ───────────────────────────────────
-        // Usamos un Pane (y no un Group) para poder posicionar los nodos
-        // hijos con coordenadas absolutas (setLayoutX / setLayoutY).
         mapPane = new Pane();
         mapPane.setPrefSize(W, H); // tamaño preferido = tamaño de la imagen
         mapPane.setMinSize(W, H);  // impedimos que el layout lo encoja
@@ -181,21 +212,13 @@ public class DashboardController implements Initializable {
         
         mapPane.getChildren().add(iv);
 
+        projection = new MapProjection(region, W, H);
         
         mapPane.setOnMouseClicked(e -> {
-            double x = e.getX();
-            double y = e.getY();
             
             if (waitingMapClick && e.getButton() == MouseButton.PRIMARY) {
-                addAnnotationOnMap(x,y);
-            } 
-            if (routeDrawingMode && e.getButton() == MouseButton.PRIMARY) {
-                addPointToRoute(x,y);
-            } 
-            if (routeDrawingMode && e.getClickCount() == 2) {
-                routeDrawingMode = false;
-            } 
-            
+                handleAnnotaionMapClick(e.getX(),e.getY());
+            }   
         });
 
         
@@ -227,8 +250,10 @@ public class DashboardController implements Initializable {
             
             if(controller.isConfirmed()){
                 pendingAnnotationText= controller.getAnnotationText();
-                pendingAnnotationType= controller.getSelectedType();
+                pendingAnnotationType= parseAnnotationType(controller.getSelectedType());
                 pendingAnnotationColor= controller.getSelectedColor();
+                
+                pendingGeoPoints.clear();
                 
                 waitingMapClick = true;
                 mapScrollPane.setStyle("-fx-cursor: crosshair;");
@@ -239,77 +264,192 @@ public class DashboardController implements Initializable {
         }catch (IOException e){
             e.printStackTrace();
         }
-    } 
-    
-    private void addAnnotationOnMap(double x, double y){
-        String tooltipText= pendingAnnotationText;
+    }
+    private void handleAnnotaionMapClick(double x, double y){
+        GeoPoint geoPoint= projection.unproject(x,y);
+        pendingGeoPoints.add(geoPoint);
         
-        if(tooltipText == null || tooltipText.trim().isEmpty()){
-            tooltipText = pendingAnnotationType;
+        int requiredPoints= requiredPointsFor(pendingAnnotationType);
+        
+        if(pendingGeoPoints.size()<requiredPoints){
+            System.out.println("Select a second point");
+            return;
         }
-        if(pendingAnnotationType == null){
-            pendingAnnotationType = "Text";
+        
+        Annotation annotation = new Annotation( pendingAnnotationType, pendingAnnotationText, toHex(pendingAnnotationColor),4.0,new ArrayList<>(pendingGeoPoints));
+        if(currentActivity != null){
+            annotation = app.addAnnotation(currentActivity, annotation);
         }
-        switch (pendingAnnotationType.toLowerCase()){
-            case"circle":{
-                javafx.scene.shape.Circle circle = new javafx.scene.shape.Circle();
+        drawAnnotation(annotation);
+        waitingMapClick = false;
+        pendingGeoPoints.clear();
+        mapPane.setStyle("");
+        mapScrollPane.setStyle("");
+    }
+    
+    private void drawAnnotation(Annotation annotation){
+       List<GeoPoint> geoPoints= annotation.getGeoPoints();
+        
+        if(geoPoints.isEmpty()){
+            return;
+        }    
+        String text = annotation.getText();
+        Color color= Color.web(annotation.getColor());
+        
+        Point2D p1 = projection.project(geoPoints.get(0));
+        
+        
+        switch (annotation.getType()){
+            case CIRCLE:{
                 
-                circle.setCenterX(x);
-                circle.setCenterY(y);
-                circle.setRadius(18);
-                circle.setFill(javafx.scene.paint.Color.color(pendingAnnotationColor.getRed(),pendingAnnotationColor.getGreen(),pendingAnnotationColor.getBlue(),0.25));
-                circle.setStroke(pendingAnnotationColor);
-                circle.setStrokeWidth(4);
+                if(geoPoints.size()<2){
+                    return;
+                }
+                Point2D p2 = projection.project(geoPoints.get(1));
                 
-                Tooltip.install(circle, new Tooltip(pendingAnnotationText));
+                double radius = p1.distance(p2);
+                Circle circle = new Circle(p1.getX(),p1.getY(),radius);
+                
+                circle.setFill(Color.color(color.getRed(),color.getGreen(),color.getBlue(),0.25));
+                circle.setStroke(color);
+                circle.setStrokeWidth(annotation.getStrokeWidth());
+                
+                Tooltip.install(circle, new Tooltip(text));
                 
                 mapPane.getChildren().add(circle);
                 break;
             }
-            case"point":{
-                javafx.scene.shape.Circle point = new javafx.scene.shape.Circle();
+            case POINT:{
+                Circle point = new Circle(p1.getX(),p1.getY(),7);
                 
-                point.setCenterX(x);
-                point.setCenterY(y);
-                point.setRadius(6);
-                point.setFill(pendingAnnotationColor);
-                point.setStroke(javafx.scene.paint.Color.BLACK);
-                point.setStrokeWidth(4);
+                point.setFill(color);
+                point.setStroke(color.BLACK);
+                point.setStrokeWidth(1);
                 
-                Tooltip.install(point, new Tooltip(pendingAnnotationText));
-                 
+                Tooltip.install(point, new Tooltip(text));
+                
                 mapPane.getChildren().add(point);
                 break;
             }
-            case"line":{
-                javafx.scene.shape.Line line = new javafx.scene.shape.Line();
+            case LINE:{
+                if(geoPoints.size()<2){
+                    return;
+                }
+                Point2D p2 = projection.project(geoPoints.get(1));
                 
-                line.setStartX(x-30);
-                line.setStartY(y);
-                line.setEndX(x+30);
-                line.setEndY(y);
-                line.setStroke(pendingAnnotationColor);
-                line.setStrokeWidth(4);
+                Line line = new Line(p1.getX(),p1.getY(),p2.getX(),p2.getY());
+                line.setStroke(color);
+                line.setStrokeWidth(annotation.getStrokeWidth());
                 
-                 Tooltip.install(line, new Tooltip(pendingAnnotationText));
+                 Tooltip.install(line, new Tooltip(text));
                 
                 mapPane.getChildren().add(line);
                 break;
             }
-            default:{
-                javafx.scene.text.Text annotation = new javafx.scene.text.Text(pendingAnnotationText);
-                annotation.setFill(pendingAnnotationColor);
-                annotation.setStyle("-fx-font-size: 16px;"+"-fx-font-weight: bold;"+"-fx-stroke: black;"+"-fx-stroke-width: 0.3;");
-                annotation.setLayoutX(x);
-                annotation.setLayoutY(y);
+            case TEXT:{
+                Text label = new Text(p1.getX(),p1.getY(),text);
+                label.setFill(color);
+                label.setStyle("-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-stroke: black;" +
+                        "-fx-stroke-width: 0.3;");
                 
-                mapPane.getChildren().add(annotation);
+                Tooltip.install(label, new Tooltip(text));
+                
+                mapPane.getChildren().add(label);
                 break;
             }
         }
-        waitingMapClick = false;
-        mapScrollPane.setStyle("");
-        mapPane.setStyle("");
+    }
+    private void showActivity(Activity activity){
+        currentActivity = activity;
+        
+        MapRegion region = activity.getSuggestedMap();
+        buildMap(region);
+        
+        drawRoute(activity);
+        drawActivityAnnotations(activity);
+        updateStatistics(activity);
+    }
+    private void drawRoute(Activity activity){
+        Polyline route = new Polyline();
+        
+        route.setStroke(Color.web("#E74C3C"));
+        route.setStrokeWidth(4);
+        route.setOpacity(0.90);
+        
+        for(TrackPoint trackPoint :activity.getTrackPoints()){
+            Point2D point = projection.project(trackPoint);
+            route.getPoints().addAll(point.getX(), point.getY());
+        }
+        mapPane.getChildren().add(route);
+        drawStartEndPoints(activity);
+        
+    }
+    
+    private void drawStartEndPoints(Activity activity){
+        Point2D start = projection.project(activity.getStartPoint());
+        Point2D end = projection.project(activity.getStartPoint());
+        
+        Circle startCircle = new Circle(start.getX(),start.getY(),8);
+        startCircle.setFill(Color.GREEN);
+        
+        Circle endCircle = new Circle(end.getX(),end.getY(),8);
+        endCircle.setFill(Color.RED);
+        
+        Tooltip.install(startCircle, new Tooltip("Start"));
+        Tooltip.install(endCircle, new Tooltip("End"));
+        
+    }
+    
+    private void drawActivityAnnotations(Activity activity){
+        for (Annotation annotation : activity.getAnnotations()){
+            drawAnnotation(annotation);
+        }
+    }
+    private void updateStatistics(Activity activity){
+        lblDistance.setText(String.format("Distance: %.2f km",activity.getTotalDistance()/ 1000.0));
+        lblDuration.setText("Duration:"+ activity.getDuration());
+        lblAvgSpeed.setText(String.format("Average Speed: %.2f km/h",activity.getAverageSpeed()));
+        lblAvgPace.setText(String.format("Average Pace: %.2f min/km",activity.getAveragePace()));
+        lblMaxAltitude.setText(String.format("Max Altitude: %.0f m", activity.getMaxElevation()));
+        lblMinAltitude.setText(String.format("Min Altitude: %.0f m", activity.getMinElevation()));
+        lblMaxElevation.setText(String.format("Max Elevation: %.0f m", activity.getMaxElevation()));
+        lblMinElevation.setText(String.format("Min Elevation: %.0f m", activity.getMinElevation()));
+        
+    }
+    private int requiredPointsFor(AnnotationType type){
+        if(type == AnnotationType.LINE || type == AnnotationType.CIRCLE){
+            return 2;
+        }
+        return 1;
+    }
+    private AnnotationType parseAnnotationType(String type){
+        if (type == null){
+            return AnnotationType.TEXT;
+        }
+        switch(type.toLowerCase()){
+            case "point":
+                return AnnotationType.POINT;
+                
+            case "circle":
+                return AnnotationType.CIRCLE;
+            
+            case "line":
+                return AnnotationType.LINE;
+                
+            case "text":
+                return AnnotationType.TEXT;
+        }
+        return null;
+    }
+    
+    private String toHex(Color color){
+        int r = (int) Math.round(color.getRed()*255);
+        int g = (int) Math.round(color.getGreen()*255);
+        int b = (int) Math.round(color.getBlue()*255);
+        
+        return String.format("#%02X%02X%02X",r,g,b);
     }
     
      @FXML
@@ -348,6 +488,7 @@ public class DashboardController implements Initializable {
             
             stage.setScene(scene);
             stage.show();
+            
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -77,13 +77,20 @@ public class ModifyMapController implements Initializable {
     private MapRegion current;
     
     private File image;
+    
+    private final SportActivityApp app = SportActivityApp.getInstance();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-       
+       modifyButton.disableProperty().bind(name.textProperty().isEmpty()
+               .or(minLatitud.textProperty().isEmpty())
+               .or(maxLatitud.textProperty().isEmpty())
+               .or(maxLongitud.textProperty().isEmpty())
+               .or(minLongitud.textProperty().isEmpty())
+               );
     }  
     public void initMap(MapRegion map){
             current = map;
@@ -103,10 +110,56 @@ public class ModifyMapController implements Initializable {
                 .ExtensionFilter("Images", "*.gpx"));
         Stage stage = (Stage)searchButton.getScene().getWindow();
         image = chose.showOpenDialog(stage);
+        
+        if(image != null){
+            gpxButton.setText(image.getName());
+        }
     }
 
     @FXML
     private void modify(ActionEvent event) {
+        double minLat = 0, maxLat = 0, minLon = 0, maxLon = 0;
+        try{
+         minLat = Double.parseDouble(minLatitud.getText().trim());
+         maxLat = Double.parseDouble(maxLatitud.getText().trim());
+         minLon = Double.parseDouble(minLongitud.getText().trim());
+         maxLon = Double.parseDouble(maxLongitud.getText().trim());
+        }catch(NumberFormatException e){
+            
+        }
+        /*if(minLat >= maxLat){
+            
+        }
+        if(minLon >= maxLon){
+            
+        }*/
+        
+        boolean coordenatesChange = minLat != current.getLatMin()
+                ||maxLat!= current.getLatMax() 
+                ||minLon != current.getLonMin() 
+                ||maxLon != current.getLonMax();
+        boolean imageChange = image != null;
+        
+        if(!coordenatesChange || !imageChange){
+            ((Stage)modifyButton.getScene().getWindow()).close();
+        }
+        String name = current.getName();
+        File img = imageChange ? image : new File(current.getImagePath());
+        
+        boolean remove = app.removeMapRegion(current);
+        if(!remove){
+            showError();
+        }
+        
+        MapRegion update = app.addMapRegion(name, img, minLat, maxLat, minLon, maxLon);
+        
+        if(update != null){
+            Stage stage = (Stage) modifyButton.getScene().getWindow();
+        }
+    }
+    
+    private void showError(){
+        
     }
     
 }

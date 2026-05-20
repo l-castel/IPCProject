@@ -39,6 +39,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.input.MouseButton;
+import mapademo.MapaDemoApp;
 
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.Annotation;
@@ -454,14 +455,17 @@ public class DashboardController implements Initializable {
     
      @FXML
     private void handleProfile(ActionEvent event) {
+        MapaDemoApp.setRoot("Profile"); 
     }
 
     @FXML
     private void handleActivities(ActionEvent event) {
+        MapaDemoApp.setRoot("Activities");
     }
 
     @FXML
     private void handleMaps(ActionEvent event) {
+        MapaDemoApp.setRoot("Maps");
     }
 
     @FXML

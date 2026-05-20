@@ -241,7 +241,9 @@ public class RegisterController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
-        boolean ok = app.registerUser(nickname.getText().trim(), emailField.getText().trim(), passwordField.getText(), birthdateField.getValue(), avatarPath);
+        boolean ok = app.registerUser(nickname.getText().trim(), 
+                emailField.getText().trim(), passwordField.getText(), 
+                birthdateField.getValue(), avatarPath);
         
         nickname.clear();
         emailField.clear();
@@ -257,7 +259,7 @@ public class RegisterController implements Initializable {
         validDate.setValue(Boolean.FALSE);
         
         if(ok){
-            goToDashhboard(event);
+            goToLogin(event);
         }else{
             nicknameError.setText("Nickname already in use");
             showError(false, nickname, nicknameError);
@@ -269,8 +271,8 @@ public class RegisterController implements Initializable {
         cancelButton.getScene().getWindow().hide();
     }
     
-    private void goToDashhboard(ActionEvent event){
-        MapaDemoApp.setRoot("Dashboard");
+    private void goToLogin(ActionEvent event){
+        MapaDemoApp.setRoot("Login");
     }
     private void showError(boolean isValid, Node field, Node errorMessage){
         errorMessage.setVisible(!isValid);

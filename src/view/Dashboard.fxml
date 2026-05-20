@@ -4,16 +4,20 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
 
@@ -72,22 +76,47 @@
 
                 <!-- ── LEFT: Map panel ── -->
                 <VBox spacing="0" style="-fx-background-color: #c8f020; -fx-background-radius: 14px;                              -fx-padding: 12;">
+               <HBox prefHeight="44.0" prefWidth="444.0">
+                  <children>
+                           <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" prefHeight="37.0" prefWidth="174.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Add Annotations" />
+                     <Region prefHeight="59.0" prefWidth="193.0" />
+                           <Button fx:id="btnSelectMap" onAction="#handleSelectMap" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="121.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select map" />
+                  </children>
+               </HBox>
 
                     <!-- Map toolbar -->
                     <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 0 0 10 0;">
-                        <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Add Annotations" />
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnSelectMap" onAction="#handleSelectMap" onMouseClicked="#selectMapClick" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select map" />
+                  <Label prefHeight="17.0" prefWidth="74.0" text="   Zoom">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnZoomOut" mnemonicParsing="false" text="-">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="263.0" />
+                  <Button fx:id="btnZoomIn" mnemonicParsing="false" text="+">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
                     </HBox>
 
                     <!-- Map area -->
-                    <ScrollPane fx:id="mapScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="530" prefWidth="500" style="-fx-background: #dddddd; -fx-background-color: #dddddd;                                        -fx-border-color: transparent; -fx-background-radius: 10px;">
+                    <ScrollPane fx:id="mapScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="474.0" prefWidth="445.0" style="-fx-background: #dddddd; -fx-background-color: #dddddd;                                        -fx-border-color: transparent; -fx-background-radius: 10px;">
                   <content>
-                     <ImageView fitHeight="551.0" fitWidth="739.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../resources/calderona.jpg" />
-                        </image>
-                     </ImageView>
+                     <StackPane fx:id="mapContainer" prefHeight="150.0" prefWidth="200.0">
+                        <children>
+                           <ImageView fx:id="mapImageView" fitHeight="590.0" fitWidth="872.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../maps/calderona.jpg" />
+                              </image>
+                           </ImageView>
+                           <Pane fx:id="annotationsPane" pickOnBounds="false" prefHeight="564.0" prefWidth="745.0" />
+                        </children>
+                     </StackPane>
                   </content>
                     </ScrollPane>
                 </VBox>
@@ -143,8 +172,8 @@
 
                     <!-- Speed / Elevation profile buttons inside lime panel -->
                     <HBox spacing="14" style="-fx-background-color: #c8f020; -fx-background-radius: 12px;                                  -fx-padding: 14 16 14 16;">
-                        <Button fx:id="btnSpeedRoute" onAction="#handleSpeedOverRoute" onMouseClicked="#speedOverRouteClick" prefHeight="28.0" prefWidth="187.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-background-radius: 10px; -fx-cursor: hand;                                        -fx-text-alignment: center;" text="Speed over the route" />
-                        <Button fx:id="btnElevationProfile" onAction="#handleElevationProfile" onMouseClicked="#elevationProfileClick" prefHeight="62" prefWidth="148" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-background-radius: 10px; -fx-cursor: hand;                                        -fx-text-alignment: center;" text="Elevation profile" />
+                        <Button fx:id="btnSpeedRoute" onAction="#handleSpeedOverRoute" onMouseClicked="#speedOverRouteClick" prefHeight="28.0" prefWidth="175.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-background-radius: 10px; -fx-cursor: hand;                                        -fx-text-alignment: center;" text="Speed over the route" />
+                        <Button fx:id="btnElevationProfile" onAction="#handleElevationProfile" onMouseClicked="#elevationProfileClick" prefHeight="28.0" prefWidth="168.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-background-radius: 10px; -fx-cursor: hand;                                        -fx-text-alignment: center;" text="Elevation profile" />
                     </HBox>
 
                     <!-- Elevation chart inside lime-bordered panel -->

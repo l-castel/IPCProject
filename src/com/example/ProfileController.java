@@ -66,14 +66,6 @@ public class ProfileController implements Initializable {
     
     private static final double SCROLL_SPEED = 0.003;
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-    
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=]).{8,20}$");
-    
-    private static final Pattern PHONE_PATTERN = Pattern.compile(
-            "\\+34\\d{9}");
     @FXML
     private Label avatarIcon;
     
@@ -112,6 +104,8 @@ public class ProfileController implements Initializable {
         loadUserData();
         
         setEditMode(false);
+        
+      
         
     }
         
@@ -202,7 +196,7 @@ public class ProfileController implements Initializable {
                 
             } else {
                 sidebarAvatarCircle.setFill(javafx.scene.paint.Color.web("#c8f000"));
-                CircleAvatar.setFill(javafx.scene.paint.Color("#c8f000"));
+                CircleAvatar.setFill(javafx.scene.paint.Color.web("#c8f000"));
                 
             }
         }
@@ -307,7 +301,7 @@ private void validateDob() {
         int year = Integer.parseInt(yearStr);
         
         LocalDate birthDate = LocalDate.of(year, month, day);
-        LocalDate minDate = LocalDate.now().minusYears(12);
+       
         
         boolean valid = User.isOlderThan(birthDate, 12);
         dobError.setVisible(!valid);
@@ -410,7 +404,14 @@ private void validateDob() {
             
             app.updateCurrentUser(email, password, birthDate, finalAvatar);
             
-            setEditMode(false);
+            SaveButton.setDisable(true);
+            ChangeAvatar.setDisable(true);
+            phoneField.setEditable(false);
+            passwordField.setEditable(false);
+            dobDay.setEditable(false);
+            dobMonth.setEditable(false);
+            dobYear.setEditable(false);
+            hideAllErrors();
         } else {
             
             restoreOriginalValues();

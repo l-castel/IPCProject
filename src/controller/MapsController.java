@@ -164,8 +164,8 @@ public class MapsController implements Initializable {
             stage.setTitle("Add map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
-            MapRegion newMap = controller.getMap();
-            if(newMap != null) map.add(0,newMap);
+            //MapRegion newMap = controller.getMap();
+            //if(newMap != null) map.add(0,newMap);
             mapsList.refresh();
         }catch(Exception e){
         }

@@ -104,10 +104,12 @@ public class MapsController implements Initializable {
         
         avatarImage.setClip(avatarCircle);
         
-        map = mapsList.getItems();
-        map.addAll(app.getMapRegions());
+        map = FXCollections.observableArrayList(app.getMapRegions());
+        mapsList.setItems(map);
+        
         mapsList.setCellFactory(param-> new ListCell<MapRegion>(){
-            
+             
+            @Override
             protected void updateItem(MapRegion item, boolean empty){
                 super.updateItem(item, empty);
                 if(empty || item == null) setText(null);
@@ -158,16 +160,14 @@ public class MapsController implements Initializable {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddMap.fxml"));
             Parent root = loader.load();
-            
-            AddMapController controller = loader.getController();;
+           
             Stage stage = new Stage();
             stage.setTitle("Add map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
-            //MapRegion newMap = controller.getMap();
-            //if(newMap != null) map.add(0,newMap);
-            mapsList.refresh();
+            reloadList();
         }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -184,13 +184,15 @@ public class MapsController implements Initializable {
             
             ModifyMapController controller = loader.getController();
             controller.initMap(selectMap);
+            
             Stage stage = new Stage();
             stage.setTitle("Modify map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
             
-            mapsList.refresh();
+            reloadList();
         }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -203,6 +205,7 @@ public class MapsController implements Initializable {
         alert.setTitle("Delete map");
         alert.setHeaderText("Delete " +selectMap.getName()+"?");
         alert.setContentText("It wil be only deleted if it is not in use");
+        
         Optional<ButtonType> presh = alert.showAndWait();
         
         if(presh.isPresent()&& presh.get() == ButtonType.OK){
@@ -213,4 +216,8 @@ public class MapsController implements Initializable {
         }
     }
     
+    private void reloadList(){
+        map.clear();
+        map.addAll(app.getMapRegions());
+    }
 }

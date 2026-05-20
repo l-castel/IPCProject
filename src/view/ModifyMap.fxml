@@ -18,10 +18,6 @@
             <Label styleClass="field-label" text="Map Name" />
             <TextField fx:id="name" promptText="Name" styleClass="text-field-green" />
         </VBox>
-        <Button fx:id="searchButton" onAction="#handleSearchFile" styleClass="btn-outline" text="Search File">
-            <graphic>
-            </graphic>
-        </Button>
     </HBox>
 
     <HBox spacing="30" styleClass="middle-row">
@@ -59,8 +55,8 @@
     </HBox>
 
     <HBox spacing="20" styleClass="button-row">
-        <Button fx:id="gpxButton" onAction="#handleUploadGpx" styleClass="btn-solid" text="Upload GPX map" />
-        <Button fx:id="modifyButton" maxWidth="-Infinity" minWidth="100.0" onAction="#handleConfirmAdd" prefHeight="35.0" prefWidth="100.0" styleClass="btn-solid" text="Modify" />
+        <Button fx:id="gpxButton" onAction="#GPXUpload" styleClass="btn-solid" text="Upload GPX map" />
+        <Button fx:id="modifyButton" maxWidth="-Infinity" minWidth="100.0" onAction="#modify" prefHeight="35.0" prefWidth="100.0" styleClass="btn-solid" text="Modify" />
     </HBox>
 
 </VBox>

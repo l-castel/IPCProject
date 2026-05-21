@@ -43,9 +43,9 @@ public class MapaDemoApp extends Application {
 
         FXMLLoader loader;
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
-        //root = loader.load();
-        //router.put("Register", root);
+        loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
+        root = loader.load();
+        router.put("Register", root);
 
         loader = new FXMLLoader(getClass().getResource("../view/Dashboard.fxml"));
         root = loader.load();
@@ -55,20 +55,20 @@ public class MapaDemoApp extends Application {
         root = loader.load();
         router.put("AnnotationsDialog", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
-        //root = loader.load();
-        //router.put("Activities", root);
+        loader = new FXMLLoader(getClass().getResource("../view/Activities.fxml"));
+        root = loader.load();
+        router.put("Activities", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
-        //root = loader.load();
-        //router.put("Login", root);
+        loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+        root = loader.load();
+        router.put("Login", root);
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
-        //root = loader.load();
-        //router.put("Maps", root);
+        loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
+        root = loader.load();
+        router.put("Maps", root);
 
 
-        scene = new Scene(router.get("Dashboard"), 800, 600);
+        scene = new Scene(router.get("Login"), 800, 600);
         
 
 

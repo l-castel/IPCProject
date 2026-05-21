@@ -56,7 +56,7 @@
                     <Label fx:id="emailError" styleClass="error-label" text="Invalid email format. Ex: &quot;user@domain&quot;" visible="false" />
                 </VBox>
                 <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <Label styleClass="field-label" text="Telephone number" />
+                    <Label styleClass="field-label" text="Telephone number (Optional)" />
                     <TextField fx:id="phoneField" promptText="Telephone number" styleClass="input-field" />
                 </VBox>
 

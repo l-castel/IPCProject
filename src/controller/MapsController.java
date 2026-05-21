@@ -101,8 +101,8 @@ public class MapsController implements Initializable {
                 avatarImage.setImage(currentUser.getAvatar());
             }
         }
-        
-        avatarImage.setClip(avatarCircle);
+        Circle clip = new Circle(28,28,28);
+        avatarImage.setClip(clip);
         
         map = FXCollections.observableArrayList(app.getMapRegions());
         mapsList.setItems(map);
@@ -113,7 +113,7 @@ public class MapsController implements Initializable {
             protected void updateItem(MapRegion item, boolean empty){
                 super.updateItem(item, empty);
                 if(empty || item == null) setText(null);
-                else setText(item.getName());
+                else setText(String.format("%s [lat %.4f-%.4f | lon %.4f-%.4f]", item.getName(),item.getLatMin(),item.getLatMax(),item.getLonMin(), item.getLonMax()));
             }
         });
         modifyButton.disableProperty().bind(

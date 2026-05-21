@@ -77,6 +77,12 @@ public class AddMapController implements Initializable {
     
     private final SportActivityApp app = SportActivityApp.getInstance();
     private File image;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Label imageError;
+    @FXML
+    private Label gapsError;
 
     /**
      * Initializes the controller class.
@@ -98,7 +104,7 @@ public class AddMapController implements Initializable {
         FileChooser chose = new FileChooser();
         chose.setTitle("Select image");
         chose.getExtensionFilters().addAll(new FileChooser
-                .ExtensionFilter("Images", "*.gpx"));
+                .ExtensionFilter("Images", "*.jpg","*.jpeg","*.png"));
         Stage stage = (Stage)gpxButton.getScene().getWindow();
         image = chose.showOpenDialog(stage);
         
@@ -109,6 +115,16 @@ public class AddMapController implements Initializable {
 
     @FXML
     private void add(ActionEvent event) {
+        
+        if(image==null){
+            showError();
+            return;
+        }
+        if(!image.exists()){
+            showError();
+            image = null;
+            return;
+        }
         double minLat = 0, maxLat = 0, minLon = 0, maxLon = 0;
         try{
          minLat = Double.parseDouble(minLatitud.getText().trim());
@@ -118,21 +134,32 @@ public class AddMapController implements Initializable {
         }catch(NumberFormatException e){
             
         }
-        /*if(minLat >= maxLat){
-            
+        if(minLat >= maxLat){
+            showError();
+            minLatitud.requestFocus();
+            return;
         }
         if(minLon >= maxLon){
-            
-        }*/
+            showError();
+            minLongitud.requestFocus();
+            return;
+        }
         MapRegion newMap = app.addMapRegion(name.getText().trim(), image, minLat, maxLat, minLon, maxLon);
         
         if(newMap != null){
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
+        }else{
+            showError();
         }
     }
     private void showError(){
         
+    }
+
+    @FXML
+    private void cancel(ActionEvent event) {
+        ((Stage) addButton.getScene().getWindow()).close();
     }
     
 }

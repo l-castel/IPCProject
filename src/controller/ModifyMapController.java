@@ -79,6 +79,10 @@ public class ModifyMapController implements Initializable {
     private File image;
     
     private final SportActivityApp app = SportActivityApp.getInstance();
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Label gapsError;
     /**
      * Initializes the controller class.
      */
@@ -105,9 +109,9 @@ public class ModifyMapController implements Initializable {
     @FXML
     private void GPXUpload(ActionEvent event) {
         FileChooser chose = new FileChooser();
-        chose.setTitle("Select image");
+        chose.setTitle("Select new map");
         chose.getExtensionFilters().addAll(new FileChooser
-                .ExtensionFilter("Images", "*.gpx"));
+                .ExtensionFilter("Images", "*.jpg","*.jpeg","*.png"));
         Stage stage = (Stage)gpxButton.getScene().getWindow();
         image = chose.showOpenDialog(stage);
         
@@ -127,39 +131,53 @@ public class ModifyMapController implements Initializable {
         }catch(NumberFormatException e){
             
         }
-        /*if(minLat >= maxLat){
-            
+        if(minLat >= maxLat){
+            showError();
+            minLatitud.requestFocus();
+            return;
         }
         if(minLon >= maxLon){
-            
-        }*/
+            showError();
+            minLongitud.requestFocus();
+            return;
+        }
         
         boolean coordenatesChange = minLat != current.getLatMin()
                 ||maxLat!= current.getLatMax() 
                 ||minLon != current.getLonMin() 
                 ||maxLon != current.getLonMax();
+        
+        boolean nameChange = !name.getText().trim().equals(current.getName());
         boolean imageChange = image != null;
         
-        if(!coordenatesChange || !imageChange){
+        if(!coordenatesChange && !imageChange && !nameChange){
             ((Stage)modifyButton.getScene().getWindow()).close();
+            return;
         }
-        String name = current.getName();
-        File img = imageChange ? image : new File(current.getImagePath());
         
+        File newImg = imageChange ? image : new File(current.getImagePath());
+        String newName = name.getText().trim();
         boolean remove = app.removeMapRegion(current);
         if(!remove){
-            showError();
+            showError("Could not update the map");
+            return;
         }
         
-        MapRegion update = app.addMapRegion(name, img, minLat, maxLat, minLon, maxLon);
+        
+        MapRegion update = app.addMapRegion(name, newImg, minLat, maxLat, minLon, maxLon);
         
         if(update != null){
-            Stage stage = (Stage) modifyButton.getScene().getWindow();
-        }
+            ((Stage) modifyButton.getScene().getWindow()).close();
+        }else showError();
     }
     
     private void showError(){
         
+    }
+
+    @FXML
+    private void cancel(ActionEvent event) {
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
     
 }

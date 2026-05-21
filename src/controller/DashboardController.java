@@ -10,12 +10,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.geometry.Insets;
 
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -35,8 +37,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.input.MouseButton;
 import mapademo.MapaDemoApp;
@@ -54,6 +59,7 @@ import upv.ipc.sportlib.TrackPoint;
  *
  * @author marti
  */
+
 public class DashboardController implements Initializable {
     @FXML
     private Button btnAddAnnotations;
@@ -139,7 +145,7 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         btnAddAnnotations.setOnAction(this::diagAddAnnotations);
-        
+        btnSelectMap.setOnAction(this::handleSelectMap);
         
         zoomSlider.setMin(0.5);
         zoomSlider.setMax(10.0);
@@ -480,22 +486,66 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleSelectMap(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/view/Maps.fxml"));
-            
-            Parent root = loader.load();
-            
-            Stage stage = (Stage) btnSelectMap.getScene().getWindow();
-            
-            Scene scene = new Scene(root);
-            
-            stage.setScene(scene);
-            stage.show();
-            
-        }catch (IOException e){
-            e.printStackTrace();
+        List<MapRegion> maps = app.getMapRegions();
+        
+        if( maps == null || maps.isEmpty()){
+            System.out.println("There are no available maps");
+            return;
         }
+        
+        ComboBox<String> comboMaps = new ComboBox<>();
+        
+        for(MapRegion map : maps){
+            comboMaps.getItems().add(map.getName());
+        }
+        
+        Button cancel = new Button("Cancel");
+        Button select = new Button("Select");
+        
+        Label title = new Label("MAPS");
+        Label label = new Label("Map");
+        
+        VBox root = new VBox(20);
+        root.setPadding(new Insets(25));
+        root.setStyle("-fx-background-color: #302f36;"+"-fx-background-radius: 20;");
+        
+        title.setStyle("-fx-font-size:34;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
+        label.setStyle("-fx-font-size:22;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
+        
+        comboMaps.setPrefSize(300,45);
+        comboMaps.setStyle("-fx-font-size:16;"+"-fx-background-radius:8;"+"-fx-background-color:white;");
+        
+        cancel.setStyle("-fx-font-size:18;"+"-fx-background-radius:15;"+"-fx-background-color:#D9FF3F;"+"-fx-font-weight:bold");
+        select.setStyle("-fx-font-size:18;"+"-fx-background-radius:15;"+"-fx-background-color:#D9FF3F;"+"-fx-font-weight:bold");
+        
+        HBox buttons = new HBox(20, cancel, select);
+        
+        root.getChildren().addAll(title,label,comboMaps,buttons);
+        
+        Stage dialog = new Stage();
+        dialog.setTitle("Select map");
+        dialog.setScene(new Scene(root,440,300));
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(btnSelectMap.getScene().getWindow());
+        dialog.setResizable(false);
+        
+        cancel.setOnAction(e-> dialog.close());
+        select.setOnAction(e->{
+            String selectedName = comboMaps.getValue();
+            
+        
+            if(selectedName != null){
+                for(MapRegion map : maps){
+                    if(map.getName().equals(selectedName)){
+                        selectedMapRegion = map;
+                        buildMap(map);
+                        break;
+                    }
+                }
+            }
+            dialog.close();
+        });
+        dialog.showAndWait();
     }
 
     @FXML

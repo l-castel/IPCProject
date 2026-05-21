@@ -37,7 +37,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ListCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
@@ -63,8 +64,6 @@ import upv.ipc.sportlib.TrackPoint;
 public class DashboardController implements Initializable {
     @FXML
     private Button btnAddAnnotations;
-    @FXML
-    private Button btnSelectMap;
     @FXML
     private Button btnZoomOut;
     @FXML
@@ -98,6 +97,8 @@ public class DashboardController implements Initializable {
     @FXML
     private Label lblMinElevation;
     
+    @FXML
+    private Button btnSelectActivity;
     @FXML
     private Button btnProfile;
     @FXML
@@ -139,13 +140,14 @@ public class DashboardController implements Initializable {
     private final List<GeoPoint> pendingGeoPoints = new ArrayList<>();
     
     
+    
     /**
      * Initializes the controller class*/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         btnAddAnnotations.setOnAction(this::diagAddAnnotations);
-        btnSelectMap.setOnAction(this::handleSelectMap);
+        btnSelectActivity.setOnAction(this::handleSelectActivity);
         
         zoomSlider.setMin(0.5);
         zoomSlider.setMax(10.0);
@@ -485,60 +487,56 @@ public class DashboardController implements Initializable {
 
 
     @FXML
-    private void handleSelectMap(ActionEvent event) {
-        List<MapRegion> maps = app.getMapRegions();
+    private void handleSelectActivity(ActionEvent event) {
+        System.out.println("Select Activity");
         
-        if( maps == null || maps.isEmpty()){
-            System.out.println("There are no available maps");
+        List<Activity> activities = app.getUserActivities();
+        
+        if( activities == null || activities.isEmpty()){
+            System.out.println("There are no activities available");
             return;
         }
-        
-        ComboBox<String> comboMaps = new ComboBox<>();
-        
-        for(MapRegion map : maps){
-            comboMaps.getItems().add(map.getName());
+        ListView<String> activitiesList = new ListView<>();
+       
+        for(Activity activity : activities){
+            activitiesList.getItems().add(activity.getName());
         }
+        activitiesList.setPrefSize(340,220);
         
         Button cancel = new Button("Cancel");
         Button select = new Button("Select");
         
-        Label title = new Label("MAPS");
-        Label label = new Label("Map");
+        Label title = new Label("ACTIVITIES");
+        Label label = new Label("Activity");
         
-        VBox root = new VBox(20);
+        VBox root = new VBox(18);
         root.setPadding(new Insets(25));
         root.setStyle("-fx-background-color: #302f36;"+"-fx-background-radius: 20;");
         
         title.setStyle("-fx-font-size:34;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
         label.setStyle("-fx-font-size:22;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
         
-        comboMaps.setPrefSize(300,45);
-        comboMaps.setStyle("-fx-font-size:16;"+"-fx-background-radius:8;"+"-fx-background-color:white;");
-        
-        cancel.setStyle("-fx-font-size:18;"+"-fx-background-radius:15;"+"-fx-background-color:#D9FF3F;"+"-fx-font-weight:bold");
-        select.setStyle("-fx-font-size:18;"+"-fx-background-radius:15;"+"-fx-background-color:#D9FF3F;"+"-fx-font-weight:bold");
-        
         HBox buttons = new HBox(20, cancel, select);
         
-        root.getChildren().addAll(title,label,comboMaps,buttons);
+        root.getChildren().addAll(title,label,activitiesList,buttons);
         
         Stage dialog = new Stage();
-        dialog.setTitle("Select map");
+        dialog.setTitle("Select Activities");
         dialog.setScene(new Scene(root,440,300));
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(btnSelectMap.getScene().getWindow());
+        dialog.initOwner(btnSelectActivity.getScene().getWindow());
         dialog.setResizable(false);
         
         cancel.setOnAction(e-> dialog.close());
         select.setOnAction(e->{
-            String selectedName = comboMaps.getValue();
+            String selectedName = activitiesList.getSelectionModel().getSelectedItem();
             
         
             if(selectedName != null){
-                for(MapRegion map : maps){
-                    if(map.getName().equals(selectedName)){
-                        selectedMapRegion = map;
-                        buildMap(map);
+                for(Activity activity : activities){
+                    if(activity.getName().equals(selectedName)){
+                        currentActivity = activity;
+                        showActivity(activity);
                         break;
                     }
                 }
@@ -589,3 +587,5 @@ public class DashboardController implements Initializable {
     private void elevationProfileClick(MouseEvent event) {
     }
 }
+
+    

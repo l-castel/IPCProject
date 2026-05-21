@@ -22,7 +22,6 @@
       <VBox prefHeight="0.0" prefWidth="140.0">
          <children>
               <Button fx:id="gpxButton" onAction="#GPXUpload" styleClass="btn-solid" text="Upload map" />
-            <Label fx:id="imageError" text="You need to upload a map" textFill="RED" visible="false" />
          </children>
          <HBox.margin>
             <Insets top="20.0" />
@@ -63,7 +62,7 @@
             </GridPane>
         </VBox>
     </HBox>
-   <Label fx:id="gapsError" text="You need to fill all the gaps" textFill="RED" visible="false" />
+   <Label fx:id="errorLabel" text="You need to fill all the gaps" textFill="RED" visible="false" />
 
     <HBox spacing="20" styleClass="button-row">
         <Button fx:id="cancelButton" onAction="#cancel" styleClass="btn-solid" text="Cancel" />

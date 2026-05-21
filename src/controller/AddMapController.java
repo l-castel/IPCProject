@@ -80,9 +80,7 @@ public class AddMapController implements Initializable {
     @FXML
     private Button cancelButton;
     @FXML
-    private Label imageError;
-    @FXML
-    private Label gapsError;
+    private Label errorLabel;
 
     /**
      * Initializes the controller class.
@@ -96,6 +94,12 @@ public class AddMapController implements Initializable {
                .or(maxLongitud.textProperty().isEmpty())
                .or(minLongitud.textProperty().isEmpty())
                );
+        Runnable ocultar = ()-> errorLabel.setVisible(false);
+        name.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        minLatitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        maxLatitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        minLongitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        maxLongitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
     }    
 
 
@@ -110,6 +114,7 @@ public class AddMapController implements Initializable {
         
         if(image != null){
             gpxButton.setText(image.getName());
+            errorLabel.setVisible(false);
         }
     }
 
@@ -117,11 +122,11 @@ public class AddMapController implements Initializable {
     private void add(ActionEvent event) {
         
         if(image==null){
-            showError();
+            showError("You must select a map image.");
             return;
         }
         if(!image.exists()){
-            showError();
+            showError("The selected upload image does not exist.");
             image = null;
             return;
         }
@@ -132,15 +137,15 @@ public class AddMapController implements Initializable {
          minLon = Double.parseDouble(minLongitud.getText().trim());
          maxLon = Double.parseDouble(maxLongitud.getText().trim());
         }catch(NumberFormatException e){
-            
+            showError("Coordinates must be valid numbers.");
         }
         if(minLat >= maxLat){
-            showError();
+            showError("Min is bigger than max.");
             minLatitud.requestFocus();
             return;
         }
         if(minLon >= maxLon){
-            showError();
+            showError("Min is bigger than max.");
             minLongitud.requestFocus();
             return;
         }
@@ -150,11 +155,12 @@ public class AddMapController implements Initializable {
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
         }else{
-            showError();
+            showError("Could not add the map. Try again.");
         }
     }
-    private void showError(){
-        
+    private void showError(String message){
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
     }
 
     @FXML

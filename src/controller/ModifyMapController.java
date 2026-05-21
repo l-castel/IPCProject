@@ -83,6 +83,10 @@ public class ModifyMapController implements Initializable {
     private Button cancelButton;
     @FXML
     private Label gapsError;
+    
+    private File currentImage;
+    
+    private MapRegion currentMap;
     /**
      * Initializes the controller class.
      */
@@ -95,6 +99,12 @@ public class ModifyMapController implements Initializable {
                .or(maxLongitud.textProperty().isEmpty())
                .or(minLongitud.textProperty().isEmpty())
                );
+        Runnable ocultar = ()-> gapsError.setVisible(false);
+        name.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        minLatitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        maxLatitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        minLongitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
+        maxLongitud.textProperty().addListener((ob, ov, nv)->ocultar.run());
     }  
     public void initMap(MapRegion map){
             current = map;
@@ -103,6 +113,9 @@ public class ModifyMapController implements Initializable {
             maxLatitud.setText(String.valueOf(map.getLatMax()));
             minLongitud.setText(String.valueOf(map.getLonMin()));
             maxLongitud.setText(String.valueOf(map.getLonMax()));
+            
+            String path = map.getImagePath();
+            currentImage =(path != null && !path.isBlank())? new File(path):null;
     }
 
 
@@ -117,6 +130,7 @@ public class ModifyMapController implements Initializable {
         
         if(image != null){
             gpxButton.setText(image.getName());
+            gapsError.setVisible(false);
         }
     }
 
@@ -129,15 +143,16 @@ public class ModifyMapController implements Initializable {
          minLon = Double.parseDouble(minLongitud.getText().trim());
          maxLon = Double.parseDouble(maxLongitud.getText().trim());
         }catch(NumberFormatException e){
-            
+            showError("Coordinates must be valid numbers.");
+            return;
         }
         if(minLat >= maxLat){
-            showError();
+            showError("Min is bigger than max");
             minLatitud.requestFocus();
             return;
         }
         if(minLon >= maxLon){
-            showError();
+            showError("Min is bigger than max");
             minLongitud.requestFocus();
             return;
         }
@@ -157,6 +172,8 @@ public class ModifyMapController implements Initializable {
         
         File newImg = imageChange ? image : new File(current.getImagePath());
         String newName = name.getText().trim();
+        
+        if(newImg == null){showError("There is no map uploaded"); return;}
         boolean remove = app.removeMapRegion(current);
         if(!remove){
             showError("Could not update the map");
@@ -164,15 +181,20 @@ public class ModifyMapController implements Initializable {
         }
         
         
-        MapRegion update = app.addMapRegion(name, newImg, minLat, maxLat, minLon, maxLon);
+        MapRegion update = app.addMapRegion(newName, newImg, minLat, maxLat, minLon, maxLon);
         
         if(update != null){
             ((Stage) modifyButton.getScene().getWindow()).close();
-        }else showError();
+        }else{
+            app.addMapRegion(current.getName(), new File(current.getImagePath()), current.getLatMin(), current.getLatMax(), current.getLonMin(), current.getLatMax());
+            showError("Could not save changes. Original map restored");
+        }
+        
     }
     
-    private void showError(){
-        
+    private void showError(String message){
+        gapsError.setText(message);
+        gapsError.setVisible(true);
     }
 
     @FXML

@@ -62,7 +62,7 @@
             </GridPane>
         </VBox>
     </HBox>
-   <Label fx:id="gapsError" text="You need to fill all the gaps" textFill="RED" visible="false" />
+   <Label fx:id="gapsError" textFill="RED" visible="false" />
 
     <HBox spacing="20" styleClass="button-row">
       <Button fx:id="modifyButton" maxWidth="-Infinity" minWidth="100.0" onAction="#modify" prefHeight="35.0" prefWidth="100.0" styleClass="btn-solid" text="Modify" />

@@ -80,7 +80,7 @@
                   <children>
                            <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" prefHeight="37.0" prefWidth="174.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Add Annotations" />
                      <Region prefHeight="59.0" prefWidth="193.0" />
-                           <Button fx:id="btnSelectMap" onAction="#handleSelectMap" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="121.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select map" />
+                           <Button fx:id="btnSelectActivity" onAction="#handleSelectActivity" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="147.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select activity" />
                   </children>
                </HBox>
 

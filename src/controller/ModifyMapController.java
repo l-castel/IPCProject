@@ -76,7 +76,7 @@ public class ModifyMapController implements Initializable {
     
     private MapRegion current;
     
-    private File image;
+    private File newImage;
     
     private final SportActivityApp app = SportActivityApp.getInstance();
     @FXML
@@ -86,7 +86,6 @@ public class ModifyMapController implements Initializable {
     
     private File currentImage;
     
-    private MapRegion currentMap;
     /**
      * Initializes the controller class.
      */
@@ -126,10 +125,10 @@ public class ModifyMapController implements Initializable {
         chose.getExtensionFilters().addAll(new FileChooser
                 .ExtensionFilter("Images", "*.jpg","*.jpeg","*.png"));
         Stage stage = (Stage)gpxButton.getScene().getWindow();
-        image = chose.showOpenDialog(stage);
+        newImage = chose.showOpenDialog(stage);
         
-        if(image != null){
-            gpxButton.setText(image.getName());
+        if(newImage != null){
+            gpxButton.setText(newImage.getName());
             gapsError.setVisible(false);
         }
     }
@@ -162,33 +161,70 @@ public class ModifyMapController implements Initializable {
                 ||minLon != current.getLonMin() 
                 ||maxLon != current.getLonMax();
         
-        boolean nameChange = !name.getText().trim().equals(current.getName());
-        boolean imageChange = image != null;
+        boolean nameChange = false;
         
-        if(!coordenatesChange && !imageChange && !nameChange){
-            ((Stage)modifyButton.getScene().getWindow()).close();
-            return;
+        
+        String newName = name.getText().trim();
+        String currentName = current.getName();
+        if(!currentName.equals(newName)) nameChange=true;
+        
+        boolean imageChange = false;
+        if(newImage==null){
+            newImage = currentImage;
+        }else{
+            imageChange =true;
         }
         
-        File newImg = imageChange ? image : new File(current.getImagePath());
-        String newName = name.getText().trim();
+        if(coordenatesChange == true || imageChange == true|| nameChange==true){
+            
+            app.removeMapRegion(current);
+            MapRegion update = app.addMapRegion(newName, newImage, minLat, maxLat, minLon, maxLon);
+            System.out.println(newName);
+            System.out.println(newImage);
+            System.out.println(minLat);
+            System.out.println(maxLat);
+            System.out.println(minLon);
+            System.out.println(maxLon);
+            System.out.println(update);
+            
+            if(update==null){
+                Stage stage = (Stage) modifyButton.getScene().getWindow();
+                stage.close();
+            }else{
+                
+                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                 alert.setTitle("No update");
+                 alert.setHeaderText("There is no update in the map infomation ");
+                 
         
-        if(newImg == null){showError("There is no map uploaded"); return;}
-        boolean remove = app.removeMapRegion(current);
+                Optional<ButtonType> presh = alert.showAndWait();
+        
+                if(presh.isPresent()&& presh.get() == ButtonType.OK){
+                   app.addMapRegion(current.getName(), currentImage, current.getLonMax(), current.getLatMax(), current.getLonMin(), current.getLatMin());
+                   Stage stage = (Stage) modifyButton.getScene().getWindow();
+                stage.close();
+                }
+            }
+            
+        }
+        
+
+        /*boolean remove = app.removeMapRegion(current);
         if(!remove){
             showError("Could not update the map");
             return;
-        }
+        }*/
         
         
-        MapRegion update = app.addMapRegion(newName, newImg, minLat, maxLat, minLon, maxLon);
+        /*MapRegion update = app.addMapRegion(newName, newImage, minLat, maxLat, minLon, maxLon);
         
         if(update != null){
             ((Stage) modifyButton.getScene().getWindow()).close();
         }else{
             app.addMapRegion(current.getName(), new File(current.getImagePath()), current.getLatMin(), current.getLatMax(), current.getLonMin(), current.getLatMax());
             showError("Could not save changes. Original map restored");
-        }
+        }*/
+        
         
     }
     

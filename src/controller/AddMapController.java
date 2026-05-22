@@ -144,16 +144,46 @@ public class AddMapController implements Initializable {
             minLatitud.requestFocus();
             return;
         }
+        
         if(minLon >= maxLon){
             showError("Min is bigger than max.");
             minLongitud.requestFocus();
             return;
         }
+        
+        if(minLat < -90 || maxLat> 90){
+            showError("Latitud must be between 90 and -90.");
+            minLatitud.requestFocus();
+            return;
+        }
+        
+        if(minLon < -180 || maxLon> 180){
+            showError("Longitud must be between 180 and -180.");
+            minLongitud.requestFocus();
+            return;
+        }
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Add map");
+        alert.setHeaderText("Are you sure you want to add this map?");
+        alert.setContentText("Once added, the map cannot be modified. Please review the uploadesd information before confirming.");
+        
+        Optional<ButtonType> presh = alert.showAndWait();
+        
+        if(presh.isPresent()&& presh.get() == ButtonType.OK){
+            return;
+        }
         MapRegion newMap = app.addMapRegion(name.getText().trim(), image, minLat, maxLat, minLon, maxLon);
         
         if(newMap != null){
+            Alert success = new Alert(Alert.AlertType.INFORMATION);
+            success.setTitle("Map added");
+            success.setHeaderText(null);
+            success.setContentText("Map added successfully");
+            success.showAndWait();
+            
             Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
+            stage.close();   
         }else{
             showError("Could not add the map. Try again.");
         }

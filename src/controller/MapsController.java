@@ -74,7 +74,6 @@ public class MapsController implements Initializable {
     private Button logoutButton;
     @FXML
     private Button addButton;
-    @FXML
     private Button modifyButton;
     @FXML
     private Button deleteButton;
@@ -165,31 +164,6 @@ public class MapsController implements Initializable {
             stage.setTitle("Add map");
             stage.setScene(new Scene(root));
             stage.showAndWait();
-            reloadList();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    @javafx.fxml.FXML
-    private void moddifyMap(ActionEvent event) {
-        
-        MapRegion selectMap = mapsList.getSelectionModel()
-                .getSelectedItem();
-        if(selectMap == null) return;
-        
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ModifyMap.fxml"));
-            Parent root = loader.load();
-            
-            ModifyMapController controller = loader.getController();
-            controller.initMap(selectMap);
-            
-            Stage stage = new Stage();
-            stage.setTitle("Modify map");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-            
             reloadList();
         }catch(Exception e){
             e.printStackTrace();

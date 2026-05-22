@@ -67,7 +67,6 @@
       <VBox prefHeight="503.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
                 <Button fx:id="addButton" onAction="#addMap" styleClass="btn-add-map" text="Add map" />
-            <Button fx:id="modifyButton" onAction="#moddifyMap" styleClass="btn-add-map" text="Modify" />
             <Button fx:id="deleteButton" onAction="#deleteMap" styleClass="btn-add-map" text="Delete" />
          </children>
          <BorderPane.margin>

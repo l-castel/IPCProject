@@ -138,6 +138,7 @@ public class AddMapController implements Initializable {
          maxLon = Double.parseDouble(maxLongitud.getText().trim());
         }catch(NumberFormatException e){
             showError("Coordinates must be valid numbers.");
+            return;
         }
         if(minLat >= maxLat){
             showError("Min is bigger than max.");
@@ -170,7 +171,7 @@ public class AddMapController implements Initializable {
         
         Optional<ButtonType> presh = alert.showAndWait();
         
-        if(presh.isPresent()&& presh.get() == ButtonType.OK){
+        if(presh.isPresent()&& presh.get() == ButtonType.CANCEL){
             return;
         }
         MapRegion newMap = app.addMapRegion(name.getText().trim(), image, minLat, maxLat, minLon, maxLon);

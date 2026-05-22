@@ -115,11 +115,7 @@ public class MapsController implements Initializable {
                 else setText(String.format("%s [lat %.4f-%.4f | lon %.4f-%.4f]", item.getName(),item.getLatMin(),item.getLatMax(),item.getLonMin(), item.getLonMax()));
             }
         });
-        modifyButton.disableProperty().bind(
-                Bindings.isNull(mapsList.getSelectionModel()
-                        .selectedItemProperty()
-                )
-        );
+        
         deleteButton.disableProperty().bind(
                 Bindings.isNull(mapsList.getSelectionModel()
                         .selectedItemProperty()
@@ -186,6 +182,12 @@ public class MapsController implements Initializable {
             boolean delete = app.removeMapRegion(selectMap);
             if(delete){
                 map.remove(selectMap);
+            }else{
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Could not delete");
+                error.setHeaderText(null);
+                error.setContentText("The map can not be deleted. It is asociated to an activity.");
+                error.showAndWait();
             }
         }
     }

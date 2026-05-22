@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox prefHeight="840" prefWidth="1300" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<HBox prefHeight="840" prefWidth="1300" styleClass="hbox-root" stylesheets="@Login.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
 
     <!-- ===== LEFT PANEL: LOGO ===== -->
-    <VBox alignment="CENTER" style="-fx-background-color: #000000;" HBox.hgrow="ALWAYS">
+    <VBox alignment="CENTER" styleClass="left-panel" HBox.hgrow="ALWAYS">
         <ImageView fitHeight="380" fitWidth="380" preserveRatio="true">
             <image>
                 <Image url="@../resources/logo.png" />
@@ -21,39 +21,39 @@
     </VBox>
 
     <!-- ===== RIGHT PANEL: LOGIN FORM ===== -->
-    <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #d9f900; -fx-padding: 60 80 60 80;" HBox.hgrow="ALWAYS">
+    <VBox alignment="CENTER" spacing="20.0" styleClass="right-panel" HBox.hgrow="ALWAYS">
 
         <!-- Title -->
-        <Label style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="LOGIN" />
+        <Label styleClass="title-label" text="LOGIN" />
 
         <!-- Form fields -->
         <VBox alignment="CENTER" maxWidth="600.0" spacing="22">
 
             <!-- Username -->
             <VBox maxWidth="1.7976931348623157E308" spacing="6">
-                <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111; -fx-font-weight: bold;" text="Username" />
-                <TextField fx:id="usernameField" promptText="Username" style="-fx-background-color: #ffffff; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 16 10 16; -fx-font-size: 14px; -fx-text-fill: #333333; -fx-prompt-text-fill: #aaaaaa; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 3);" />
+                <Label styleClass="form-label" text="Username" />
+                <TextField fx:id="usernameField" promptText="Username" styleClass="input-field" />
             </VBox>
 
             <!-- Password -->
             <VBox maxWidth="1.7976931348623157E308" spacing="6">
-                <Label style="-fx-font-size: 14px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111; -fx-font-weight: bold;" text="Password" />
-                <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color: #ffffff; -fx-background-radius: 24; -fx-border-radius: 24; -fx-padding: 10 16 10 16; -fx-font-size: 14px; -fx-text-fill: #333333; -fx-prompt-text-fill: #aaaaaa; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 3);" />
+                <Label styleClass="form-label" text="Password" />
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
             </VBox>
 
         </VBox>
 
         <!-- Register prompt -->
         <VBox alignment="CENTER" spacing="8">
-            <Label style="-fx-font-size: 12px; -fx-font-family: 'SansSerif'; -fx-text-fill: #111111;" text="Don't have an account yet?" />
-            <Button fx:id="btnRegister" onAction="#handleRegister" prefWidth="160" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 12 0 12 0; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);" text="Register" />
+            <Label styleClass="prompt-label" text="Don't have an account yet?" />
+            <Button fx:id="btnRegister" onAction="#handleRegister" prefWidth="160" styleClass="action-button" text="Register" />
         </VBox>
 
         <!-- Feedback label -->
-        <Label fx:id="feedbackLabel" alignment="CENTER" maxWidth="360" style="-fx-font-size: 12px; -fx-text-fill: #e74c3c; -fx-font-family: 'SansSerif';" text="" wrapText="true" />
+        <Label fx:id="feedbackLabel" alignment="CENTER" maxWidth="360" text="" wrapText="true" />
 
         <!-- Log in button -->
-        <Button fx:id="btnLogin" onAction="#handleLogin" prefWidth="160" style="-fx-background-color: #2a2a2a; -fx-text-fill: #ffffff; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 12 0 12 0; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);" text="Log in" />
+        <Button fx:id="btnLogin" onAction="#handleLogin" prefWidth="160" styleClass="action-button" text="Log in" />
 
     </VBox>
 

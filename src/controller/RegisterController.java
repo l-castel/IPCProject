@@ -62,8 +62,6 @@ public class RegisterController implements Initializable {
     @FXML
     private Label emailError;
     @FXML
-    private TextField phoneField;
-    @FXML
     private PasswordField passwordField;
     @FXML
     private Label passwordError;
@@ -188,6 +186,9 @@ public class RegisterController implements Initializable {
        imageView.setPreserveRatio(false);
        Circle clip = new Circle(50,50,50);
        imageView.setClip(clip);
+       
+       Image defaultAvatar = new Image(getClass().getResource("/resources/logo.png").toExternalForm());
+       imageView.setImage(defaultAvatar);
     }
 
     public void checkNickname(){

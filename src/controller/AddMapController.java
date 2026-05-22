@@ -140,13 +140,13 @@ public class AddMapController implements Initializable {
             showError("Coordinates must be valid numbers.");
             return;
         }
-        if(minLat >= maxLat){
+        if(minLat > maxLat){
             showError("Min is bigger than max.");
             minLatitud.requestFocus();
             return;
         }
         
-        if(minLon >= maxLon){
+        if(minLon > maxLon){
             showError("Min is bigger than max.");
             minLongitud.requestFocus();
             return;

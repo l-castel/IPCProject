@@ -33,6 +33,16 @@ public class ActivityCardController
     private ImageView deletBtn;
     @javafx.fxml.FXML
     private Label mapLabel;
+    @javafx.fxml.FXML
+    private Label durationLabel;
+    @javafx.fxml.FXML
+    private Label avgPaceLabel;
+    @javafx.fxml.FXML
+    private Label elevationLossLabel;
+    @javafx.fxml.FXML
+    private Label minElevationLabel;
+    @javafx.fxml.FXML
+    private Label maxElevationLabel;
 
     SportActivityApp sportsApp;
 
@@ -58,8 +68,13 @@ public class ActivityCardController
         this.activityNameLabel.textProperty().setValue(act.getName());
         this.avgSpeedLabel.textProperty().setValue("Average speed: " + String.valueOf(Math.round(act.getAverageSpeed()) + "km/min"));
         this.distanceLabel.textProperty().setValue("Distance: " + String.valueOf(Math.round(act.getTotalDistance())) + "km");
-        this.elevationLabel.textProperty().setValue("Elevation level: " + String.valueOf(Math.round(act.getElevationGain())) + "m");
+        this.elevationLabel.textProperty().setValue("Elevation gain: " + String.valueOf(Math.round(act.getElevationGain())) + "m");
         this.mapLabel.textProperty().setValue("Map: " + act.getSuggestedMap().getName());
+        this.durationLabel.textProperty().setValue("Duration: " + act.getDuration());
+        this.avgPaceLabel.textProperty().setValue("Average pace: " + String.valueOf(Math.round(act.getAveragePace())) + " min/km");
+        this.elevationLossLabel.textProperty().setValue("Elevation loss: " + String.valueOf(Math.round(act.getElevationLoss())) + "m");
+        this.minElevationLabel.textProperty().setValue("Min elevation: " + String.valueOf(Math.round(act.getMinElevation())) + "m");
+        this.maxElevationLabel.textProperty().setValue("Max elevation: " + String.valueOf(Math.round(act.getMaxElevation())) + "m");
     }
 
 

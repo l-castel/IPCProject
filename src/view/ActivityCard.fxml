@@ -27,12 +27,20 @@
             <Label fx:id="distanceLabel" styleClass="card-stat" text="Distance:" />
             <Label fx:id="elevationLabel" styleClass="card-stat" text="Elevation:" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label fx:id="deleteLabel" styleClass="card-action-label" />
             <ImageView fx:id="deletBtn" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleDelete" pickOnBounds="true" preserveRatio="true" styleClass="card-icon-btn">
                <image>
                   <Image url="@../resources/trash.png" />
                </image>
             </ImageView>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="30.0">
+         <children>
+            <Label fx:id="durationLabel" styleClass="card-stat" text="Duration:" />
+            <Label fx:id="avgPaceLabel" styleClass="card-stat" text="Avg Pace:" />
+            <Label fx:id="elevationLossLabel" styleClass="card-stat" text="Elevation Loss:" />
+            <Label fx:id="minElevationLabel" styleClass="card-stat" text="Min Elevation:" />
+            <Label fx:id="maxElevationLabel" styleClass="card-stat" text="Max Elevation:" />
          </children>
       </HBox>
    </children>

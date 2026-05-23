@@ -15,14 +15,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mapademo.MapaDemoApp;
+import mapademo.Navigable;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ActivitiesController
+public class ActivitiesController implements Navigable
 {
 
     private SportActivityApp sportsApp;
@@ -59,13 +61,13 @@ public class ActivitiesController
                 new FileChooser.ExtensionFilter("GPX files", "*.gpx")
         );
 
-        data = activitiesListView.getItems();
 
+        List<Activity> actitivities = sportsApp.getUserActivities();
         activitiesListView.setCellFactory(c -> new ActivityCell(data, activitiesListView));
 
-        for(Activity act : sportsApp.getUserActivities()){
-            data.set(activitiesListView.getSelectionModel().getSelectedIndex(), act);
-        }
+        data = activitiesListView.getItems();
+
+
 
     }
     @javafx.fxml.FXML
@@ -89,7 +91,7 @@ public class ActivitiesController
 
     @javafx.fxml.FXML
     public void handleProfile(Event event) {
-        MapaDemoApp.setRoot("Profle");
+        MapaDemoApp.setRoot("Profile");
     }
 
     @javafx.fxml.FXML
@@ -119,6 +121,14 @@ public class ActivitiesController
 
     @Deprecated
     public void handleDelete(Event event) {
+    }
+
+    @Override
+    public void onNavigate() {
+        for(Activity act : sportsApp.getUserActivities()) {
+            System.out.println("Act: " + act);
+            data.add(act);
+        }
     }
 }
 

@@ -23,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.util.converter.LocalDateStringConverter;
+import mapademo.Navigable;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import javafx.beans.binding.Bindings;
@@ -51,7 +52,7 @@ import mapademo.MapaDemoApp;
 
 
 
-public class RegisterController implements Initializable {
+public class RegisterController implements Initializable, Navigable {
 
     @FXML
     private TextField nickname;
@@ -278,5 +279,9 @@ public class RegisterController implements Initializable {
         errorMessage.setVisible(!isValid);
         field.setStyle(((isValid) ? "" : "-fx-background-color: #FCE5E0"));
     }
-    
+
+    @Override
+    public void onNavigate() {
+
+    }
 }

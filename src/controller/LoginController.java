@@ -6,9 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import mapademo.MapaDemoApp;
+import mapademo.Navigable;
 import upv.ipc.sportlib.SportActivityApp;
 
-public class LoginController
+public class LoginController implements Navigable
 {
     @javafx.fxml.FXML
     private TextField usernameField;
@@ -41,5 +42,10 @@ public class LoginController
     @javafx.fxml.FXML
     public void handleRegister(ActionEvent actionEvent) {
         MapaDemoApp.setRoot("Register");
+    }
+
+    @Override
+    public void onNavigate() {
+
     }
 }

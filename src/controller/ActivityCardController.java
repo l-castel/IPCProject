@@ -69,7 +69,7 @@ public class ActivityCardController
         Parent renRoot = loader.load();
         RenameActivityController renController = loader.getController();
         renController.initAct(this.act);
-        Scene scene = new Scene(renRoot, 500, 300);
+        Scene scene = new Scene(renRoot, 300, 500);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Rename Activity");

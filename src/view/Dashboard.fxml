@@ -64,11 +64,11 @@
             <HBox alignment="CENTER_LEFT" style="-fx-padding: 28 40 20 40;">
                 <Label style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #111111;" text="DASHBOARD" />
                 <Region HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="99.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Imágenes/Capturas%20de%20pantalla/Screenshot%202026-05-13%20090839.png" />
-               </image>
-            </ImageView>
+                <ImageView fitHeight="99.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../Imágenes/Capturas%20de%20pantalla/Screenshot%202026-05-13%20090839.png" />
+                    </image>
+                </ImageView>
             </HBox>
 
             <!-- Two-column body -->
@@ -76,48 +76,48 @@
 
                 <!-- ── LEFT: Map panel ── -->
                 <VBox spacing="0" style="-fx-background-color: #c8f020; -fx-background-radius: 14px;                              -fx-padding: 12;">
-               <HBox prefHeight="44.0" prefWidth="444.0">
-                  <children>
-                           <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" prefHeight="37.0" prefWidth="174.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Add Annotations" />
-                     <Region prefHeight="59.0" prefWidth="193.0" />
-                           <Button fx:id="btnSelectActivity" onAction="#handleSelectActivity" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="147.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select activity" />
-                  </children>
-               </HBox>
+                    <HBox prefHeight="44.0" prefWidth="444.0">
+                        <children>
+                            <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" prefHeight="37.0" prefWidth="174.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Add Annotations" />
+                            <Region prefHeight="59.0" prefWidth="193.0" />
+                            <Button fx:id="btnSelectActivity" onAction="#handleSelectActivity" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="147.0" style="-fx-background-color: #1a1a1a; -fx-text-fill: white;                                        -fx-font-size: 13px; -fx-font-weight: bold;                                        -fx-padding: 9 16 9 16; -fx-background-radius: 6px;                                        -fx-cursor: hand;" text="Select activity" />
+                        </children>
+                    </HBox>
 
                     <!-- Map toolbar -->
                     <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 0 0 10 0;">
-                  <Label prefHeight="17.0" prefWidth="74.0" text="   Zoom">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btnZoomOut" mnemonicParsing="false" text="-">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="263.0" />
-                  <Button fx:id="btnZoomIn" mnemonicParsing="false" text="+">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
+                        <Label prefHeight="17.0" prefWidth="74.0" text="   Zoom">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="btnZoomOut" mnemonicParsing="false" text="-">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Button>
+                        <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="263.0" />
+                        <Button fx:id="btnZoomIn" mnemonicParsing="false" text="+">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Button>
                     </HBox>
 
                     <!-- Map area -->
                     <ScrollPane fx:id="mapScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="474.0" prefWidth="445.0" style="-fx-background: #dddddd; -fx-background-color: #dddddd;                                        -fx-border-color: transparent; -fx-background-radius: 10px;">
-                  <content>
-                     <StackPane fx:id="mapContainer" prefHeight="150.0" prefWidth="200.0">
-                        <children>
-                           <ImageView fx:id="mapImageView" fitHeight="590.0" fitWidth="872.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../maps/calderona.jpg" />
-                              </image>
-                           </ImageView>
-                           <Pane fx:id="annotationsPane" pickOnBounds="false" prefHeight="564.0" prefWidth="745.0" />
-                        </children>
-                     </StackPane>
-                  </content>
+                        <content>
+                            <StackPane fx:id="mapContainer" prefHeight="150.0" prefWidth="200.0">
+                                <children>
+                                    <ImageView fx:id="mapImageView" fitHeight="590.0" fitWidth="872.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../maps/calderona.jpg" />
+                                        </image>
+                                    </ImageView>
+                                    <Pane fx:id="annotationsPane" pickOnBounds="false" prefHeight="564.0" prefWidth="745.0" />
+                                </children>
+                            </StackPane>
+                        </content>
                     </ScrollPane>
                 </VBox>
 
@@ -157,16 +157,16 @@
 
                             <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Min elevation:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
                             <Label fx:id="lblMinElevation" style="-fx-font-size: 13px; -fx-text-fill: #111111;" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
+                            <rowConstraints>
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                            </rowConstraints>
                         </GridPane>
                     </VBox>
 

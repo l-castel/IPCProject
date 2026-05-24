@@ -38,6 +38,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ListCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
@@ -63,8 +65,6 @@ import upv.ipc.sportlib.TrackPoint;
 public class DashboardController implements Initializable {
     @FXML
     private Button btnAddAnnotations;
-    @FXML
-    private Button btnSelectMap;
     @FXML
     private Button btnZoomOut;
     @FXML
@@ -137,14 +137,17 @@ public class DashboardController implements Initializable {
     
     private boolean waitingMapClick= false;
     private final List<GeoPoint> pendingGeoPoints = new ArrayList<>();
-    
-    
+    @FXML
+    private Button btnSelectActivity;
+
+
     /**
      * Initializes the controller class*/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         btnAddAnnotations.setOnAction(this::diagAddAnnotations);
+        btnSelectActivity.setOnAction(this::handleSelectActivity);
         btnSelectMap.setOnAction(this::handleSelectMap);
         
         zoomSlider.setMin(0.5);
@@ -484,7 +487,7 @@ public class DashboardController implements Initializable {
     }
 
 
-    @FXML
+    @Deprecated
     private void handleSelectMap(ActionEvent event) {
         List<MapRegion> maps = app.getMapRegions();
         
@@ -587,5 +590,65 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void elevationProfileClick(MouseEvent event) {
+    }
+
+    @FXML
+    private void handleSelectActivity(ActionEvent event) {
+        System.out.println("Select Activity");
+        
+        List<Activity> activities = app.getUserActivities();
+        
+        if( activities == null || activities.isEmpty()){
+            System.out.println("There are no activities available");
+            return;
+        }
+        ListView<String> activitiesList = new ListView<>();
+       
+        for(Activity activity : activities){
+            activitiesList.getItems().add(activity.getName());
+        }
+        activitiesList.setPrefSize(340,220);
+        
+        Button cancel = new Button("Cancel");
+        Button select = new Button("Select");
+        
+        Label title = new Label("ACTIVITIES");
+        Label label = new Label("Activity");
+        
+        VBox root = new VBox(18);
+        root.setPadding(new Insets(25));
+        root.setStyle("-fx-background-color: #302f36;"+"-fx-background-radius: 20;");
+        
+        title.setStyle("-fx-font-size:34;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
+        label.setStyle("-fx-font-size:22;"+"-fx-font-weight:bold;"+"-fx-text-fill:white;");
+        
+        HBox buttons = new HBox(20, cancel, select);
+        
+        root.getChildren().addAll(title,label,activitiesList,buttons);
+        
+        Stage dialog = new Stage();
+        dialog.setTitle("Select Activities");
+        dialog.setScene(new Scene(root,440,300));
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(btnSelectActivity.getScene().getWindow());
+        dialog.setResizable(false);
+        
+        cancel.setOnAction(e-> dialog.close());
+        select.setOnAction(e->{
+            String selectedName = activitiesList.getSelectionModel().getSelectedItem();
+            
+        
+            if(selectedName != null){
+                for(Activity activity : activities){
+                    if(activity.getName().equals(selectedName)){
+                        currentActivity = activity;
+                        showActivity(activity);
+                        break;
+                    }
+                }
+            }
+            dialog.close();
+        });
+        dialog.showAndWait();
     }
 }

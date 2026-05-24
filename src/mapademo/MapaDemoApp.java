@@ -41,9 +41,36 @@ public class MapaDemoApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root;
+        
 
         
         FXMLLoader loader;
+        
+        SportActivityApp app = SportActivityApp.getInstance();
+        
+        System.out.println("Directorio: " + System.getProperty("user.dir"));
+        
+        boolean registered = app.registerUser("dianaherasg", "dianaheras@gmail.com", "passPER21!", LocalDate.of(2000, 3, 14),(String) null);
+        System.out.println("Register: " + registered);
+        
+        boolean login1 = app.login("dianaherasg", "passPER21!");
+        System.out.println("Login 1: " + login1);
+        app.logout();
+        
+        boolean login2 = app.login("dianaherasg", "passPER21!");
+        System.out.println("Login 2: " + login2);
+        app.logout();
+         
+        boolean login3 = app.login("dianaherasg", "passPER21!");
+        System.out.println("Login 3: " + login3);
+        System.out.println("Actual user: " + app.getCurrentUser());
+        
+        if(app.getCurrentUser() != null) {
+            app.getSessionsByUser(app.getCurrentUser()).forEach(s ->
+            System.out.println("Session: " + s.getStartTime() + " -> " + s.getEndTime()));
+        }
+        
+        
 
        // loader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
         //root = loader.load();
@@ -69,15 +96,7 @@ public class MapaDemoApp extends Application {
         root = loader.load();
         router.put("Profile", root);
 
-        SportActivityApp app = SportActivityApp.getInstance();
         
-        boolean registered = app.registerUser("dianaheras", "dianaheras@gmail.com", "passPER21!", LocalDate.of(2000, 3, 14), "jpeg");
-        
-        System.out.println("Registro: " + registered);
-        
-        boolean logged = app.login("dianaheras", "passPER21!");
-        System.out.println("Login: " + logged);
-        System.out.println("Usuario actual: " + app.getCurrentUser().getNickName());
         
         
         scene = new Scene(router.get("Profile"), 800, 600);

@@ -181,6 +181,35 @@
                         <Canvas fx:id="elevationCanvas" height="210" width="360" />
                     </VBox>
 
+                    <VBox spacing="0" styleClass="stats-panel">
+                        <Label styleClass="stats-title" text="Cumulative Totals" />
+
+                        <GridPane hgap="20" vgap="5">
+                            <columnConstraints>
+                                <ColumnConstraints prefWidth="155" />
+                                <ColumnConstraints prefWidth="155" />
+                            </columnConstraints>
+
+                            <Label styleClass="stat-label" text="Total time:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <Label fx:id="lblTotTime" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                            <Label styleClass="stat-label" text="Total distance:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <Label fx:id="lblTotDist" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <Label styleClass="stat-label" text="Total ascent:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <Label fx:id="lblTotGain" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                            <Label styleClass="stat-label" text="Total descent:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <Label fx:id="lblTotLoss" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <rowConstraints>
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                            </rowConstraints>
+                        </GridPane>
+                    </VBox>
+
                 </VBox>
             </HBox>
         </VBox>

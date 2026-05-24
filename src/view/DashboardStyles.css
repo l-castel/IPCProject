@@ -1,0 +1,151 @@
+.root-pane {
+    -fx-background-color: white;
+}
+
+.sidebar {
+    -fx-background-color: #1a1a1a;
+}
+
+.user-header {
+    -fx-padding: 24 20 24 20;
+}
+
+.avatar {
+    -fx-fill: #c8f020;
+    -fx-stroke: #c8f020;
+    -fx-stroke-width: 2;
+}
+
+.user-name {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+.user-surname {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 13px;
+}
+
+.separator {
+    -fx-background-color: #333333;
+}
+
+.nav-container {
+    -fx-padding: 20 0 0 0;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 24;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.nav-button-active {
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 24;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.main-content {
+    -fx-background-color: white;
+}
+
+.title-bar {
+    -fx-padding: 28 40 20 40;
+}
+
+.title-label {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+}
+
+.body-container {
+    -fx-padding: 0 40 30 40;
+}
+
+.map-panel {
+    -fx-background-color: #c8f020;
+    -fx-background-radius: 14px;
+    -fx-padding: 12;
+}
+
+.action-button {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16 9 16;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+}
+
+.map-toolbar {
+    -fx-padding: 0 0 10 0;
+}
+
+.map-scroll {
+    -fx-background: #dddddd;
+    -fx-background-color: #dddddd;
+    -fx-border-color: transparent;
+    -fx-background-radius: 10px;
+}
+
+.stats-panel {
+    -fx-background-color: #c8f020;
+    -fx-background-radius: 12px;
+    -fx-padding: 14 16 14 16;
+}
+
+.stats-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+    -fx-padding: 0 0 10 0;
+}
+
+.stat-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+}
+
+.stat-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #111111;
+}
+
+.chart-buttons-panel {
+    -fx-background-color: #c8f020;
+    -fx-background-radius: 12px;
+    -fx-padding: 14 16 14 16;
+}
+
+.chart-button {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+}
+
+.elevation-chart {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #c8f020;
+    -fx-border-width: 3px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10;
+}

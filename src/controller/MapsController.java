@@ -102,8 +102,7 @@ public class MapsController implements Initializable {
             }
         }
         
-        avatarImage.setClip(avatarCircle);
-        
+
         map = FXCollections.observableArrayList(app.getMapRegions());
         mapsList.setItems(map);
         

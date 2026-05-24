@@ -99,6 +99,15 @@ public class DashboardController implements Initializable {
     private Label lblMinElevation;
     
     @FXML
+    private Label lblTotTime;
+    @FXML
+    private Label lblTotDist;
+    @FXML
+    private Label lblTotGain;
+    @FXML
+    private Label lblTotLoss;
+    
+    @FXML
     private Button btnProfile;
     @FXML
     private Button btnActivities;
@@ -148,8 +157,7 @@ public class DashboardController implements Initializable {
         
         btnAddAnnotations.setOnAction(this::diagAddAnnotations);
         btnSelectActivity.setOnAction(this::handleSelectActivity);
-        btnSelectMap.setOnAction(this::handleSelectMap);
-        
+
         zoomSlider.setMin(0.5);
         zoomSlider.setMax(10.0);
         zoomSlider.setValue(1.0);
@@ -168,6 +176,8 @@ public class DashboardController implements Initializable {
         if(region != null){
             buildMap(region);
         }
+        
+        updateCumulativeStats();
     
     }
     
@@ -380,6 +390,7 @@ public class DashboardController implements Initializable {
         drawRoute(activity);
         drawActivityAnnotations(activity);
         updateStatistics(activity);
+        updateCumulativeStats();
     }
     private void drawRoute(Activity activity){
         Polyline route = new Polyline();
@@ -427,6 +438,38 @@ public class DashboardController implements Initializable {
         lblMaxElevation.setText(String.format("Max Elevation: %.0f m", activity.getMaxElevation()));
         lblMinElevation.setText(String.format("Min Elevation: %.0f m", activity.getMinElevation()));
         
+    }
+    private void updateCumulativeStats(){
+        List<Activity> activities = app.getUserActivities();
+        
+        if(activities == null || activities.isEmpty()){
+            lblTotTime.setText("");
+            lblTotDist.setText("");
+            lblTotGain.setText("");
+            lblTotLoss.setText("");
+            return;
+        }
+        
+        java.time.Duration totalDuration = java.time.Duration.ZERO;
+        double totalDistance = 0.0;
+        double totalAscent = 0.0;
+        double totalDescent = 0.0;
+        
+        for(Activity act : activities){
+            totalDuration = totalDuration.plus(act.getDuration());
+            totalDistance += act.getTotalDistance();
+            totalAscent += act.getElevationGain();
+            totalDescent += act.getElevationLoss();
+        }
+        
+        long hours = totalDuration.toHours();
+        long minutes = totalDuration.toMinutesPart();
+        long seconds = totalDuration.toSecondsPart();
+        
+        lblTotTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        lblTotDist.setText(String.format("%.2f km", totalDistance / 1000.0));
+        lblTotGain.setText(String.format("%.0f m", totalAscent));
+        lblTotLoss.setText(String.format("%.0f m", totalDescent));
     }
     private int requiredPointsFor(AnnotationType type){
         if(type == AnnotationType.LINE || type == AnnotationType.CIRCLE){
@@ -529,7 +572,6 @@ public class DashboardController implements Initializable {
         dialog.setTitle("Select map");
         dialog.setScene(new Scene(root,440,300));
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(btnSelectMap.getScene().getWindow());
         dialog.setResizable(false);
         
         cancel.setOnAction(e-> dialog.close());

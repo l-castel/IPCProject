@@ -85,6 +85,8 @@ public class MapsController implements Initializable {
     private Label nickname;
     
     ObservableList<MapRegion> map = null;
+    @FXML
+    private ImageView logo;
 
     /**
      * Initializes the controller class.
@@ -102,7 +104,8 @@ public class MapsController implements Initializable {
         }
         Circle clip = new Circle(28,28,28);
         avatarImage.setClip(clip);
-        
+        Image logoImg=new Image (getClass().getResource("/resources/logo-black.png").toExternalForm());
+        logo.setImage(logoImg);
         map = FXCollections.observableArrayList(app.getMapRegions());
         mapsList.setItems(map);
         
@@ -112,7 +115,7 @@ public class MapsController implements Initializable {
             protected void updateItem(MapRegion item, boolean empty){
                 super.updateItem(item, empty);
                 if(empty || item == null) setText(null);
-                else setText(String.format("%s [lat %.4f-%.4f | lon %.4f-%.4f]", item.getName(),item.getLatMin(),item.getLatMax(),item.getLonMin(), item.getLonMax()));
+                else setText(String.format("%s [Lat: %.4f~%.4f | Lon: %.4f~%.4f]", item.getName(),item.getLatMin(),item.getLatMax(),item.getLonMin(), item.getLonMax()));
             }
         });
         

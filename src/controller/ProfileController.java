@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.example;
+package controller;
 
 import java.net.URL;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ import javafx.scene.input.ScrollEvent;
 
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
+
 import javafx.event.ActionEvent;
 
 import upv.ipc.sportlib.SportActivityApp;

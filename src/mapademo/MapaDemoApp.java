@@ -72,11 +72,15 @@ public class MapaDemoApp extends Application {
         router.put("Login", root);
         controllers.put("Login", loader.getController());
 
-        //loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
-        //root = loader.load();
-        //router.put("Maps", root);
-        //controllers.put("Maps", loader.getController());
+        loader = new FXMLLoader(getClass().getResource("../view/Maps.fxml"));
+        root = loader.load();
+        router.put("Maps", root);
+        controllers.put("Maps", loader.getController());
 
+        loader = new FXMLLoader(getClass().getResource("../view/Profile.fxml"));
+        root = loader.load();
+        router.put("Profile", root);
+        controllers.put("Profile", loader.getController());
 
         scene = new Scene(router.get("Login"), 1920, 1080);
         

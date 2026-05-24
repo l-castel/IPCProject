@@ -60,6 +60,7 @@ public class ModifyMapController implements Initializable {
 
     @FXML
     private TextField name;
+    @FXML
     private Button searchButton;
     @FXML
     private TextField maxLatitud;
@@ -102,7 +103,7 @@ public class ModifyMapController implements Initializable {
     }
 
 
-    @FXML
+    @Deprecated
     private void GPXUpload(ActionEvent event) {
         FileChooser chose = new FileChooser();
         chose.setTitle("Select image");
@@ -116,7 +117,7 @@ public class ModifyMapController implements Initializable {
         }
     }
 
-    @FXML
+    @Deprecated
     private void modify(ActionEvent event) {
         double minLat = 0, maxLat = 0, minLon = 0, maxLon = 0;
         try{
@@ -161,5 +162,16 @@ public class ModifyMapController implements Initializable {
     private void showError(){
         
     }
-    
+
+    @FXML
+    public void handleSearchFile(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleUploadGpx(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void handleConfirmAdd(ActionEvent actionEvent) {
+    }
 }

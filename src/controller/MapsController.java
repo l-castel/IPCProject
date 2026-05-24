@@ -182,6 +182,11 @@ public class MapsController implements Initializable {
             boolean delete = app.removeMapRegion(selectMap);
             if(delete){
                 map.remove(selectMap);
+                 Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Map deleted");
+                success.setHeaderText(null);
+                success.setContentText("Map deleted successfully");
+                success.showAndWait();
             }else{
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("Could not delete");

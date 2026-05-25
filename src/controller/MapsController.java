@@ -64,16 +64,6 @@ public class MapsController implements Initializable, Navigable {
     @FXML
     private ImageView avatarImage;
     @FXML
-    private Button profileButton;
-    @FXML
-    private Button activitiesButton;
-    @FXML
-    private Button mapsButton;
-    @FXML
-    private Button dashboardButton;
-    @FXML
-    private Button logoutButton;
-    @FXML
     private Button addButton;
     private Button modifyButton;
     @FXML
@@ -82,76 +72,35 @@ public class MapsController implements Initializable, Navigable {
     private ListView<MapRegion> mapsList;
     
     private final SportActivityApp app = SportActivityApp.getInstance();
-    @FXML
-    private Label nickname;
-    
+
     ObservableList<MapRegion> map = null;
     @FXML
     private ImageView logo;
+    @FXML
+    private Label nicknameLabel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        User currentUser = app.getCurrentUser();
-        
-        if(currentUser!=null){
-            nickname.setText(currentUser.getNickName());
-            if(currentUser.getAvatar()!= null){
-                avatarImage.setImage(currentUser.getAvatar());
-            }
-        }
-        Circle clip = new Circle(28,28,28);
-        avatarImage.setClip(clip);
-        Image logoImg=new Image (getClass().getResource("/resources/logo-black.png").toExternalForm());
-        logo.setImage(logoImg);
         map = FXCollections.observableArrayList(app.getMapRegions());
         mapsList.setItems(map);
-        
-        mapsList.setCellFactory(param-> new ListCell<MapRegion>(){
-             
+
+        mapsList.setCellFactory(param -> new ListCell<MapRegion>() {
             @Override
-            protected void updateItem(MapRegion item, boolean empty){
+            protected void updateItem(MapRegion item, boolean empty) {
                 super.updateItem(item, empty);
-                if(empty || item == null) setText(null);
-                else setText(String.format("%s [Lat: %.4f~%.4f | Lon: %.4f~%.4f]", item.getName(),item.getLatMin(),item.getLatMax(),item.getLonMin(), item.getLonMax()));
+                if (empty || item == null) setText(null);
+                else setText(String.format("%s [Lat: %.4f~%.4f | Lon: %.4f~%.4f]",
+                        item.getName(), item.getLatMin(), item.getLatMax(), item.getLonMin(), item.getLonMax()));
             }
         });
-        
+
         deleteButton.disableProperty().bind(
-                Bindings.isNull(mapsList.getSelectionModel()
-                        .selectedItemProperty()
-                )
+                Bindings.isNull(mapsList.getSelectionModel().selectedItemProperty())
         );
     }    
-
-    @FXML
-    private void goToProfile(ActionEvent event) {
-        MapaDemoApp.setRoot("Profile");
-    }
-
-    @FXML
-    private void goToActivities(ActionEvent event) {
-        MapaDemoApp.setRoot("Activities");
-    }
-
-    @FXML
-    private void goToMaps(ActionEvent event) {
-        MapaDemoApp.setRoot("Maps");
-    }
-
-    @FXML
-    private void goToDashboard(ActionEvent event) {
-        MapaDemoApp.setRoot("Dashboard");
-    }
-
-    @FXML
-    private void logOut(ActionEvent event) {
-        app.logout();
-        MapaDemoApp.setRoot("Login");
-    }
 
     @javafx.fxml.FXML
     private void addMap(ActionEvent event) {
@@ -208,6 +157,31 @@ public class MapsController implements Initializable, Navigable {
 
     @Override
     public void onNavigate() {
+        User user = app.getCurrentUser();
+        if (user != null) {
+            nicknameLabel.setText(user.getNickName());
+            avatarImage.setImage(user.getAvatar());
+        }
+    }
 
+    @FXML
+    public void handleProfile(ActionEvent actionEvent) {
+        MapaDemoApp.setRoot("Profile");
+    }
+
+    @FXML
+    public void handleLogout(ActionEvent actionEvent) {
+        app.logout();
+        MapaDemoApp.setRoot("Login");
+    }
+
+    @FXML
+    public void handleDashboard(ActionEvent actionEvent) {
+        MapaDemoApp.setRoot("Dashboard");
+    }
+
+    @FXML
+    public void handleActivities(ActionEvent actionEvent) {
+        MapaDemoApp.setRoot("Activities");
     }
 }

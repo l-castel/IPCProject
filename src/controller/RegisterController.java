@@ -187,9 +187,6 @@ public class RegisterController implements Initializable, Navigable {
        imageView.setPreserveRatio(false);
        Circle clip = new Circle(50,50,50);
        imageView.setClip(clip);
-       
-       Image defaultAvatar = new Image(getClass().getResource("/resources/logo.png").toExternalForm());
-       imageView.setImage(defaultAvatar);
     }
 
     public void checkNickname(){

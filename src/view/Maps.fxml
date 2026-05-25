@@ -59,7 +59,7 @@
          <children>
             <ImageView fx:id="logo" fitHeight="67.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../logo-black.png" />
+                  <Image url="@../resources/logo-black.png" />
                </image>
                <VBox.margin>
                   <Insets left="30.0" top="10.0" />

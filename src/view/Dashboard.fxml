@@ -57,7 +57,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <ImageView fitHeight="99.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../Imágenes/Capturas%20de%20pantalla/Screenshot%202026-05-13%20090839.png" />
+                        <Image url="@../resources/logo-black.png" />
                     </image>
                 </ImageView>
             </HBox>

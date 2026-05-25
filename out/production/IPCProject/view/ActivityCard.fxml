@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="card-root" stylesheets="@../view/ActivityCard.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivityCardController">
+   <children>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label fx:id="activityNameLabel" styleClass="card-title" text="Activity name" />
+            <Region HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="editBtn" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleEdit" pickOnBounds="true" preserveRatio="true" styleClass="card-icon-btn">
+               <image>
+                  <Image url="@../resources/edit.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="30.0">
+         <children>
+            <Label fx:id="mapLabel" styleClass="card-stat" text="Map:" />
+            <Label fx:id="avgSpeedLabel" styleClass="card-stat" text="Avg Speed:" />
+            <Label fx:id="distanceLabel" styleClass="card-stat" text="Distance:" />
+            <Label fx:id="elevationLabel" styleClass="card-stat" text="Elevation:" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="deleteLabel" styleClass="card-action-label" />
+            <ImageView fx:id="deletBtn" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#handleDelete" pickOnBounds="true" preserveRatio="true" styleClass="card-icon-btn">
+               <image>
+                  <Image url="@../resources/trash.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@Sidebar.css,@Activities.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController">
+   <left>
+      <VBox prefWidth="220" styleClass="sidebar">
+         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
+            <StackPane>
+               <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
+               <ImageView fx:id="avatarImage" fitHeight="56" fitWidth="56" preserveRatio="false">
+                  <clip><Circle centerX="28" centerY="28" radius="28" /></clip>
+               </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="2">
+               <Label fx:id="nicknameLabel" styleClass="sidebar-name" text="Name" />
+            </VBox>
+         </HBox>
+         <Region prefHeight="1" styleClass="sidebar-separator" />
+         <VBox spacing="0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+            <Button maxWidth="Infinity" onAction="#handleProfile" styleClass="nav-item" text="Profile" />
+            <Button maxWidth="Infinity" styleClass="nav-item-active" text="Activities" />
+            <Button maxWidth="Infinity" onAction="#handleMaps" styleClass="nav-item" text="Maps" />
+            <Button maxWidth="Infinity" onAction="#handleDashboard" styleClass="nav-item" text="Dashboard" />
+         </VBox>
+         <Region VBox.vgrow="ALWAYS" />
+         <Region prefHeight="1" styleClass="sidebar-separator" />
+         <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-item" text="Log out" />
+      </VBox>
+   </left>
+   <center>
+      <VBox spacing="15.0" styleClass="main-content">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+               <children>
+                  <Label styleClass="page-title" text="MY ACTIVITIES" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Button fx:id="addActivityButton" mnemonicParsing="false" onAction="#handleAddActivity" styleClass="btn-add-activity" text="Add activity" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+               </padding>
+            </HBox>
+            <ListView fx:id="activitiesListView" styleClass="activities-list" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+               </VBox.margin>
+            </ListView>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

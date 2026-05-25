@@ -1,0 +1,77 @@
+.hbox-root {
+    -fx-background-color: #000000;
+}
+
+.left-panel {
+    -fx-background-color: #000000;
+}
+
+.right-panel {
+    -fx-background-color: #d9f900;
+    -fx-padding: 60 80 60 80;
+}
+
+.title-label {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'SansSerif';
+    -fx-text-fill: #111111;
+}
+
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-family: 'SansSerif';
+    -fx-text-fill: #111111;
+    -fx-font-weight: bold;
+}
+
+.input-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-padding: 12 18 12 18;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 3);
+    -fx-pref-width: 360;
+    -fx-max-width: 360;
+}
+
+.prompt-label {
+    -fx-font-size: 13px;
+    -fx-font-family: 'SansSerif';
+    -fx-text-fill: #111111;
+}
+
+.register-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #008b8b;
+    -fx-font-size: 13px;
+    -fx-font-family: 'SansSerif';
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.register-link:hover {
+    -fx-text-fill: #006666;
+}
+
+.action-button {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'SansSerif';
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 12 0 12 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);
+}
+
+#feedbackLabel {
+    -fx-font-size: 12px;
+    -fx-text-fill: #e74c3c;
+    -fx-font-family: 'SansSerif';
+}

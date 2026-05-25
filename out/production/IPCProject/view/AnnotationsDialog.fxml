@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+
+<VBox prefWidth="460" spacing="0" style="-fx-background-color: #3a3a3a;              -fx-background-radius: 16px;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AnnotationsController">
+
+    <VBox style="-fx-background-color: #555555;                  -fx-background-radius: 16px 16px 0 0;                  -fx-padding: 22 28 22 28;">
+        <Label style="-fx-text-fill: white;                       -fx-font-size: 28px;                       -fx-font-weight: bold;" text="ANNOTATIONS" />
+    </VBox>
+
+    <VBox spacing="20" style="-fx-padding: 28 28 28 28;">
+
+        <VBox spacing="8">
+            <Label style="-fx-text-fill: white;                           -fx-font-size: 16px;                           -fx-font-weight: bold;" text="Type" />
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <ComboBox fx:id="comboBoxType" prefHeight="44" prefWidth="220" promptText="Select type" style="-fx-background-color: white;                                  -fx-background-radius: 10px;                                  -fx-font-size: 14px;                                  -fx-border-color: transparent;" />
+            </HBox>
+        </VBox>
+
+        <TextArea fx:id="textAnnotation" prefHeight="203.0" prefWidth="370.0" promptText="Enter annotation" style="-fx-background-color: white;                          -fx-background-radius: 12px;                          -fx-font-size: 14px;                          -fx-text-fill: #222222;                          -fx-border-color: transparent;                          -fx-focus-color: transparent;                          -fx-faint-focus-color: transparent;" wrapText="true" />
+
+        <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #555555;                      -fx-background-radius: 10px;                      -fx-padding: 10 18 10 18;">
+            <Label style="-fx-text-fill: white;                           -fx-font-size: 14px;                           -fx-font-weight: bold;" text="Annotation colour" />
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Circle fx:id="circleBlack" radius="18" style="-fx-fill: #111111; -fx-cursor: hand;" />
+            <Circle fx:id="circleRed" radius="18" style="-fx-fill: #e74c3c; -fx-cursor: hand;" />
+            <Circle fx:id="circleBlue" radius="18" style="-fx-fill: #3498db; -fx-cursor: hand;" />
+        </HBox>
+
+        <HBox spacing="16">
+            <Button fx:id="btnCancel" onAction="#handleCancel" prefHeight="52" prefWidth="190" style="-fx-background-color: #c8f020;                            -fx-text-fill: #111111;                            -fx-font-size: 16px;                            -fx-font-weight: bold;                            -fx-background-radius: 28px;                            -fx-cursor: hand;                            -fx-border-color: transparent;" text="Cancel add" />
+            <Button fx:id="btnAddAnnotation" onAction="#handleAddAnnotation" prefHeight="52" prefWidth="220" style="-fx-background-color: #c8f020;                            -fx-text-fill: #111111;                            -fx-font-size: 16px;                            -fx-font-weight: bold;                            -fx-background-radius: 28px;                            -fx-cursor: hand;                            -fx-border-color: transparent;" text="Add Annotation" />
+        </HBox>
+
+    </VBox>
+</VBox>

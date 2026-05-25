@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="root-container" stylesheets="@addMap.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddMapController">
+
+    <Label styleClass="title-label" text="ADD MAP" />
+
+    <HBox spacing="20" styleClass="top-row">
+        <VBox styleClass="field-group">
+            <Label styleClass="field-label" text="Map Name" />
+            <TextField fx:id="name" promptText="Name" styleClass="text-field-green" />
+        </VBox>
+      <VBox prefHeight="0.0" prefWidth="140.0">
+         <children>
+              <Button fx:id="gpxButton" onAction="#GPXUpload" styleClass="btn-solid" text="Upload map" />
+         </children>
+         <HBox.margin>
+            <Insets top="20.0" />
+         </HBox.margin>
+      </VBox>
+    </HBox>
+
+    <HBox spacing="30" styleClass="middle-row">
+
+        <VBox spacing="10" styleClass="coordinates-panel">
+            <Label styleClass="section-label" text="Coordinates" />
+
+            <GridPane hgap="20" vgap="12">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="160" prefWidth="180" />
+                    <ColumnConstraints minWidth="160" prefWidth="180" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+
+                <Label styleClass="coord-label" text="Max Latitude" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                <Label styleClass="coord-label" text="Min Latitude" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <TextField fx:id="maxLatitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="minLatitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label styleClass="coord-label" text="Max Longitud" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+                <Label styleClass="coord-label" text="Min Longitud" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <TextField fx:id="maxLongitud" styleClass="text-field-green" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="minLongitud" styleClass="text-field-green" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+        </VBox>
+    </HBox>
+   <Label fx:id="errorLabel" text="You need to fill all the gaps" textFill="RED" visible="false" />
+
+    <HBox spacing="20" styleClass="button-row">
+        <Button fx:id="cancelButton" onAction="#cancel" styleClass="btn-solid" text="Cancel" />
+      <Button fx:id="addButton" onAction="#add" styleClass="btn-solid" text="Confirm add" />
+    </HBox>
+
+</VBox>

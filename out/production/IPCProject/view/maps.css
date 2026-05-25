@@ -1,0 +1,91 @@
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+.main-content {
+    -fx-background-color: #ffffff;
+}
+
+.page-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a1a;
+}
+
+.btn-add-map {
+    -fx-background-color: #3a3a3a;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-add-map:hover {
+    -fx-background-color: #555555;
+}
+
+.maps-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.maps-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.maps-grid {
+    -fx-background-color: transparent;
+}
+
+.map-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-pref-width: 200px;
+    -fx-pref-height: 240px;
+}
+
+.map-image-area {
+    -fx-background-color: #c8e600;
+    -fx-background-radius: 8 8 0 0;
+    -fx-min-height: 150px;
+    -fx-pref-height: 150px;
+}
+
+.map-card-footer {
+    -fx-padding: 8 10 8 10;
+    -fx-spacing: 4;
+}
+
+.map-card-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a1a;
+}
+
+.map-card-coords {
+    -fx-font-size: 11px;
+    -fx-text-fill: #666666;
+}
+
+.btn-icon {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 2 4 2 4;
+    -fx-text-fill: #555555;
+    -fx-font-size: 13px;
+}
+
+.btn-icon:hover {
+    -fx-text-fill: #1a1a1a;
+}
+
+.btn-delete:hover {
+    -fx-text-fill: #cc0000;
+}

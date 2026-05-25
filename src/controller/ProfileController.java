@@ -342,119 +342,154 @@ public class ProfileController implements Initializable, Navigable {
         validatePassword();
         validateDob();
 
-        if (emailError.isVisible() || passwordError.isVisible() || dobError.isVisible()) {
+        if (hasValidationErrors()) {
             return;
         }
 
+        boolean confirmed = showConfirmationDialog("Save Changes",
+                "Are you sure you want to save the changes?");
+
+        if (confirmed) {
+            if (trySaveProfile()) {
+                loadUserData();
+                saveOriginalValues();
+                setEditMode(false);
+            }
+        } else {
+            restoreOriginalValues();
+            setEditMode(false);
+        }
+    }
+
+    private boolean hasValidationErrors() {
+        return emailError.isVisible() || passwordError.isVisible() || dobError.isVisible();
+    }
+
+    private boolean showConfirmationDialog(String title, String message) {
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initStyle(StageStyle.UNDECORATED);
-        dialogStage.setTitle("Save Changes");
+        dialogStage.setTitle(title);
 
         VBox root = new VBox(20);
         root.setStyle("-fx-background-color: #1a1a1a; -fx-padding: 30; -fx-background-radius: 10;");
         root.setAlignment(javafx.geometry.Pos.CENTER);
         root.setPrefWidth(350);
 
-        Label title = new Label("Save Changes");
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;");
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;");
 
-        Label message = new Label("Are you sure you want to save the changes?");
-        message.setStyle("-fx-text-fill: #bbbbbb; -fx-font-size: 13;");
-        message.setWrapText(true);
-        message.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        Label messageLabel = new Label(message);
+        messageLabel.setStyle("-fx-text-fill: #bbbbbb; -fx-font-size: 13;");
+        messageLabel.setWrapText(true);
+        messageLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
         javafx.scene.control.Separator sep = new javafx.scene.control.Separator();
         sep.setStyle("-fx-background-color: #333333;");
 
-        HBox buttons = new HBox(15);
+        Button confirmBtn = createDialogButton("Save", "#c8f000", "#1a1a1a", true);
+        Button cancelBtn = createDialogButton("Cancel", "#333333", "white", false);
+
+        HBox buttons = new HBox(15, confirmBtn, cancelBtn);
         buttons.setAlignment(javafx.geometry.Pos.CENTER);
 
-        Button confirmBtn = new Button("Save");
-        confirmBtn.setStyle("-fx-background-color: #c8f000; -fx-text-fill: #1a1a1a; "
-                + "-fx-font-weight: bold; -fx-font-size: 13; "
-                + "-fx-padding: 8 25 8 25; -fx-background-radius: 5;");
-
-        Button cancelBtn = new Button("Cancel");
-        cancelBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; "
-                + "-fx-font-size: 13; -fx-padding: 8 25 8 25; -fx-background-radius: 5;");
-
-        buttons.getChildren().addAll(confirmBtn, cancelBtn);
-        root.getChildren().addAll(title, message, sep, buttons);
+        root.getChildren().addAll(titleLabel, messageLabel, sep, buttons);
 
         Scene dialogScene = new Scene(root);
         dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         dialogStage.setScene(dialogScene);
 
+        final boolean[] result = {false};
         confirmBtn.setOnAction(ev -> {
+            result[0] = true;
             dialogStage.close();
-
-            User user = app.getCurrentUser();
-            if (user == null) {
-                return;
-            }
-
-            String email = emailField.getText().trim();
-            String password = passwordField.getText();
-
-            if (!email.isEmpty() && !User.checkEmail(email)) {
-                emailError.setVisible(true);
-                emailError.setManaged(true);
-                return;
-            }
-            if (!password.isEmpty() && !User.checkPassword(password)) {
-                passwordError.setVisible(true);
-                passwordError.setManaged(true);
-                return;
-            }
-
-            LocalDate birthDate = user.getBirthDate();
-            String dayStr = dobDay.getText().trim();
-            String monthStr = dobMonth.getText().trim();
-            String yearStr = dobYear.getText().trim();
-
-            if (!dayStr.isEmpty() && !monthStr.isEmpty() && !yearStr.isEmpty()) {
-                try {
-                    int day = Integer.parseInt(dayStr);
-                    int month = Integer.parseInt(monthStr);
-                    int year = Integer.parseInt(yearStr);
-                    birthDate = LocalDate.of(year, month, day);
-                } catch (Exception e) {
-                    dobError.setVisible(true);
-                    dobError.setManaged(true);
-                    return;
-                }
-
-                if (!User.isOlderThan(birthDate, 12)) {
-                    dobError.setVisible(true);
-                    dobError.setManaged(true);
-                    return;
-                }
-            }
-
-            if (email.isEmpty()) {
-                email = user.getEmail();
-            }
-            if (password.isEmpty()) {
-                password = user.getPassword();
-            }
-
-            String finalAvatar = (avatarPath != null) ? avatarPath : user.getAvatarPath();
-
-            if (app.updateCurrentUser(email, password, birthDate, finalAvatar)) {
-                loadUserData();
-                saveOriginalValues();
-                setEditMode(false);
-            }
         });
-
-        cancelBtn.setOnAction(ev -> {
-            dialogStage.close();
-            restoreOriginalValues();
-            setEditMode(false);
-        });
+        cancelBtn.setOnAction(ev -> dialogStage.close());
 
         dialogStage.showAndWait();
+        return result[0];
+    }
+
+    private Button createDialogButton(String text, String bg, String fg, boolean bold) {
+        String style = String.format(
+                "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: 13; "
+                        + "-fx-padding: 8 25 8 25; -fx-background-radius: 5;", bg, fg);
+        if (bold) {
+            style += " -fx-font-weight: bold;";
+        }
+        Button btn = new Button(text);
+        btn.setStyle(style);
+        return btn;
+    }
+
+    private boolean trySaveProfile() {
+        User user = app.getCurrentUser();
+        if (user == null) {
+            return false;
+        }
+
+        String email = emailField.getText().trim();
+        String password = passwordField.getText();
+
+        if (!email.isEmpty() && !User.checkEmail(email)) {
+            showError(emailError);
+            return false;
+        }
+        if (!password.isEmpty() && !User.checkPassword(password)) {
+            showError(passwordError);
+            return false;
+        }
+
+        LocalDate birthDate = parseBirthDate(user);
+        if (birthDate == null && dobError.isVisible()) {
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            email = user.getEmail();
+        }
+        if (password.isEmpty()) {
+            password = user.getPassword();
+        }
+
+        String finalAvatar = (avatarPath != null) ? avatarPath : user.getAvatarPath();
+
+        return app.updateCurrentUser(email, password, birthDate, finalAvatar);
+    }
+
+    private LocalDate parseBirthDate(User fallbackUser) {
+        String dayStr = dobDay.getText().trim();
+        String monthStr = dobMonth.getText().trim();
+        String yearStr = dobYear.getText().trim();
+
+        if (dayStr.isEmpty() && monthStr.isEmpty() && yearStr.isEmpty()) {
+            return fallbackUser.getBirthDate();
+        }
+
+        if (dayStr.isEmpty() || monthStr.isEmpty() || yearStr.isEmpty()) {
+            return fallbackUser.getBirthDate();
+        }
+
+        try {
+            int day = Integer.parseInt(dayStr);
+            int month = Integer.parseInt(monthStr);
+            int year = Integer.parseInt(yearStr);
+            LocalDate birthDate = LocalDate.of(year, month, day);
+
+            if (!User.isOlderThan(birthDate, 12)) {
+                showError(dobError);
+                return null;
+            }
+            return birthDate;
+        } catch (Exception e) {
+            showError(dobError);
+            return null;
+        }
+    }
+
+    private void showError(Label errorLabel) {
+        errorLabel.setVisible(true);
+        errorLabel.setManaged(true);
     }
 
     @FXML

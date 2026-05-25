@@ -16,43 +16,28 @@
 
 <BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@Sidebar.css,@Activities.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController">
    <left>
-      <VBox alignment="TOP_CENTER" prefWidth="220.0" styleClass="sidebar">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="sidebar-header">
-               <children>
-                  <StackPane>
-                     <children>
-                        <Circle fx:id="avatarCircle" radius="28.0" styleClass="sidebar-avatar" />
-                        <ImageView fx:id="avatarImage" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/logo.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <VBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label fx:id="userNameLabel" styleClass="sidebar-name" text="Name" />
-                        <Label fx:id="userSurnameLabel" styleClass="sidebar-surname" text="Surname" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <VBox spacing="5.0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label fx:id="profileNav" maxWidth="Infinity" onMouseClicked="#handleProfile" styleClass="nav-item" text="Profile" />
-                  <Label fx:id="activitiesNav" maxWidth="Infinity" onMouseClicked="#handleActivities" styleClass="nav-item-active" text="Activities" />
-                  <Label fx:id="mapsNav" maxWidth="Infinity" onMouseClicked="#handleMaps" styleClass="nav-item" text="Maps" />
-                  <Label fx:id="dashboardNav" maxWidth="Infinity" onMouseClicked="#handleDashboard" styleClass="nav-item" text="Dashboard" />
-               </children>
+      <VBox prefWidth="220" styleClass="sidebar">
+         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
+            <StackPane>
+               <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
+               <ImageView fx:id="avatarImage" fitHeight="56" fitWidth="56" preserveRatio="false">
+                  <clip><Circle centerX="28" centerY="28" radius="28" /></clip>
+               </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="2">
+               <Label fx:id="nicknameLabel" styleClass="sidebar-name" text="Name" />
             </VBox>
-            <VBox styleClass="sidebar-footer">
-               <children>
-                  <Separator styleClass="sidebar-separator" />
-                  <Label fx:id="logoutNav" maxWidth="Infinity" onMouseClicked="#handleLogout" styleClass="logout-item" text="Log out" />
-               </children>
-            </VBox>
-         </children>
+         </HBox>
+         <Region prefHeight="1" styleClass="sidebar-separator" />
+         <VBox spacing="0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+            <Button maxWidth="Infinity" onAction="#handleProfile" styleClass="nav-item" text="Profile" />
+            <Button maxWidth="Infinity" styleClass="nav-item-active" text="Activities" />
+            <Button maxWidth="Infinity" onAction="#handleMaps" styleClass="nav-item" text="Maps" />
+            <Button maxWidth="Infinity" onAction="#handleDashboard" styleClass="nav-item" text="Dashboard" />
+         </VBox>
+         <Region VBox.vgrow="ALWAYS" />
+         <Region prefHeight="1" styleClass="sidebar-separator" />
+         <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-item" text="Log out" />
       </VBox>
    </left>
    <center>

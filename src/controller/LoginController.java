@@ -35,7 +35,7 @@ public class LoginController implements Navigable
         String password = passwordField.textProperty().getValue();
         boolean authed = sportsApp.login(username, password);
 
-        if(authed) MapaDemoApp.setRoot("Dashboard");
+        if(authed) {MapaDemoApp.setRoot("Dashboard");}
         else feedbackLabel.textProperty().setValue("Credentials are incorrect, try again.");
     }
 

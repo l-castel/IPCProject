@@ -18,34 +18,27 @@
 
     <left>
         <VBox prefWidth="220" styleClass="sidebar">
-
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="sidebar-header">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
                 <StackPane>
                     <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
                     <ImageView fx:id="avatarImage" fitHeight="56" fitWidth="56" preserveRatio="false">
                         <clip><Circle centerX="28" centerY="28" radius="28" /></clip>
                     </ImageView>
                 </StackPane>
-                <VBox spacing="2">
-                    <Label fx:id="nickname" styleClass="sidebar-name">
-                  <VBox.margin>
-                     <Insets top="20.0" />
-                  </VBox.margin></Label>
+                <VBox alignment="CENTER_LEFT" spacing="2">
+                    <Label fx:id="nicknameLabel" styleClass="sidebar-name" text="Nickname" />
                 </VBox>
             </HBox>
-
-            <VBox spacing="4" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
-                <Button fx:id="profileButton" maxWidth="Infinity" onAction="#goToProfile" styleClass="nav-item" text="Profile" />
-                <Button fx:id="activitiesButton" maxWidth="Infinity" onAction="#goToActivities" styleClass="nav-item" text="Activities" />
-                <Button fx:id="mapsButton" maxWidth="Infinity" onAction="#goToMaps" styleClass="nav-item-active" text="Maps" />
-                <Button fx:id="dashboardButton" maxWidth="Infinity" onAction="#goToDashboard" styleClass="nav-item" text="Dashboard" />
+            <Region prefHeight="1" styleClass="sidebar-separator" />
+            <VBox spacing="0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+                <Button maxWidth="Infinity" onAction="#handleProfile" styleClass="nav-item" text="Profile" />
+                <Button maxWidth="Infinity" onAction="#handleActivities" styleClass="nav-item" text="Activities" />
+                <Button maxWidth="Infinity" styleClass="nav-item-active" text="Maps" />
+                <Button maxWidth="Infinity" onAction="#handleDashboard" styleClass="nav-item" text="Dashboard" />
             </VBox>
-
-            <VBox styleClass="sidebar-footer">
-                <Separator styleClass="sidebar-separator" />
-                <Button fx:id="logoutButton" maxWidth="Infinity" onAction="#logOut" styleClass="logout-item" text="Log out" />
-            </VBox>
-
+            <Region VBox.vgrow="ALWAYS" />
+            <Region prefHeight="1" styleClass="sidebar-separator" />
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-item" text="Log out" />
         </VBox>
     </left>
 

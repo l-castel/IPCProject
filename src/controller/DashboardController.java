@@ -84,12 +84,10 @@ public class DashboardController implements Initializable, Navigable {
     private ScrollPane mapScrollPane;
     
     @FXML
-    private Circle avatarCircle;
+    private ImageView avatarImage;
     
     @FXML
-    private Label labelName;
-    @FXML
-    private Label labelSurname;
+    private Label nicknameLabel;
     @FXML
     private Label lblDuration;
     @FXML
@@ -116,16 +114,7 @@ public class DashboardController implements Initializable, Navigable {
     @FXML
     private Label lblTotLoss;
     
-    @FXML
-    private Button btnProfile;
-    @FXML
-    private Button btnActivities;
-    @FXML
-    private Button btnMaps;
-    @FXML
-    private Button btnDashboard;
-    @FXML
-    private Button btnLogout;
+
     @FXML
     private Button btnSpeedRoute;
     @FXML
@@ -679,6 +668,12 @@ public class DashboardController implements Initializable, Navigable {
     private void handleDashboard(ActionEvent event) {
     }
 
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        app.logout();
+        MapaDemoApp.setRoot("Login");
+    }
+
 
     @FXML
     private void addAnnotationsClick(MouseEvent event) {
@@ -1012,19 +1007,6 @@ public class DashboardController implements Initializable, Navigable {
     }
 
     @FXML
-    private void mapClick(MouseEvent event) {
-    }
-
-    @FXML
-    private void logOutClick(MouseEvent event) {
-    }
-
-    @FXML
-    private void handleLogOut(ActionEvent event) {
-    }
-
-
-    @FXML
     private void selectMapClick(MouseEvent event) {
     }
 
@@ -1100,14 +1082,8 @@ public class DashboardController implements Initializable, Navigable {
     public void onNavigate() {
         User user = app.getCurrentUser();
         if (user != null) {
-            labelName.setText(user.getNickName());
-            labelSurname.setVisible(false);
-            labelSurname.setManaged(false);
-            if (user.getAvatar() != null) {
-                avatarCircle.setFill(new ImagePattern(user.getAvatar()));
-            } else {
-                avatarCircle.setFill(Color.web("#c8f000"));
-            }
+            nicknameLabel.setText(user.getNickName());
+            avatarImage.setImage(user.getAvatar());
         }
     }
 }

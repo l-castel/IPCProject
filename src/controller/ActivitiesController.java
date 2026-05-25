@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -45,17 +46,13 @@ public class ActivitiesController implements Navigable
     @javafx.fxml.FXML
     private Label dashboardNav;
     @javafx.fxml.FXML
-    private Label userNameLabel;
-    @javafx.fxml.FXML
-    private Label userSurnameLabel;
+    private Label nicknameLabel;
     @javafx.fxml.FXML
     private Label logoutNav;
     @javafx.fxml.FXML
     private ListView activitiesListView;
     @javafx.fxml.FXML
     private Label profileNav;
-    @javafx.fxml.FXML
-    private Circle avatarCircle;
     @javafx.fxml.FXML
     private ImageView avatarImage;
 
@@ -96,28 +93,28 @@ public class ActivitiesController implements Navigable
     }
 
     @javafx.fxml.FXML
-    public void handleProfile(Event event) {
+    public void handleProfile(ActionEvent event) {
         MapaDemoApp.setRoot("Profile");
     }
 
     @javafx.fxml.FXML
-    public void handleLogout(Event event) {
+    public void handleLogout(ActionEvent event) {
         sportsApp.logout();
         MapaDemoApp.setRoot("Login");
     }
 
     @javafx.fxml.FXML
-    public void handleDashboard(Event event) {
+    public void handleDashboard(ActionEvent event) {
         MapaDemoApp.setRoot("Dashboard");
     }
 
     @javafx.fxml.FXML
-    public void handleMaps(Event event) {
+    public void handleMaps(ActionEvent event) {
         MapaDemoApp.setRoot("Maps");
     }
 
     @javafx.fxml.FXML
-    public void handleActivities(Event event) {
+    public void handleActivities(ActionEvent event) {
         MapaDemoApp.setRoot("Activities");
     }
 
@@ -133,17 +130,10 @@ public class ActivitiesController implements Navigable
     public void onNavigate() {
         User user = sportsApp.getCurrentUser();
         if (user != null) {
-            userNameLabel.setText(user.getNickName());
-            userSurnameLabel.setVisible(false);
-            userSurnameLabel.setManaged(false);
-            if (user.getAvatar() != null) {
-                avatarCircle.setFill(new ImagePattern(user.getAvatar()));
-                avatarImage.setVisible(false);
-            } else {
-                avatarCircle.setFill(Color.web("#c8f000"));
-                avatarImage.setVisible(true);
-            }
+            nicknameLabel.setText(user.getNickName());
+            avatarImage.setImage(user.getAvatar());
         }
+        data.clear();
         for(Activity act : sportsApp.getUserActivities()){
             data.add(act);
         }

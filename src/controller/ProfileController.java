@@ -26,6 +26,7 @@ import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import java.io.File;
 import javafx.scene.control.Button;
@@ -51,9 +52,6 @@ import javafx.scene.image.ImageView;
  * @author PC
  */
 public class ProfileController implements Initializable, Navigable {
-
-    @FXML
-    private Circle sidebarAvatarCircle;
 
     private String avatarPath;
     @FXML
@@ -86,7 +84,7 @@ public class ProfileController implements Initializable, Navigable {
     @FXML
     private Circle CircleAvatar;
     @FXML
-    private Label sidebarAvatarIcon;
+    private ImageView avatarImage;
     @FXML
     private Button SaveButton;
 
@@ -105,7 +103,7 @@ public class ProfileController implements Initializable, Navigable {
     @FXML
     private Label NicknameLabel;
     @FXML
-    private Label sidebarNicknameLabel;
+    private Label nicknameLabel;
 
 
     /**
@@ -133,7 +131,7 @@ public class ProfileController implements Initializable, Navigable {
         if(user == null) return;
 
         NicknameLabel.setText(user.getNickName());
-        sidebarNicknameLabel.setText(user.getNickName());
+        nicknameLabel.setText(user.getNickName());
 
         emailField.setText(user.getEmail() != null ? user.getEmail() : "");
 
@@ -142,26 +140,21 @@ public class ProfileController implements Initializable, Navigable {
         if(user.getBirthDate() != null) {
             LocalDate bd = user.getBirthDate();
             dobDay.setText(String.format("%02d", bd.getDayOfMonth()));
-            dobMonth.setText(String.format("&02d", bd.getMonthValue()));
+            dobMonth.setText(String.format("%02d", bd.getMonthValue()));
             dobYear.setText(String.valueOf(bd.getYear()));
         }
 
         avatarPath = user.getAvatarPath();
 
-
-
-        if(user.getAvatar() != null) {
-            ImagePattern pattern = new ImagePattern(user.getAvatar());
-
-            sidebarAvatarCircle.setFill(pattern);
-            CircleAvatar.setFill(pattern);
-
+        Image avatar = user.getAvatar();
+        if (avatar != null) {
+            avatarImage.setImage(avatar);
+            CircleAvatar.setFill(new ImagePattern(avatar));
             avatarIcon.setVisible(false);
-            sidebarAvatarIcon.setVisible(false);
-
         } else {
+            avatarImage.setImage(null);
+            CircleAvatar.setFill(Color.web("#c8f000"));
             avatarIcon.setVisible(true);
-            sidebarAvatarIcon.setVisible(true);
         }
 
         loadSessions();
@@ -206,16 +199,13 @@ public class ProfileController implements Initializable, Navigable {
 
         if (avatarPath != null && !avatarPath.isEmpty()) {
             Image img = new Image(new File(avatarPath).toURI().toString());
-            ImagePattern pattern = new ImagePattern(img);
-            sidebarAvatarCircle.setFill(pattern);
-            CircleAvatar.setFill(pattern);
+            avatarImage.setImage(img);
+            CircleAvatar.setFill(new ImagePattern(img));
             avatarIcon.setVisible(false);
-            sidebarAvatarIcon.setVisible(false);
-
         } else {
-            sidebarAvatarCircle.setFill(javafx.scene.paint.Color.web("#c8f000"));
-            CircleAvatar.setFill(javafx.scene.paint.Color.web("#c8f000"));
-
+            avatarImage.setImage(null);
+            CircleAvatar.setFill(Color.web("#c8f000"));
+            avatarIcon.setVisible(true);
         }
     }
 
@@ -338,13 +328,9 @@ public class ProfileController implements Initializable, Navigable {
             avatarPath = file.getAbsolutePath();
 
             Image image = new Image(file.toURI().toString());
-            ImagePattern pattern = new ImagePattern(image);
-
-            sidebarAvatarCircle.setFill(pattern);
-            CircleAvatar.setFill(pattern);
-
+            avatarImage.setImage(image);
+            CircleAvatar.setFill(new ImagePattern(image));
             avatarIcon.setVisible(false);
-            sidebarAvatarIcon.setVisible(false);
 
         }
 
@@ -352,24 +338,12 @@ public class ProfileController implements Initializable, Navigable {
 
     @FXML
     private void handleSave(ActionEvent event) {
+        validateEmail();
+        validatePassword();
+        validateDob();
 
-
-        if(emailError.isVisible() || passwordError.isVisible() || dobError.isVisible()) {
+        if (emailError.isVisible() || passwordError.isVisible() || dobError.isVisible()) {
             return;
-        }
-        LocalDate birthDate;
-
-        try{
-            int day = Integer.parseInt(dobDay.getText());
-            int month = Integer.parseInt(dobMonth.getText());
-            int year  = Integer.parseInt(dobYear.getText());
-
-            birthDate = LocalDate.of(year, month, day);
-        } catch(Exception e) {
-            dobError.setVisible(false);
-            dobError.setVisible(true);
-            User user = app.getCurrentUser();
-            birthDate =  user.getBirthDate();
         }
 
         Stage dialogStage = new Stage();
@@ -397,10 +371,13 @@ public class ProfileController implements Initializable, Navigable {
         buttons.setAlignment(javafx.geometry.Pos.CENTER);
 
         Button confirmBtn = new Button("Save");
-        confirmBtn.setStyle("-fx-background-color: #c8f000; -fx-text-fill: #1a1a1a; " + "-fx-font-weight: bold; -fx-font-size: 13 " + "-fx-padding: 8 25 8 25; -fx-background-radius: 5;");
+        confirmBtn.setStyle("-fx-background-color: #c8f000; -fx-text-fill: #1a1a1a; "
+                + "-fx-font-weight: bold; -fx-font-size: 13; "
+                + "-fx-padding: 8 25 8 25; -fx-background-radius: 5;");
 
         Button cancelBtn = new Button("Cancel");
-        cancelBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; " + "-fx-font.size: 13; -fx-padding: 8 25 8 25; -fx-background.radius: 5;");
+        cancelBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; "
+                + "-fx-font-size: 13; -fx-padding: 8 25 8 25; -fx-background-radius: 5;");
 
         buttons.getChildren().addAll(confirmBtn, cancelBtn);
         root.getChildren().addAll(title, message, sep, buttons);
@@ -409,78 +386,75 @@ public class ProfileController implements Initializable, Navigable {
         dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         dialogStage.setScene(dialogScene);
 
-        final boolean[] confirmed = {false};
-
         confirmBtn.setOnAction(ev -> {
-            confirmed[0] = true;
             dialogStage.close();
+
+            User user = app.getCurrentUser();
+            if (user == null) {
+                return;
+            }
 
             String email = emailField.getText().trim();
             String password = passwordField.getText();
 
-            if(!email.isEmpty() && !User.checkEmail(email)) {
+            if (!email.isEmpty() && !User.checkEmail(email)) {
                 emailError.setVisible(true);
                 emailError.setManaged(true);
                 return;
             }
-
-            if(!password.isEmpty() && !User.checkPassword(password)) {
+            if (!password.isEmpty() && !User.checkPassword(password)) {
                 passwordError.setVisible(true);
                 passwordError.setManaged(true);
                 return;
             }
 
+            LocalDate birthDate = user.getBirthDate();
             String dayStr = dobDay.getText().trim();
             String monthStr = dobMonth.getText().trim();
             String yearStr = dobYear.getText().trim();
 
-            if(!dayStr.isEmpty() && !monthStr.isEmpty() && !yearStr.isEmpty()) {
+            if (!dayStr.isEmpty() && !monthStr.isEmpty() && !yearStr.isEmpty()) {
+                try {
+                    int day = Integer.parseInt(dayStr);
+                    int month = Integer.parseInt(monthStr);
+                    int year = Integer.parseInt(yearStr);
+                    birthDate = LocalDate.of(year, month, day);
+                } catch (Exception e) {
+                    dobError.setVisible(true);
+                    dobError.setManaged(true);
+                    return;
+                }
 
-                if(!User.isOlderThan(birthDate, 12)) {
+                if (!User.isOlderThan(birthDate, 12)) {
                     dobError.setVisible(true);
                     dobError.setManaged(true);
                     return;
                 }
             }
 
-
-            if(password.isEmpty()) {
-                password = app.getCurrentUser().getPassword();
+            if (email.isEmpty()) {
+                email = user.getEmail();
             }
-            if(email.isEmpty()) {
-                email = app.getCurrentUser().getEmail();
+            if (password.isEmpty()) {
+                password = user.getPassword();
             }
 
-            String finalAvatar = (avatarPath != null) ? avatarPath : app.getCurrentUser().getAvatarPath();
+            String finalAvatar = (avatarPath != null) ? avatarPath : user.getAvatarPath();
 
-
-            app.updateCurrentUser(email, password, birthDate, finalAvatar);
-
-            loadUserData();
-            SaveButton.setDisable(true);
-            ChangeAvatar.setDisable(true);
-            emailField.setEditable(false);
-            passwordField.setEditable(false);
-            dobDay.setEditable(false);
-            dobMonth.setEditable(false);
-            dobYear.setEditable(false);
-            hideAllErrors();
-
-            restoreOriginalValues();
-            setEditMode(false);
-
+            if (app.updateCurrentUser(email, password, birthDate, finalAvatar)) {
+                loadUserData();
+                saveOriginalValues();
+                setEditMode(false);
+            }
         });
 
         cancelBtn.setOnAction(ev -> {
-            confirmed[0] = false;
             dialogStage.close();
             restoreOriginalValues();
             setEditMode(false);
         });
 
         dialogStage.showAndWait();
-
-
     }
 
     @FXML
@@ -520,22 +494,22 @@ public class ProfileController implements Initializable, Navigable {
             titleLabel.setStyle("-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #111111; ");
 
             Label durationLabel = new Label("Duration: " + duration);
-            durationLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333;");
+            durationLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label startLabel = new Label("Start: " + session.getStartTime().format(fmt));
-            startLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+            startLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
 
             Label endLabel = new Label("End: " + session.getEndTime().format(fmt));
-            endLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+            endLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
 
             Label importedLabel = new Label("Imported activities: " + session.getImportedActivities());
-            importedLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+            importedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
 
             Label viewedLabel = new Label("Viewed activities: " + session.getViewedActivities());
-            viewedLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+            viewedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
 
             Label annotationsLabel = new Label("Annotations created: " + session.getAnnotationsCreated());
-            annotationsLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+            annotationsLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
 
 
             card.getChildren().addAll(titleLabel, durationLabel, startLabel, endLabel, importedLabel, viewedLabel, annotationsLabel);
@@ -551,26 +525,33 @@ public class ProfileController implements Initializable, Navigable {
 
     @Override
     public void onNavigate() {
-
-
         loadUserData();
         loadSessions();
-
     }
 
     @FXML
-    public void handleDashboard(Event event) {
+    private void handleProfile(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleDashboard(ActionEvent event) {
         MapaDemoApp.setRoot("Dashboard");
     }
 
     @FXML
-    public void handleMaps(Event event) {
+    private void handleMaps(ActionEvent event) {
         MapaDemoApp.setRoot("Maps");
     }
 
     @FXML
-    public void handleActivities(Event event) {
+    private void handleActivities(ActionEvent event) {
         MapaDemoApp.setRoot("Activities");
+    }
+
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        app.logout();
+        MapaDemoApp.setRoot("Login");
     }
 }
         

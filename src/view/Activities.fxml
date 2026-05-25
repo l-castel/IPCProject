@@ -52,7 +52,7 @@
                   <Button fx:id="addActivityButton" mnemonicParsing="false" onAction="#handleAddActivity" styleClass="btn-add-activity" text="Add activity" />
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/logo.png" />
+                        <Image url="@../resources/logo-black.png" />
                      </image>
                   </ImageView>
                </children>

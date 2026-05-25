@@ -2,22 +2,14 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mapademo.MapaDemoApp;
 import mapademo.Navigable;
@@ -26,8 +18,6 @@ import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ActivitiesController implements Navigable
 {
@@ -50,7 +40,7 @@ public class ActivitiesController implements Navigable
     @javafx.fxml.FXML
     private Label logoutNav;
     @javafx.fxml.FXML
-    private ListView activitiesListView;
+    private ListView<Activity> activitiesListView;
     @javafx.fxml.FXML
     private Label profileNav;
     @javafx.fxml.FXML
@@ -67,27 +57,22 @@ public class ActivitiesController implements Navigable
         );
 
         data = activitiesListView.getItems();
-
         activitiesListView.setCellFactory(c -> new ActivityCell(data, activitiesListView));
-
-
-
     }
+
     @javafx.fxml.FXML
     public void handleAddActivity(ActionEvent actionEvent) {
         Stage stage = (Stage) addActivityButton.getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(stage);
-        Activity act = sportsApp.importActivity(selectedFile);
-
-        if(act == null){
-
-        } else{
-            int id = activitiesListView.getSelectionModel().getSelectedIndex();
-            data.add(act);
-
+        if (selectedFile == null) {
+            return;
         }
 
+        Activity act = sportsApp.importActivity(selectedFile);
 
+        if(act != null){
+            data.add(act);
+        }
     }
 
     @javafx.fxml.FXML
@@ -124,12 +109,8 @@ public class ActivitiesController implements Navigable
             nicknameLabel.setText(user.getNickName());
             avatarImage.setImage(user.getAvatar());
         }
-        data.clear();
-        if(activitiesListView.getItems().size() == 0) {
-            for (Activity act : sportsApp.getUserActivities()) {
-                data.add(act);
-            }
-        }
+        data.setAll(sportsApp.getUserActivities());
+        activitiesListView.refresh();
     }
 }
 
@@ -147,19 +128,22 @@ class ActivityCell extends ListCell<Activity> {
     protected void updateItem(Activity item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
+            setText(null);
+            setGraphic(null);
+            return;
+        }
 
-        } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ActivityCard.fxml"));
-
-            VBox card = null;
-            try {
-                card = loader.load();
-                ActivityCardController cardController = loader.getController();
-                cardController.initCard(item, data, listView);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ActivityCard.fxml"));
+        try {
+            Parent card = loader.load();
+            ActivityCardController cardController = loader.getController();
+            cardController.initCard(item, data, listView);
+            setText(null);
             setGraphic(card);
+        } catch (Exception e) {
+            setText(item.getName());
+            setGraphic(null);
+            e.printStackTrace();
         }
     }
 

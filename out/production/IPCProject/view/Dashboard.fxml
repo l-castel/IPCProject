@@ -19,10 +19,10 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" styleClass="root-pane" stylesheets="@Sidebar.css,@DashboardStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+<BorderPane styleClass="root-pane" stylesheets="@Sidebar.css,@DashboardStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
 
     <left>
-        <VBox prefWidth="220" styleClass="sidebar">
+        <VBox styleClass="sidebar">
             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
                 <StackPane>
                     <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
@@ -47,162 +47,159 @@
         </VBox>
     </left>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <center>
-        <VBox styleClass="main-content">
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dashboard-scroll">
+            <content>
+                <VBox styleClass="main-content">
 
-            <!-- Title bar -->
-            <HBox alignment="CENTER_LEFT" styleClass="title-bar">
-                <Label styleClass="title-label" text="DASHBOARD" />
-                <Region HBox.hgrow="ALWAYS" />
-                <ImageView fitHeight="99.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../resources/logo-black.png" />
-                    </image>
-                </ImageView>
-            </HBox>
-
-            <!-- Two-column body -->
-            <HBox spacing="24" styleClass="body-container" VBox.vgrow="ALWAYS">
-
-                <!-- ── LEFT: Map panel ── -->
-                <VBox spacing="0" styleClass="map-panel">
-                    <HBox prefHeight="44.0" prefWidth="444.0">
-                        <children>
-                            <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" prefHeight="37.0" prefWidth="174.0" styleClass="action-button" text="Add Annotations" />
-                            <Region prefHeight="59.0" prefWidth="193.0" />
-                            <Button fx:id="btnSelectActivity" onAction="#handleSelectActivity" onMouseClicked="#selectMapClick" prefHeight="37.0" prefWidth="147.0" styleClass="action-button" text="Select activity" />
-                        </children>
+                    <HBox alignment="CENTER_LEFT" styleClass="title-bar">
+                        <Label styleClass="title-label" text="DASHBOARD" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <ImageView fitHeight="80" fitWidth="90" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/logo-black.png" />
+                            </image>
+                        </ImageView>
                     </HBox>
 
-                    <!-- Map toolbar -->
-                    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="map-toolbar">
-                        <Label prefHeight="17.0" prefWidth="74.0" text="   Zoom">
-                            <font>
-                                <Font name="System Bold" size="13.0" />
-                            </font>
-                        </Label>
-                        <Button fx:id="btnZoomOut" mnemonicParsing="false" text="-">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Button>
-                        <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="263.0" />
-                        <Button fx:id="btnZoomIn" mnemonicParsing="false" text="+">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Button>
-                    </HBox>
+                    <HBox alignment="TOP_LEFT" fillHeight="true" spacing="24" styleClass="body-container" VBox.vgrow="ALWAYS">
 
-                    <!-- Map area -->
-                    <ScrollPane fx:id="mapScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="474.0" prefWidth="445.0" styleClass="map-scroll">
-                        <content>
-                            <StackPane fx:id="mapContainer" prefHeight="150.0" prefWidth="200.0">
+                        <VBox maxWidth="Infinity" minWidth="380" spacing="12" styleClass="map-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
                                 <children>
-                                    <ImageView fx:id="mapImageView" fitHeight="590.0" fitWidth="872.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../maps/calderona.jpg" />
-                                        </image>
-                                    </ImageView>
-                                    <Pane fx:id="annotationsPane" pickOnBounds="false" prefHeight="564.0" prefWidth="745.0" />
+                                    <Button fx:id="btnAddAnnotations" onAction="#diagAddAnnotations" onMouseClicked="#addAnnotationsClick" styleClass="action-button" text="Add Annotations" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="btnSelectActivity" onAction="#handleSelectActivity" onMouseClicked="#selectMapClick" styleClass="action-button" text="Select activity" />
                                 </children>
-                            </StackPane>
-                        </content>
-                    </ScrollPane>
-                </VBox>
+                            </HBox>
 
-                <!-- ── RIGHT: Stats + buttons + chart ── -->
-                <VBox spacing="16" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="map-toolbar">
+                                <Label text="   Zoom">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Label>
+                                <Button fx:id="btnZoomOut" mnemonicParsing="false" text="-">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Button>
+                                <Slider fx:id="zoomSlider" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnZoomIn" mnemonicParsing="false" text="+">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Button>
+                            </HBox>
 
-                    <!-- Statistics panel -->
-                    <VBox spacing="0" styleClass="stats-panel">
-                        <Label styleClass="stats-title" text="Statistics" />
+                            <ScrollPane fx:id="mapScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" styleClass="map-scroll" VBox.vgrow="ALWAYS">
+                                <content>
+                                    <StackPane fx:id="mapContainer" minHeight="360">
+                                        <children>
+                                            <ImageView fx:id="mapImageView" fitHeight="400" fitWidth="600" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../maps/calderona.jpg" />
+                                                </image>
+                                            </ImageView>
+                                            <Pane fx:id="annotationsPane" pickOnBounds="false" />
+                                        </children>
+                                    </StackPane>
+                                </content>
+                            </ScrollPane>
+                        </VBox>
 
-                        <GridPane hgap="20" vgap="5">
-                            <columnConstraints>
-                                <ColumnConstraints prefWidth="155" />
-                                <ColumnConstraints prefWidth="155" />
-                            </columnConstraints>
+                        <VBox maxWidth="380" minWidth="280" prefWidth="340" spacing="16" VBox.vgrow="ALWAYS">
 
-                            <Label styleClass="stat-label" text="Duration:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                            <Label fx:id="lblDuration" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <VBox spacing="0" styleClass="stats-panel">
+                                <Label styleClass="stats-title" text="Statistics" />
 
-                            <Label styleClass="stat-label" text="Distance:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                            <Label fx:id="lblDistance" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <GridPane hgap="20" vgap="5">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="80" prefWidth="155" hgrow="SOMETIMES" />
+                                        <ColumnConstraints minWidth="80" prefWidth="155" hgrow="SOMETIMES" />
+                                    </columnConstraints>
 
-                            <Label styleClass="stat-label" text="Average pace:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                            <Label fx:id="lblAvgPace" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label styleClass="stat-label" text="Duration:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <Label fx:id="lblDuration" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                            <Label styleClass="stat-label" text="Average speed:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                            <Label fx:id="lblAvgSpeed" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label styleClass="stat-label" text="Distance:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <Label fx:id="lblDistance" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                            <Label styleClass="stat-label" text="Max altitude:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                            <Label fx:id="lblMaxAltitude" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label styleClass="stat-label" text="Average pace:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <Label fx:id="lblAvgPace" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                            <Label styleClass="stat-label" text="Min altitude:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                            <Label fx:id="lblMinAltitude" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label styleClass="stat-label" text="Average speed:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                    <Label fx:id="lblAvgSpeed" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                            <Label styleClass="stat-label" text="Max elevation:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                            <Label fx:id="lblMaxElevation" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label styleClass="stat-label" text="Max altitude:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                    <Label fx:id="lblMaxAltitude" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                            <Label styleClass="stat-label" text="Min elevation:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                            <Label fx:id="lblMinElevation" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                            <rowConstraints>
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                            </rowConstraints>
-                        </GridPane>
-                    </VBox>
+                                    <Label styleClass="stat-label" text="Min altitude:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                    <Label fx:id="lblMinAltitude" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                    <!-- Speed / Elevation profile buttons inside lime panel -->
-                    <HBox spacing="14" styleClass="chart-buttons-panel">
-                        <Button fx:id="btnSpeedRoute" onAction="#handleSpeedOverRoute" onMouseClicked="#speedOverRouteClick" prefHeight="28.0" prefWidth="175.0" styleClass="chart-button" text="Speed over the route" />
+                                    <Label styleClass="stat-label" text="Max elevation:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                    <Label fx:id="lblMaxElevation" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                    <Label styleClass="stat-label" text="Min elevation:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                    <Label fx:id="lblMinElevation" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                </GridPane>
+                            </VBox>
+
+                            <HBox spacing="14" styleClass="chart-buttons-panel">
+                                <Button fx:id="btnSpeedRoute" maxWidth="Infinity" onAction="#handleSpeedOverRoute" onMouseClicked="#speedOverRouteClick" styleClass="chart-button" text="Speed over the route" wrapText="true" HBox.hgrow="ALWAYS" />
+                            </HBox>
+
+                            <VBox fx:id="elevationChartBox" minHeight="240" prefHeight="260" styleClass="elevation-chart" VBox.vgrow="ALWAYS">
+                                <StackPane fx:id="elevationCanvasContainer" VBox.vgrow="ALWAYS">
+                                    <Canvas fx:id="elevationCanvas" height="300" width="360" />
+                                </StackPane>
+                            </VBox>
+
+                            <VBox spacing="0" styleClass="stats-panel">
+                                <Label styleClass="stats-title" text="Cumulative Totals" />
+
+                                <GridPane hgap="20" vgap="5">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="80" prefWidth="155" hgrow="SOMETIMES" />
+                                        <ColumnConstraints minWidth="80" prefWidth="155" hgrow="SOMETIMES" />
+                                    </columnConstraints>
+
+                                    <Label styleClass="stat-label" text="Total time:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <Label fx:id="lblTotTime" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                    <Label styleClass="stat-label" text="Total distance:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <Label fx:id="lblTotDist" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                    <Label styleClass="stat-label" text="Total ascent:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <Label fx:id="lblTotGain" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                    <Label styleClass="stat-label" text="Total descent:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                    <Label fx:id="lblTotLoss" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                </GridPane>
+                            </VBox>
+                        </VBox>
                     </HBox>
-
-                    <!-- Elevation chart inside lime-bordered panel -->
-                    <VBox prefWidth="380" prefHeight="320" styleClass="elevation-chart">
-                        <Canvas fx:id="elevationCanvas" width="360" height="300" />
-                    </VBox>
-
-                    <VBox spacing="0" styleClass="stats-panel">
-                        <Label styleClass="stats-title" text="Cumulative Totals" />
-
-                        <GridPane hgap="20" vgap="5">
-                            <columnConstraints>
-                                <ColumnConstraints prefWidth="155" />
-                                <ColumnConstraints prefWidth="155" />
-                            </columnConstraints>
-
-                            <Label styleClass="stat-label" text="Total time:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                            <Label fx:id="lblTotTime" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                            <Label styleClass="stat-label" text="Total distance:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                            <Label fx:id="lblTotDist" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                            <Label styleClass="stat-label" text="Total ascent:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                            <Label fx:id="lblTotGain" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                            <Label styleClass="stat-label" text="Total descent:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                            <Label fx:id="lblTotLoss" styleClass="stat-value" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                            <rowConstraints>
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                            </rowConstraints>
-                        </GridPane>
-                    </VBox>
-
                 </VBox>
-            </HBox>
-        </VBox>
+            </content>
+        </ScrollPane>
     </center>
 
 </BorderPane>

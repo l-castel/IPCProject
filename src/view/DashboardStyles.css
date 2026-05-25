@@ -5,6 +5,16 @@
     -fx-background-color: white;
 }
 
+.dashboard-scroll {
+    -fx-background: white;
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.dashboard-scroll .viewport {
+    -fx-background-color: white;
+}
+
 .title-bar {
     -fx-padding: 28 40 20 40;
 }

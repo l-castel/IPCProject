@@ -119,7 +119,11 @@ public class DashboardController implements Initializable, Navigable {
     private Button btnSpeedRoute;
     @FXML
     private Canvas elevationCanvas;
-    
+    @FXML
+    private VBox elevationChartBox;
+    @FXML
+    private StackPane elevationCanvasContainer;
+
     @FXML
     private StackPane mapContainer;
     @FXML
@@ -161,10 +165,9 @@ public class DashboardController implements Initializable, Navigable {
      * Initializes the controller class*/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         btnAddAnnotations.setOnAction(this::diagAddAnnotations);
         btnSelectActivity.setOnAction(this::handleSelectActivity);
-        
+
         elevationCanvas.setOnMouseMoved(this::handleElevationMouseMoved);
         elevationCanvas.setOnMouseExited(this::handleElevationMouseExited);
 
@@ -188,7 +191,17 @@ public class DashboardController implements Initializable, Navigable {
         }
         
         updateCumulativeStats();
-    
+
+        if (elevationCanvasContainer != null) {
+            elevationCanvas.widthProperty().bind(elevationCanvasContainer.widthProperty());
+            elevationCanvas.heightProperty().bind(elevationCanvasContainer.heightProperty());
+            elevationCanvas.widthProperty().addListener((obs, oldVal, newVal) -> {
+                if (currentActivity != null) drawElevationProfile();
+            });
+            elevationCanvas.heightProperty().addListener((obs, oldVal, newVal) -> {
+                if (currentActivity != null) drawElevationProfile();
+            });
+        }
     }
     
     private void zoom(double scaleValue){

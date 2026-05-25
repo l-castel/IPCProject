@@ -119,6 +119,11 @@ public class ProfileController implements Initializable, Navigable {
 
         app = SportActivityApp.getInstance();
 
+        ScrollPane.viewportBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            double wrapLength = Math.max(280, newBounds.getWidth() - 48);
+            FlowPane.setPrefWrapLength(wrapLength);
+        });
+
         setEditMode(false);
 
 
@@ -507,7 +512,10 @@ public class ProfileController implements Initializable, Navigable {
         FlowPane.getChildren().clear();
         FlowPane.setHgap(12);
         FlowPane.setVgap(12);
-        FlowPane.setPrefWrapLength(760);
+        double wrapLength = ScrollPane.getViewportBounds().getWidth() > 0
+                ? Math.max(280, ScrollPane.getViewportBounds().getWidth() - 48)
+                : 760;
+        FlowPane.setPrefWrapLength(wrapLength);
         FlowPane.setMaxWidth(Double.MAX_VALUE);
         FlowPane.setStyle("-fx-background-color: #c8f000; -fx-padding: 16; -fx-background-radius: 10;");
 
@@ -608,6 +616,3 @@ public class ProfileController implements Initializable, Navigable {
         MapaDemoApp.setRoot("Login");
     }
 }
-        
-        
-        

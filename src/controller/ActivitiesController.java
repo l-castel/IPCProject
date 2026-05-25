@@ -83,9 +83,7 @@ public class ActivitiesController implements Navigable
 
         } else{
             int id = activitiesListView.getSelectionModel().getSelectedIndex();
-            if(id == -1){
-                data.add(0, act);
-            } else data.add(id, act);
+            data.add(act);
 
         }
 
@@ -118,13 +116,6 @@ public class ActivitiesController implements Navigable
         MapaDemoApp.setRoot("Activities");
     }
 
-    @Deprecated
-    public void handleEdit(Event event) {
-    }
-
-    @Deprecated
-    public void handleDelete(Event event) {
-    }
 
     @Override
     public void onNavigate() {
@@ -134,8 +125,10 @@ public class ActivitiesController implements Navigable
             avatarImage.setImage(user.getAvatar());
         }
         data.clear();
-        for(Activity act : sportsApp.getUserActivities()){
-            data.add(act);
+        if(activitiesListView.getItems().size() == 0) {
+            for (Activity act : sportsApp.getUserActivities()) {
+                data.add(act);
+            }
         }
     }
 }

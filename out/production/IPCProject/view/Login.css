@@ -2,13 +2,23 @@
     -fx-background-color: #000000;
 }
 
+.login-scroll {
+    -fx-background: #000000;
+    -fx-background-color: #000000;
+}
+
+.login-scroll .viewport {
+    -fx-background-color: #000000;
+}
+
 .left-panel {
     -fx-background-color: #000000;
+    -fx-padding: 48 40 48 40;
 }
 
 .right-panel {
     -fx-background-color: #d9f900;
-    -fx-padding: 60 80 60 80;
+    -fx-padding: 48 48 48 48;
 }
 
 .title-label {

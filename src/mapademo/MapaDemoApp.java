@@ -7,9 +7,10 @@ package mapademo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import upv.ipc.sportlib.SportActivityApp;
 
@@ -83,16 +84,25 @@ public class MapaDemoApp extends Application {
         router.put("Profile", root);
         controllers.put("Profile", loader.getController());
 
-        scene = new Scene(router.get("Login"), 1920, 1080);
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        double initialWidth = visualBounds.getWidth();
+        double initialHeight = visualBounds.getHeight();
+        double minWidth = Math.min(960, visualBounds.getWidth());
+        double minHeight = Math.min(680, visualBounds.getHeight());
+
+        scene = new Scene(router.get("Login"), initialWidth, initialHeight);
         
 
 
         // 3. Attach scene to stage and configure
         stage.setTitle("ProyectoIPC");
         stage.setScene(scene);
+        stage.setMinWidth(minWidth);
+        stage.setMinHeight(minHeight);
         stage.setOnCloseRequest(e -> SportActivityApp.getInstance().logout());
 
         // 4. Display the window
+        stage.centerOnScreen();
         stage.show();
 
 

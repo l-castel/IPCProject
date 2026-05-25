@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,10 +13,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="550" prefWidth="800" stylesheets="@Sidebar.css,@maps.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapsController">
+<BorderPane stylesheets="@Sidebar.css,@maps.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapsController">
 
     <left>
-        <VBox prefWidth="220" styleClass="sidebar">
+        <VBox styleClass="sidebar">
             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
                 <StackPane>
                     <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
@@ -49,29 +48,17 @@
             <HBox alignment="CENTER_LEFT" spacing="15">
                 <Label styleClass="page-title" text="MAPS" />
                 <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="addButton" onAction="#addMap" styleClass="btn-add-map" text="Add map" />
+                <Button fx:id="deleteButton" onAction="#deleteMap" styleClass="btn-add-map" text="Delete" />
+                <ImageView fx:id="logo" fitHeight="67.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../resources/logo-black.png" />
+                    </image>
+                </ImageView>
             </HBox>
-         <ListView fx:id="mapsList" prefHeight="427.0" prefWidth="441.0" />
 
+            <ListView fx:id="mapsList" VBox.vgrow="ALWAYS" />
         </VBox>
     </center>
-   <right>
-      <VBox prefHeight="503.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fx:id="logo" fitHeight="67.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/logo-black.png" />
-               </image>
-               <VBox.margin>
-                  <Insets left="30.0" top="10.0" />
-               </VBox.margin>
-            </ImageView>
-                <Button fx:id="addButton" onAction="#addMap" styleClass="btn-add-map" text="Add map" />
-            <Button fx:id="deleteButton" onAction="#deleteMap" styleClass="btn-add-map" text="Delete" />
-         </children>
-         <BorderPane.margin>
-            <Insets right="20.0" />
-         </BorderPane.margin>
-      </VBox>
-   </right>
 
 </BorderPane>

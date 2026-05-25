@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox prefHeight="840" prefWidth="1300" styleClass="hbox-root" stylesheets="@Login.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<HBox fillHeight="true" styleClass="hbox-root" stylesheets="@Login.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
 
-    <VBox alignment="CENTER" styleClass="left-panel" HBox.hgrow="ALWAYS">
+    <VBox alignment="CENTER" maxWidth="Infinity" styleClass="left-panel" HBox.hgrow="ALWAYS">
         <ImageView fitHeight="380" fitWidth="380" preserveRatio="true">
             <image>
                 <Image url="@../resources/logo.png" />
@@ -19,7 +19,7 @@
         </ImageView>
     </VBox>
 
-    <VBox alignment="CENTER" spacing="20.0" styleClass="right-panel" HBox.hgrow="ALWAYS">
+    <VBox alignment="CENTER" maxWidth="Infinity" spacing="20.0" styleClass="right-panel" HBox.hgrow="ALWAYS">
 
         <Label styleClass="title-label" text="LOGIN" />
 

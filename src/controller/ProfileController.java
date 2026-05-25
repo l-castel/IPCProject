@@ -5,6 +5,8 @@
 package controller;
 
 import java.net.URL;
+
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 
+import mapademo.MapaDemoApp;
 import mapademo.Navigable;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
@@ -103,13 +106,13 @@ public class ProfileController implements Initializable, Navigable {
     private Label NicknameLabel;
     @FXML
     private Label sidebarNicknameLabel;
-    @FXML
 
 
     /**
      *
      * Initializes the controller class.
      */
+    @Deprecated
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MouseScroll();
@@ -365,7 +368,8 @@ public class ProfileController implements Initializable, Navigable {
         } catch(Exception e) {
             dobError.setVisible(false);
             dobError.setVisible(true);
-            return;
+            User user = app.getCurrentUser();
+            birthDate =  user.getBirthDate();
         }
 
         Stage dialogStage = new Stage();
@@ -446,7 +450,6 @@ public class ProfileController implements Initializable, Navigable {
             if(email.isEmpty()) {
                 email = app.getCurrentUser().getEmail();
             }
-
 
             String finalAvatar = (avatarPath != null) ? avatarPath : app.getCurrentUser().getAvatarPath();
 
@@ -553,6 +556,21 @@ public class ProfileController implements Initializable, Navigable {
         loadUserData();
         loadSessions();
 
+    }
+
+    @FXML
+    public void handleDashboard(Event event) {
+        MapaDemoApp.setRoot("Dashboard");
+    }
+
+    @FXML
+    public void handleMaps(Event event) {
+        MapaDemoApp.setRoot("Maps");
+    }
+
+    @FXML
+    public void handleActivities(Event event) {
+        MapaDemoApp.setRoot("Activities");
     }
 }
         

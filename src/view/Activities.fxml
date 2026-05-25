@@ -14,16 +14,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../view/Activities.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@Sidebar.css,@Activities.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActivitiesController">
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="220.0" styleClass="sidebar">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="sidebar-user">
+            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="sidebar-header">
                <children>
                   <StackPane>
                      <children>
-                        <Circle radius="28.0" styleClass="avatar-circle" />
-                        <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                        <Circle fx:id="avatarCircle" radius="28.0" styleClass="sidebar-avatar" />
+                        <ImageView fx:id="avatarImage" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/logo.png" />
                            </image>
@@ -37,29 +37,20 @@
                      </children>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="30.0" />
-               </padding>
             </HBox>
-            <VBox spacing="5.0" styleClass="nav-menu" VBox.vgrow="ALWAYS">
+            <VBox spacing="5.0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="profileNav" maxWidth="Infinity" onMouseClicked="#handleProfile" styleClass="nav-item" text="Profile" />
-                  <Label fx:id="activitiesNav" maxWidth="Infinity" onMouseClicked="#handleActivities" styleClass="nav-item,nav-item-active" text="Activities" />
+                  <Label fx:id="activitiesNav" maxWidth="Infinity" onMouseClicked="#handleActivities" styleClass="nav-item-active" text="Activities" />
                   <Label fx:id="mapsNav" maxWidth="Infinity" onMouseClicked="#handleMaps" styleClass="nav-item" text="Maps" />
                   <Label fx:id="dashboardNav" maxWidth="Infinity" onMouseClicked="#handleDashboard" styleClass="nav-item" text="Dashboard" />
                </children>
-               <padding>
-                  <Insets top="30.0" />
-               </padding>
             </VBox>
             <VBox styleClass="sidebar-footer">
                <children>
                   <Separator styleClass="sidebar-separator" />
-                  <Label fx:id="logoutNav" maxWidth="Infinity" onMouseClicked="#handleLogout" styleClass="nav-item,logout-item" text="Log out" />
+                  <Label fx:id="logoutNav" maxWidth="Infinity" onMouseClicked="#handleLogout" styleClass="logout-item" text="Log out" />
                </children>
-               <padding>
-                  <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </VBox>
          </children>
       </VBox>

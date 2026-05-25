@@ -19,35 +19,35 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="540.0" prefWidth="830.0" stylesheets="@ProfileStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
+<BorderPane prefHeight="540.0" prefWidth="830.0" stylesheets="@Sidebar.css,@ProfileStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
 
     <left>
-        <VBox prefWidth="180.0" styleClass="sidebar">
+        <VBox prefWidth="220.0" styleClass="sidebar">
 
             <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-header">
                 <StackPane>
-                    <Circle fx:id="sidebarAvatarCircle" fill="#c8f000" radius="28.0" />
+                    <Circle fx:id="sidebarAvatarCircle" fill="#c8f000" radius="28.0" styleClass="sidebar-avatar" />
                     <Label fx:id="sidebarAvatarIcon" text="👤" />
                 </StackPane>
                 <VBox alignment="CENTER" spacing="2.0">
-                    <Label fx:id="sidebarNicknameLabel" text="Nickname" />
+                    <Label fx:id="sidebarNicknameLabel" styleClass="sidebar-name" text="Nickname" />
                 </VBox>
             </HBox>
 
             <AnchorPane prefHeight="1.0" styleClass="sidebar-separator" />
 
-            <VBox spacing="0.0" VBox.vgrow="ALWAYS">
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-active" text="Profile" />
+            <VBox spacing="0.0" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="nav-item-active" text="Profile" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Activities" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="nav-item" text="Activities" onMouseClicked="#handleActivities" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Map" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="nav-item" text="Maps" onMouseClicked="#handleMaps" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Dashboard" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="nav-item" text="Dashboard"  onMouseClicked="#handleDashboard"/>
             </VBox>
 
             <AnchorPane prefHeight="1.0" styleClass="sidebar-separator" />
-            <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="sidebar-menu-item" text="Log out" />
+            <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="logout-item" text="Log out" />
 
         </VBox>
     </left>

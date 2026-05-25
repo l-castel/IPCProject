@@ -1,0 +1,82 @@
+.sidebar {
+    -fx-background-color: #1a1a1a;
+    -fx-min-width: 220px;
+    -fx-pref-width: 220px;
+}
+
+.sidebar-header {
+    -fx-padding: 20 15 20 15;
+}
+
+.sidebar-avatar {
+    -fx-fill: #c8f000;
+}
+
+.sidebar-name {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-surname {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 12px;
+}
+
+.sidebar-separator {
+    -fx-background-color: #333333;
+    -fx-pref-height: 1px;
+    -fx-max-height: 1px;
+}
+
+.sidebar-nav {
+    -fx-padding: 10 0 10 0;
+}
+
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.nav-item:hover {
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: #ffffff;
+}
+
+.nav-item-active {
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.sidebar-footer {
+    -fx-padding: 10 0 10 0;
+}
+
+.logout-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 6;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.logout-item:hover {
+    -fx-text-fill: #ff4444;
+    -fx-background-color: #2e2e2e;
+}

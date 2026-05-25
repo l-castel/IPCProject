@@ -10,7 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,11 +22,11 @@ import mapademo.MapaDemoApp;
 import mapademo.Navigable;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
+import upv.ipc.sportlib.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ActivitiesController implements Navigable
 {
@@ -50,6 +54,10 @@ public class ActivitiesController implements Navigable
     private ListView activitiesListView;
     @javafx.fxml.FXML
     private Label profileNav;
+    @javafx.fxml.FXML
+    private Circle avatarCircle;
+    @javafx.fxml.FXML
+    private ImageView avatarImage;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -61,11 +69,9 @@ public class ActivitiesController implements Navigable
                 new FileChooser.ExtensionFilter("GPX files", "*.gpx")
         );
 
-
-        List<Activity> actitivities = sportsApp.getUserActivities();
-        activitiesListView.setCellFactory(c -> new ActivityCell(data, activitiesListView));
-
         data = activitiesListView.getItems();
+
+        activitiesListView.setCellFactory(c -> new ActivityCell(data, activitiesListView));
 
 
 
@@ -125,44 +131,56 @@ public class ActivitiesController implements Navigable
 
     @Override
     public void onNavigate() {
-        for(Activity act : sportsApp.getUserActivities()) {
-            System.out.println("Act: " + act);
+        User user = sportsApp.getCurrentUser();
+        if (user != null) {
+            userNameLabel.setText(user.getNickName());
+            userSurnameLabel.setVisible(false);
+            userSurnameLabel.setManaged(false);
+            if (user.getAvatar() != null) {
+                avatarCircle.setFill(new ImagePattern(user.getAvatar()));
+                avatarImage.setVisible(false);
+            } else {
+                avatarCircle.setFill(Color.web("#c8f000"));
+                avatarImage.setVisible(true);
+            }
+        }
+        for(Activity act : sportsApp.getUserActivities()){
             data.add(act);
         }
     }
 }
 
-    class ActivityCell extends ListCell<Activity> {
+class ActivityCell extends ListCell<Activity> {
 
-        ObservableList<Activity> data;
-        ListView<Activity> listView;
+    ObservableList<Activity> data;
+    ListView<Activity> listView;
 
-        public ActivityCell(ObservableList<Activity> data, ListView<Activity> listView){
-            this.data = data;
-            this.listView = listView;
-        }
-
-        @Override
-        protected void updateItem(Activity item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-
-            } else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ActivityCard.fxml"));
-
-                VBox card = null;
-                try {
-                    card = loader.load();
-                    ActivityCardController cardController = loader.getController();
-                    cardController.initCard(item, data, listView);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                // populate labels via loader.getNamespace() or a mini-controller
-                // set alternating background based on getIndex()
-                setGraphic(card);
-            }
-        }
-
-
+    public ActivityCell(ObservableList<Activity> data, ListView<Activity> listView){
+        this.data = data;
+        this.listView = listView;
     }
+
+    @Override
+    protected void updateItem(Activity item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ActivityCard.fxml"));
+
+            VBox card = null;
+            try {
+                card = loader.load();
+                ActivityCardController cardController = loader.getController();
+                cardController.initCard(item, data, listView);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setGraphic(card);
+        }
+    }
+
+
+
+
+}

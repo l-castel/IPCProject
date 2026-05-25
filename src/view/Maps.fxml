@@ -14,15 +14,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="550" prefWidth="800" stylesheets="@../view/maps.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapsController">
+<BorderPane prefHeight="550" prefWidth="800" stylesheets="@Sidebar.css,@maps.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapsController">
 
     <left>
-        <VBox prefWidth="175" styleClass="sidebar">
+        <VBox prefWidth="220" styleClass="sidebar">
 
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="sidebar-user">
-                <padding><Insets bottom="20" left="15" right="15" top="20" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="sidebar-header">
                 <StackPane>
-                    <Circle fx:id="avatarCircle" radius="28" styleClass="avatar-circle" />
+                    <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
                     <ImageView fx:id="avatarImage" fitHeight="56" fitWidth="56" preserveRatio="false">
                         <clip><Circle centerX="28" centerY="28" radius="28" /></clip>
                     </ImageView>
@@ -35,18 +34,16 @@
                 </VBox>
             </HBox>
 
-            <VBox spacing="4" styleClass="nav-menu" VBox.vgrow="ALWAYS">
-                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-                <Button fx:id="profileButton" maxWidth="Infinity" onAction="#goToProfile" styleClass="nav-btn" text="Profile" />
-                <Button fx:id="activitiesButton" maxWidth="Infinity" onAction="#goToActivities" styleClass="nav-btn" text="Activities" />
-                <Button fx:id="mapsButton" maxWidth="Infinity" onAction="#goToMaps" styleClass="nav-btn,nav-btn-active" text="Maps" />
-                <Button fx:id="dashboardButton" maxWidth="Infinity" onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+            <VBox spacing="4" styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+                <Button fx:id="profileButton" maxWidth="Infinity" onAction="#goToProfile" styleClass="nav-item" text="Profile" />
+                <Button fx:id="activitiesButton" maxWidth="Infinity" onAction="#goToActivities" styleClass="nav-item" text="Activities" />
+                <Button fx:id="mapsButton" maxWidth="Infinity" onAction="#goToMaps" styleClass="nav-item-active" text="Maps" />
+                <Button fx:id="dashboardButton" maxWidth="Infinity" onAction="#goToDashboard" styleClass="nav-item" text="Dashboard" />
             </VBox>
 
             <VBox styleClass="sidebar-footer">
-                <padding><Insets bottom="20" left="10" right="10" top="10" /></padding>
                 <Separator styleClass="sidebar-separator" />
-                <Button fx:id="logoutButton" maxWidth="Infinity" onAction="#logOut" styleClass="nav-btn,logout-btn" text="Log out" />
+                <Button fx:id="logoutButton" maxWidth="Infinity" onAction="#logOut" styleClass="logout-item" text="Log out" />
             </VBox>
 
         </VBox>

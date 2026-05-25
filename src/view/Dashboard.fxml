@@ -19,40 +19,40 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" styleClass="root-pane" stylesheets="@DashboardStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" styleClass="root-pane" stylesheets="@Sidebar.css,@DashboardStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
 
     <!-- ===== LEFT SIDEBAR ===== -->
     <left>
-        <VBox prefWidth="240" styleClass="sidebar">
+        <VBox prefWidth="220" styleClass="sidebar">
 
             <!-- User header -->
-            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="user-header">
-                <Circle fx:id="avatarCircle" radius="32" styleClass="avatar" />
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="sidebar-header">
+                <Circle fx:id="avatarCircle" radius="28" styleClass="sidebar-avatar" />
                 <VBox spacing="2">
-                    <Label fx:id="labelName" styleClass="user-name" text="Name" />
-                    <Label fx:id="labelSurname" styleClass="user-surname" text="Surname" />
+                    <Label fx:id="labelName" styleClass="sidebar-name" text="Name" />
+                    <Label fx:id="labelSurname" styleClass="sidebar-surname" text="Surname" />
                 </VBox>
             </HBox>
 
             <!-- Separator -->
-            <Region prefHeight="1" styleClass="separator" />
+            <Region prefHeight="1" styleClass="sidebar-separator" />
 
             <!-- Nav buttons — plain, no icons -->
-            <VBox spacing="0" styleClass="nav-container">
+            <VBox spacing="0" styleClass="sidebar-nav">
 
-                <Button fx:id="btnProfile" onAction="#handleProfile" onMouseClicked="#profileClick" prefHeight="48" prefWidth="240" styleClass="nav-button" text="Profile" />
+                <Button fx:id="btnProfile" onAction="#handleProfile" onMouseClicked="#profileClick" maxWidth="Infinity" styleClass="nav-item" text="Profile" />
 
-                <Button fx:id="btnActivities" onAction="#handleActivities" onMouseClicked="#activitiesClick" prefHeight="48" prefWidth="240" styleClass="nav-button" text="Activities" />
+                <Button fx:id="btnActivities" onAction="#handleActivities" onMouseClicked="#activitiesClick" maxWidth="Infinity" styleClass="nav-item" text="Activities" />
 
-                <Button fx:id="btnMaps" onAction="#handleMaps" onMouseClicked="#mapClick" prefHeight="48" prefWidth="240" styleClass="nav-button" text="Map" />
+                <Button fx:id="btnMaps" onAction="#handleMaps" onMouseClicked="#mapClick" maxWidth="Infinity" styleClass="nav-item" text="Map" />
 
-                <Button fx:id="btnDashboard" onAction="#handleDashboard" prefHeight="48" prefWidth="240" styleClass="nav-button-active" text="Dashboard" />
+                <Button fx:id="btnDashboard" onAction="#handleDashboard" maxWidth="Infinity" styleClass="nav-item-active" text="Dashboard" />
             </VBox>
 
             <Region VBox.vgrow="ALWAYS" />
-            <Region prefHeight="1" styleClass="separator" />
+            <Region prefHeight="1" styleClass="sidebar-separator" />
 
-            <Button fx:id="btnLogout" onAction="#handleLogOut" onMouseClicked="#logOutClick" prefHeight="48" prefWidth="240" styleClass="nav-button" text="Log out" />
+            <Button fx:id="btnLogout" onAction="#handleLogOut" onMouseClicked="#logOutClick" maxWidth="Infinity" styleClass="logout-item" text="Log out" />
         </VBox>
     </left>
 

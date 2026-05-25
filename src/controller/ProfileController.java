@@ -500,62 +500,81 @@ public class ProfileController implements Initializable, Navigable {
 
     private void loadSessions() {
         User user = app.getCurrentUser();
-        if(user == null) return;
+        if (user == null) {
+            return;
+        }
 
         FlowPane.getChildren().clear();
         FlowPane.setHgap(12);
         FlowPane.setVgap(12);
         FlowPane.setPrefWrapLength(760);
+        FlowPane.setMaxWidth(Double.MAX_VALUE);
         FlowPane.setStyle("-fx-background-color: #c8f000; -fx-padding: 16; -fx-background-radius: 10;");
-
-
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         List<Session> sessions = app.getSessionsByUser(user);
 
-        for(int i = 0; i < sessions.size(); i++) {
-            Session session = sessions.get(i);
+        if (sessions == null || sessions.isEmpty()) {
+            Label emptyLabel = new Label("No session history yet.");
+            emptyLabel.setStyle("-fx-font-size: 13; -fx-text-fill: #333333;");
+            FlowPane.getChildren().add(emptyLabel);
+            return;
+        }
 
-            long totalSeconds = (long) session.getDuration().getSeconds();
-            long hours = totalSeconds / 3600;
-            long minutes = (totalSeconds % 3600) / 60;
-            String duration = hours + "h " + minutes + "min ";
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (int i = 0; i < sessions.size(); i++) {
+            Session session = sessions.get(i);
+            if (session == null) {
+                continue;
+            }
+
+            String duration = formatDuration(session.getDuration());
 
             VBox card = new VBox(6);
             card.setStyle("-fx-background-color: #d4f535; -fx-background-radius: 8; -fx-padding: 14;");
             card.setPrefWidth(220);
 
             Label titleLabel = new Label("Session " + (i + 1));
-            titleLabel.setStyle("-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #111111; ");
+            titleLabel.setStyle("-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #111111;");
 
             Label durationLabel = new Label("Duration: " + duration);
             durationLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label startLabel = new Label("Start: " + session.getStartTime().format(fmt));
-            startLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
+            startLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label endLabel = new Label("End: " + session.getEndTime().format(fmt));
-            endLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
+            endLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label importedLabel = new Label("Imported activities: " + session.getImportedActivities());
-            importedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
+            importedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label viewedLabel = new Label("Viewed activities: " + session.getViewedActivities());
-            viewedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
+            viewedLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
             Label annotationsLabel = new Label("Annotations created: " + session.getAnnotationsCreated());
-            annotationsLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333; ");
+            annotationsLabel.setStyle("-fx-font-size: 11; -fx-text-fill: #333333;");
 
-
-            card.getChildren().addAll(titleLabel, durationLabel, startLabel, endLabel, importedLabel, viewedLabel, annotationsLabel);
-
+            card.getChildren().addAll(titleLabel, durationLabel, startLabel, endLabel,
+                    importedLabel, viewedLabel, annotationsLabel);
             FlowPane.getChildren().add(card);
-            FlowPane.setMaxWidth(Double.MAX_VALUE);
-
-
         }
+    }
 
-
+    private String formatDuration(java.time.Duration duration) {
+        if (duration == null) {
+            return "—";
+        }
+        long totalSeconds = duration.getSeconds();
+        if (totalSeconds < 60) {
+            return "< 1 min";
+        }
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        if (hours > 0) {
+            return hours + "h " + minutes + "min";
+        }
+        return minutes + "min";
     }
 
     @Override

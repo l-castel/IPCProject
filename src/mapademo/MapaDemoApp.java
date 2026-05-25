@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import upv.ipc.sportlib.SportActivityApp;
 
 import java.util.HashMap;
 
@@ -89,6 +90,7 @@ public class MapaDemoApp extends Application {
         // 3. Attach scene to stage and configure
         stage.setTitle("ProyectoIPC");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> SportActivityApp.getInstance().logout());
 
         // 4. Display the window
         stage.show();

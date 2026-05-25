@@ -24,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.util.converter.LocalDateStringConverter;
+import mapademo.Navigable;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import upv.ipc.sportlib.MapRegion;
@@ -56,7 +57,7 @@ import java.util.Optional;
  *
  * @author laura
  */
-public class MapsController implements Initializable {
+public class MapsController implements Initializable, Navigable {
 
     @FXML
     private Circle avatarCircle;
@@ -203,5 +204,10 @@ public class MapsController implements Initializable {
     private void reloadList(){
         map.clear();
         map.addAll(app.getMapRegions());
+    }
+
+    @Override
+    public void onNavigate() {
+
     }
 }

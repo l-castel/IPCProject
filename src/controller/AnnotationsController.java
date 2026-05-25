@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import mapademo.Navigable;
 
 
 /**
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author marti
  */
-public class AnnotationsController implements Initializable {
+public class AnnotationsController implements Initializable, Navigable {
 
     @FXML
     private ComboBox<String> comboBoxType;
@@ -91,5 +92,9 @@ public class AnnotationsController implements Initializable {
     public String getSelectedType(){
         return selectedType;
     }
-    
+
+    @Override
+    public void onNavigate() {
+
+    }
 }

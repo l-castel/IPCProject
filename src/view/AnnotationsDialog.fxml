@@ -9,26 +9,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<!--
-    AnnotationsDialog.fxml
-    Shown as a popup/dialog when the user clicks "Add Annotations" on the Dashboard.
-    Load with FXMLLoader and display inside a Stage with StageStyle.UNDECORATED,
-    or embed in a StackPane overlay on top of the main scene.
-
-    Controller: controller.AnnotationsController
--->
 
 <VBox prefWidth="460" spacing="0" style="-fx-background-color: #3a3a3a;              -fx-background-radius: 16px;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AnnotationsController">
 
-    <!-- ── Header bar (darker grey + title) ── -->
     <VBox style="-fx-background-color: #555555;                  -fx-background-radius: 16px 16px 0 0;                  -fx-padding: 22 28 22 28;">
         <Label style="-fx-text-fill: white;                       -fx-font-size: 28px;                       -fx-font-weight: bold;" text="ANNOTATIONS" />
     </VBox>
 
-    <!-- ── Body ── -->
     <VBox spacing="20" style="-fx-padding: 28 28 28 28;">
 
-        <!-- Type label + field + list button -->
         <VBox spacing="8">
             <Label style="-fx-text-fill: white;                           -fx-font-size: 16px;                           -fx-font-weight: bold;" text="Type" />
             <HBox alignment="CENTER_LEFT" spacing="10">
@@ -36,23 +25,17 @@
             </HBox>
         </VBox>
 
-        <!-- Annotation text area -->
         <TextArea fx:id="textAnnotation" prefHeight="203.0" prefWidth="370.0" promptText="Enter annotation" style="-fx-background-color: white;                          -fx-background-radius: 12px;                          -fx-font-size: 14px;                          -fx-text-fill: #222222;                          -fx-border-color: transparent;                          -fx-focus-color: transparent;                          -fx-faint-focus-color: transparent;" wrapText="true" />
 
-        <!-- Annotation colour row -->
         <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #555555;                      -fx-background-radius: 10px;                      -fx-padding: 10 18 10 18;">
             <Label style="-fx-text-fill: white;                           -fx-font-size: 14px;                           -fx-font-weight: bold;" text="Annotation colour" />
             <Region HBox.hgrow="ALWAYS" />
 
-            <!-- Black -->
             <Circle fx:id="circleBlack" radius="18" style="-fx-fill: #111111; -fx-cursor: hand;" />
-            <!-- Red -->
             <Circle fx:id="circleRed" radius="18" style="-fx-fill: #e74c3c; -fx-cursor: hand;" />
-            <!-- Blue -->
             <Circle fx:id="circleBlue" radius="18" style="-fx-fill: #3498db; -fx-cursor: hand;" />
         </HBox>
 
-        <!-- Buttons row -->
         <HBox spacing="16">
             <Button fx:id="btnCancel" onAction="#handleCancel" prefHeight="52" prefWidth="190" style="-fx-background-color: #c8f020;                            -fx-text-fill: #111111;                            -fx-font-size: 16px;                            -fx-font-weight: bold;                            -fx-background-radius: 28px;                            -fx-cursor: hand;                            -fx-border-color: transparent;" text="Cancel add" />
             <Button fx:id="btnAddAnnotation" onAction="#handleAddAnnotation" prefHeight="52" prefWidth="220" style="-fx-background-color: #c8f020;                            -fx-text-fill: #111111;                            -fx-font-size: 16px;                            -fx-font-weight: bold;                            -fx-background-radius: 28px;                            -fx-cursor: hand;                            -fx-border-color: transparent;" text="Add Annotation" />

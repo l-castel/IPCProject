@@ -19,13 +19,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="540.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ProfileController">
+<BorderPane prefHeight="540.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
 
-    <!-- ===== LEFT SIDEBAR ===== -->
     <left>
         <VBox prefWidth="180.0" style="-fx-background-color: #1a1a1a;">
 
-            <!-- User avatar + name at top -->
             <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 20 15 20 15;">
                 <StackPane>
                     <Circle fx:id="sidebarAvatarCircle" fill="#c8f000" radius="28.0" />
@@ -36,56 +34,44 @@
                 </VBox>
             </HBox>
 
-            <!-- Separator line -->
             <AnchorPane prefHeight="1.0" style="-fx-background-color: #333333;" />
 
-            <!-- Nav items -->
             <VBox spacing="0.0" VBox.vgrow="ALWAYS">
-                <!-- Profile (selected) -->
                 <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Profile" />
 
-                <!-- Activities -->
                 <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Activities" />
 
-                <!-- Map -->
                 <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Map" />
 
-                <!-- Dashboard -->
                 <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Dashboard" />
             </VBox>
 
-            <!-- Separator + Log out -->
             <AnchorPane prefHeight="1.0" style="-fx-background-color: #333333;" />
             <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Log out" />
 
         </VBox>
     </left>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <center>
         <ScrollPane fx:id="ScrollPane" fitToWidth="true" style="-fx-background-color: white; -fx-background: white;">
             <content>
                 <VBox spacing="0.0" style="-fx-background-color: white; -fx-padding: 25 30 30 30;">
 
-                    <!-- TOP: Avatar + Name + sport icon -->
                     <HBox alignment="CENTER_LEFT" spacing="18.0">
                         <VBox.margin>
                             <Insets bottom="20.0" />
                         </VBox.margin>
 
-                        <!-- Avatar circle -->
                         <StackPane>
                             <Circle fx:id="CircleAvatar" fill="#c8f000" radius="40.0" />
                             <Label fx:id="avatarIcon" style="-fx-text-fill: #1a1a1a; -fx-font-size: 32;" text="👤" />
                         </StackPane>
 
-                        <!-- Name + Change Avatar button -->
                         <VBox alignment="CENTER_LEFT" spacing="6.0">
                             <Label fx:id="NicknameLabel" style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Nickname" />
                             <Button fx:id="ChangeAvatar" disable="true" mnemonicParsing="false" onAction="#handleChangeAvatar" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 11; -fx-padding: 4 10 4 10; -fx-background-radius: 4;" text="Change Avatar" />
                         </VBox>
 
-                        <!-- Spacer -->
                         <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="EditButton" mnemonicParsing="false" onAction="#handleEdit" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 11;" text="Edit">
@@ -105,14 +91,12 @@
                      </children></HBox>
                     </HBox>
 
-                    <!-- PROFILE INFORMATION SECTION -->
                     <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Profile information">
                         <VBox.margin>
                             <Insets bottom="12.0" />
                         </VBox.margin>
                     </Label>
 
-                    <!-- Form grid: Email | Telephone, Password | Date of birth -->
                     <GridPane hgap="20.0" vgap="14.0">
                         <VBox.margin>
                             <Insets bottom="25.0" />
@@ -126,7 +110,6 @@
                             <RowConstraints />
                         </rowConstraints>
 
-                        <!-- ROW 0: Email -->
                         <VBox spacing="3.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Email:" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
@@ -135,12 +118,10 @@
                             <Label fx:id="emailError" style="-fx-text-fill: #cc3300; -fx-font-size: 10;" text="invalid email" />
                         </VBox>
 
-                        <!-- ROW 0: Telephone -->
                         <VBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <HBox alignment="CENTER_LEFT" spacing="6.0" />
                         </VBox>
 
-                        <!-- ROW 1: Password -->
                         <VBox spacing="3.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Password:" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
@@ -149,7 +130,6 @@
                             <Label fx:id="passwordError" style="-fx-text-fill: #cc3300; -fx-font-size: 10;" text="invalid password" />
                         </VBox>
 
-                        <!-- ROW 1: Date of birth -->
                         <VBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Date of birth:" translateY="-25.0" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
@@ -163,14 +143,12 @@
 
                     </GridPane>
 
-                    <!-- SESSION HISTORY SECTION -->
                     <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Session history">
                         <VBox.margin>
                             <Insets bottom="12.0" />
                         </VBox.margin>
                     </Label>
 
-                    <!-- Session cards row -->
                     <HBox spacing="16.0" style="-fx-background-color: #c8f000; -fx-background-radius: 10; -fx-padding: 16;">
                   <children>
                      <ScrollPane fitToWidth="true">

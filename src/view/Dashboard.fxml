@@ -173,12 +173,11 @@
                     <!-- Speed / Elevation profile buttons inside lime panel -->
                     <HBox spacing="14" styleClass="chart-buttons-panel">
                         <Button fx:id="btnSpeedRoute" onAction="#handleSpeedOverRoute" onMouseClicked="#speedOverRouteClick" prefHeight="28.0" prefWidth="175.0" styleClass="chart-button" text="Speed over the route" />
-                        <Button fx:id="btnElevationProfile" onAction="#handleElevationProfile" onMouseClicked="#elevationProfileClick" prefHeight="28.0" prefWidth="168.0" styleClass="chart-button" text="Elevation profile" />
                     </HBox>
 
                     <!-- Elevation chart inside lime-bordered panel -->
-                    <VBox styleClass="elevation-chart" VBox.vgrow="ALWAYS">
-                        <Canvas fx:id="elevationCanvas" height="210" width="360" />
+                    <VBox prefWidth="380" prefHeight="320" styleClass="elevation-chart">
+                        <Canvas fx:id="elevationCanvas" width="360" height="300" />
                     </VBox>
 
                     <VBox spacing="0" styleClass="stats-panel">

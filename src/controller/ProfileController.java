@@ -16,39 +16,49 @@ import javafx.scene.input.ScrollEvent;
 
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 
+import mapademo.Navigable;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import java.io.File;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import java.util.Optional;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.scene.control.ListCell;
+import javafx.collections.FXCollections;
+import java.time.Duration;
+import upv.ipc.sportlib.Session;
+import java.time.format.DateTimeFormatter;
+import javafx.scene.layout.FlowPane;
+import java.util.List;
+import javafx.scene.image.ImageView;
+
 
 /**
  * FXML Controller class
  *
  * @author PC
  */
-public class ProfileController implements Initializable {
+public class ProfileController implements Initializable, Navigable {
 
     @FXML
     private Circle sidebarAvatarCircle;
-    
+
     private String avatarPath;
     @FXML
     private TextField emailField;
     @FXML
     private Label emailError;
-    @FXML
-    private TextField phoneField;
-    @FXML
-    private Label phoneError;
+
+
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -63,12 +73,12 @@ public class ProfileController implements Initializable {
     private Label dobError;
     @FXML
     private ScrollPane ScrollPane;
-    
+
     private static final double SCROLL_SPEED = 0.003;
 
     @FXML
     private Label avatarIcon;
-    
+
     private SportActivityApp app;
     @FXML
     private Circle CircleAvatar;
@@ -76,9 +86,8 @@ public class ProfileController implements Initializable {
     private Label sidebarAvatarIcon;
     @FXML
     private Button SaveButton;
-    
+
     private String originalEmail;
-    private String originalPhone;
     private String originalPassword;
     private String originalDobDay;
     private String originalDobMonth;
@@ -88,10 +97,17 @@ public class ProfileController implements Initializable {
     private Button ChangeAvatar;
     @FXML
     private Button EditButton;
-    
-    
+    @FXML
+    private FlowPane FlowPane;
+    @FXML
+    private Label NicknameLabel;
+    @FXML
+    private Label sidebarNicknameLabel;
+    @FXML
+
+
     /**
-     * 
+     *
      * Initializes the controller class.
      */
     @Override
@@ -99,113 +115,113 @@ public class ProfileController implements Initializable {
         MouseScroll();
         setUpValidations();
         hideAllErrors();
-        
+
         app = SportActivityApp.getInstance();
         loadUserData();
-        
+
         setEditMode(false);
-        
-      
-        
+
+
+
     }
-        
-        
-        private void loadUserData() {
+
+
+    private void loadUserData() {
         User user = app.getCurrentUser();
         if(user == null) return;
-        
+
+        NicknameLabel.setText(user.getNickName());
+        sidebarNicknameLabel.setText(user.getNickName());
+
         emailField.setText(user.getEmail() != null ? user.getEmail() : "");
-        phoneField.setText("");
+
         passwordField.setText(user.getPassword() != null ? user.getPassword() : "");
-        
+
         if(user.getBirthDate() != null) {
             LocalDate bd = user.getBirthDate();
             dobDay.setText(String.format("%02d", bd.getDayOfMonth()));
             dobMonth.setText(String.format("&02d", bd.getMonthValue()));
             dobYear.setText(String.valueOf(bd.getYear()));
         }
-        
-        avatarPath = user.getAvatarPath();
-        
-        
-            
-            if(user.getAvatar() != null) {
-                ImagePattern pattern = new ImagePattern(user.getAvatar());
-                
-                sidebarAvatarCircle.setFill(pattern);
-                CircleAvatar.setFill(pattern);
-                
-                avatarIcon.setVisible(false);
-                sidebarAvatarIcon.setVisible(false);
-                
-            } else {
-                avatarIcon.setVisible(true);
-                sidebarAvatarIcon.setVisible(true);
-            }
-           
-    }
-    
-        private void setEditMode(boolean editing) {
-            emailField.setEditable(editing);
-            phoneField.setEditable(editing);
-            passwordField.setEditable(editing);
-            dobDay.setEditable(editing);
-            dobMonth.setEditable(editing);
-            dobYear.setEditable(editing);
-            ChangeAvatar.setDisable(!editing);
-            SaveButton.setDisable(!editing);
-            
-            String disabledStyle = "-fx-background-color: #c8f000; -fx.opacity: 0.6;";
-            String enabledStyle = "-fx-background-color: #c8f000; -fx.opacity: 1.0;";
-            String fieldStyle = editing ? enabledStyle : disabledStyle;
-            
-            emailField.setStyle(fieldStyle);
-            phoneField.setStyle(fieldStyle);
-            passwordField.setStyle(fieldStyle);
-            
-            if(!editing) hideAllErrors();
-            
-        }
-        
-        private void saveOriginalValues() {
-            originalEmail = emailField.getText();
-            originalPhone = phoneField.getText();
-            originalPassword = passwordField.getText();
-            originalDobDay = dobDay.getText();
-            originalDobMonth = dobMonth.getText();
-            originalDobYear = dobYear.getText();
-            originalAvatarPath = avatarPath;
-        }
-        
-        private void restoreOriginalValues() {
-            emailField.setText(originalEmail);
-            phoneField.setText(originalPhone);
-            passwordField.setText(originalPassword);
-            dobDay.setText(originalDobDay);
-            dobMonth.setText(originalDobMonth);
-            dobYear.setText(originalDobYear);
-            avatarPath = originalAvatarPath;
 
-            if (avatarPath != null && !avatarPath.isEmpty()) {
-                Image img = new Image(new File(avatarPath).toURI().toString());
-                ImagePattern pattern = new ImagePattern(img);
-                sidebarAvatarCircle.setFill(pattern);
-                CircleAvatar.setFill(pattern);
-                avatarIcon.setVisible(false);
-                sidebarAvatarIcon.setVisible(false);
-                
-            } else {
-                sidebarAvatarCircle.setFill(javafx.scene.paint.Color.web("#c8f000"));
-                CircleAvatar.setFill(javafx.scene.paint.Color.web("#c8f000"));
-                
-            }
+        avatarPath = user.getAvatarPath();
+
+
+
+        if(user.getAvatar() != null) {
+            ImagePattern pattern = new ImagePattern(user.getAvatar());
+
+            sidebarAvatarCircle.setFill(pattern);
+            CircleAvatar.setFill(pattern);
+
+            avatarIcon.setVisible(false);
+            sidebarAvatarIcon.setVisible(false);
+
+        } else {
+            avatarIcon.setVisible(true);
+            sidebarAvatarIcon.setVisible(true);
         }
-       
-        
-   
-        
-       
-    
+
+        loadSessions();
+    }
+
+    private void setEditMode(boolean editing) {
+        emailField.setEditable(editing);
+        passwordField.setEditable(editing);
+        dobDay.setEditable(editing);
+        dobMonth.setEditable(editing);
+        dobYear.setEditable(editing);
+        ChangeAvatar.setDisable(!editing);
+        SaveButton.setDisable(!editing);
+
+        String disabledStyle = "-fx-background-color: #c8f000; -fx-opacity: 0.6;";
+        String enabledStyle = "-fx-background-color: #c8f000; -fx-opacity: 1.0;";
+        String fieldStyle = editing ? enabledStyle : disabledStyle;
+
+        emailField.setStyle(fieldStyle);
+        passwordField.setStyle(fieldStyle);
+
+        if(!editing) hideAllErrors();
+
+    }
+
+    private void saveOriginalValues() {
+        originalEmail = emailField.getText();
+        originalPassword = passwordField.getText();
+        originalDobDay = dobDay.getText();
+        originalDobMonth = dobMonth.getText();
+        originalDobYear = dobYear.getText();
+        originalAvatarPath = avatarPath;
+    }
+
+    private void restoreOriginalValues() {
+        emailField.setText(originalEmail);
+        passwordField.setText(originalPassword);
+        dobDay.setText(originalDobDay);
+        dobMonth.setText(originalDobMonth);
+        dobYear.setText(originalDobYear);
+        avatarPath = originalAvatarPath;
+
+        if (avatarPath != null && !avatarPath.isEmpty()) {
+            Image img = new Image(new File(avatarPath).toURI().toString());
+            ImagePattern pattern = new ImagePattern(img);
+            sidebarAvatarCircle.setFill(pattern);
+            CircleAvatar.setFill(pattern);
+            avatarIcon.setVisible(false);
+            sidebarAvatarIcon.setVisible(false);
+
+        } else {
+            sidebarAvatarCircle.setFill(javafx.scene.paint.Color.web("#c8f000"));
+            CircleAvatar.setFill(javafx.scene.paint.Color.web("#c8f000"));
+
+        }
+    }
+
+
+
+
+
+
     private void MouseScroll() {
         ScrollPane.setOnMouseEntered(event -> ScrollPane.requestFocus());
 
@@ -216,207 +232,253 @@ public class ProfileController implements Initializable {
             event.consume();
         });
     }
-    
+
     private void hideAllErrors() {
         emailError.setVisible(false);
         emailError.setManaged(false);
-        
+
         passwordError.setVisible(false);
         passwordError.setManaged(false);
-        
-        phoneError.setVisible(false);
-        phoneError.setManaged(false);
-        
+
         dobError.setVisible(false);
         dobError.setManaged(false);
     }
-    
+
     private void setUpValidations() {
-        
+
         emailField.setOnAction(e -> validateEmail());
         passwordField.setOnAction(e -> validatePassword());
-        phoneField.setOnAction(e -> validatePhone());
         dobDay.setOnAction(e -> validateDob());
         dobMonth.setOnAction(e -> validateDob());
         dobYear.setOnAction(e -> validateDob());
-            
+
 
         dobDay.textProperty().addListener((obs, oldValue, newValue) -> {
             if(!newValue.matches("\\d*")) dobDay.setText(newValue.replaceAll("[^\\d]",""));
             if(newValue.length() > 2) dobDay.setText(newValue.substring(0, 2));
         });
-        
+
         dobMonth.textProperty().addListener((obs, oldValue, newValue) -> {
             if(!newValue.matches("\\d*")) dobMonth.setText(newValue.replaceAll("[^\\d]", ""));
             if (newValue.length() > 2)   dobMonth.setText(newValue.substring(0,2));
         });
-        
+
         dobYear.textProperty().addListener((obs, oldValue, newValue) -> {
             if(!newValue.matches("\\d*")) dobYear.setText(newValue.replaceAll("[^\\d]",""));
             if(newValue.length() > 4) dobYear.setText(newValue.substring(0, 4));
         });
     }
-    
-private void validateEmail() {
-    
-    boolean valid = User.checkEmail(emailField.getText().trim());
-    emailError.setVisible(!valid);
-    emailError.setManaged(!valid);
-}
 
-private void validatePassword() {
-    String text = passwordField.getText();
-    if(text.isEmpty()) {
-    passwordError.setVisible(false);
-    passwordError.setManaged(false);
-    return;
-  }
-    boolean valid = User.checkPassword(text);
-    passwordError.setVisible(!valid);
-    passwordError.setManaged(!valid);
-}
+    private void validateEmail() {
 
-private void validatePhone() {
-    String text = phoneField.getText().trim();
-    boolean valid = text.isEmpty() || text.replaceAll("\\s", "").matches("\\+34\\d{9}");
-    phoneError.setVisible(!valid);
-    phoneError.setManaged(!valid);
-    
-}
-private void validateDob() {
-    String dayStr = dobDay.getText().trim();
-    String monStr = dobMonth.getText().trim();
-    String yearStr = dobYear.getText().trim();
-    
-    if(dayStr.isEmpty() || monStr.isEmpty() || yearStr.isEmpty()) {
-        dobError.setVisible(false);
-        dobError.setManaged(false);
-        return;
+        boolean valid = User.checkEmail(emailField.getText().trim());
+        emailError.setVisible(!valid);
+        emailError.setManaged(!valid);
     }
-    
-    try {
-        
-        int day = Integer.parseInt(dayStr);
-        int month = Integer.parseInt(monStr);
-        int year = Integer.parseInt(yearStr);
-        
-        LocalDate birthDate = LocalDate.of(year, month, day);
-       
-        
-        boolean valid = User.isOlderThan(birthDate, 12);
-        dobError.setVisible(!valid);
-        dobError.setManaged(!valid);
-        
-        
-    } catch (Exception e) {
-        dobError.setVisible(true);
-        dobError.setManaged(true);
+
+    private void validatePassword() {
+        String text = passwordField.getText();
+        if(text.isEmpty()) {
+            passwordError.setVisible(false);
+            passwordError.setManaged(false);
+            return;
+        }
+        boolean valid = User.checkPassword(text);
+        passwordError.setVisible(!valid);
+        passwordError.setManaged(!valid);
     }
-    
-}
+
+
+    private void validateDob() {
+        String dayStr = dobDay.getText().trim();
+        String monStr = dobMonth.getText().trim();
+        String yearStr = dobYear.getText().trim();
+
+        if(dayStr.isEmpty() || monStr.isEmpty() || yearStr.isEmpty()) {
+            dobError.setVisible(false);
+            dobError.setManaged(false);
+            return;
+        }
+
+        try {
+
+            int day = Integer.parseInt(dayStr);
+            int month = Integer.parseInt(monStr);
+            int year = Integer.parseInt(yearStr);
+
+            LocalDate birthDate = LocalDate.of(year, month, day);
+
+
+            boolean valid = User.isOlderThan(birthDate, 12);
+            dobError.setVisible(!valid);
+            dobError.setManaged(!valid);
+
+
+        } catch (Exception e) {
+            dobError.setVisible(true);
+            dobError.setManaged(true);
+        }
+
+    }
 
     @FXML
     private void handleChangeAvatar(ActionEvent event) {
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Avatar");
-        
+
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
-        
+
         File file = fileChooser.showOpenDialog(null);
-        
+
         if(file!=null) {
-            
+
             avatarPath = file.getAbsolutePath();
-            
+
             Image image = new Image(file.toURI().toString());
             ImagePattern pattern = new ImagePattern(image);
-            
+
             sidebarAvatarCircle.setFill(pattern);
             CircleAvatar.setFill(pattern);
-            
+
             avatarIcon.setVisible(false);
             sidebarAvatarIcon.setVisible(false);
-            
+
         }
-        
-        }
+
+    }
 
     @FXML
     private void handleSave(ActionEvent event) {
-        validateEmail();
-        validatePassword();
-        validatePhone();
-        validateDob();
-        
-        if(emailError.isVisible() || passwordError.isVisible() || phoneError.isVisible() || dobError.isVisible()) {
+
+
+        if(emailError.isVisible() || passwordError.isVisible() || dobError.isVisible()) {
             return;
         }
         LocalDate birthDate;
-        
+
         try{
             int day = Integer.parseInt(dobDay.getText());
             int month = Integer.parseInt(dobMonth.getText());
             int year  = Integer.parseInt(dobYear.getText());
-            
+
             birthDate = LocalDate.of(year, month, day);
         } catch(Exception e) {
             dobError.setVisible(false);
             dobError.setVisible(true);
             return;
         }
-        
-        
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        
-        alert.setTitle("Save Changes");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure yo want to save the changes?");
-        
-        Optional<ButtonType> result = alert.showAndWait();
-        
-        if(result.isPresent() && result.get() == ButtonType.OK) {
+
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.setTitle("Save Changes");
+
+        VBox root = new VBox(20);
+        root.setStyle("-fx-background-color: #1a1a1a; -fx-padding: 30; -fx-background-radius: 10;");
+        root.setAlignment(javafx.geometry.Pos.CENTER);
+        root.setPrefWidth(350);
+
+        Label title = new Label("Save Changes");
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;");
+
+        Label message = new Label("Are you sure you want to save the changes?");
+        message.setStyle("-fx-text-fill: #bbbbbb; -fx-font-size: 13;");
+        message.setWrapText(true);
+        message.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+        javafx.scene.control.Separator sep = new javafx.scene.control.Separator();
+        sep.setStyle("-fx-background-color: #333333;");
+
+        HBox buttons = new HBox(15);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Button confirmBtn = new Button("Save");
+        confirmBtn.setStyle("-fx-background-color: #c8f000; -fx-text-fill: #1a1a1a; " + "-fx-font-weight: bold; -fx-font-size: 13 " + "-fx-padding: 8 25 8 25; -fx-background-radius: 5;");
+
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; " + "-fx-font.size: 13; -fx-padding: 8 25 8 25; -fx-background.radius: 5;");
+
+        buttons.getChildren().addAll(confirmBtn, cancelBtn);
+        root.getChildren().addAll(title, message, sep, buttons);
+
+        Scene dialogScene = new Scene(root);
+        dialogScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        dialogStage.setScene(dialogScene);
+
+        final boolean[] confirmed = {false};
+
+        confirmBtn.setOnAction(ev -> {
+            confirmed[0] = true;
+            dialogStage.close();
+
             String email = emailField.getText().trim();
             String password = passwordField.getText();
-            
-            if(!User.checkEmail(email)) {
+
+            if(!email.isEmpty() && !User.checkEmail(email)) {
                 emailError.setVisible(true);
                 emailError.setManaged(true);
                 return;
             }
-            
+
             if(!password.isEmpty() && !User.checkPassword(password)) {
                 passwordError.setVisible(true);
                 passwordError.setManaged(true);
                 return;
             }
-            if(!User.isOlderThan(birthDate, 12)) {
-                dobError.setVisible(true);
-                dobError.setManaged(true);
-                return;
+
+            String dayStr = dobDay.getText().trim();
+            String monthStr = dobMonth.getText().trim();
+            String yearStr = dobYear.getText().trim();
+
+            if(!dayStr.isEmpty() && !monthStr.isEmpty() && !yearStr.isEmpty()) {
+
+                if(!User.isOlderThan(birthDate, 12)) {
+                    dobError.setVisible(true);
+                    dobError.setManaged(true);
+                    return;
+                }
             }
-            if (password.isEmpty()) {
+
+
+            if(password.isEmpty()) {
                 password = app.getCurrentUser().getPassword();
-                
             }
-            
+            if(email.isEmpty()) {
+                email = app.getCurrentUser().getEmail();
+            }
+
+
             String finalAvatar = (avatarPath != null) ? avatarPath : app.getCurrentUser().getAvatarPath();
-            
+
+
             app.updateCurrentUser(email, password, birthDate, finalAvatar);
-            
+
+            loadUserData();
             SaveButton.setDisable(true);
             ChangeAvatar.setDisable(true);
-            phoneField.setEditable(false);
+            emailField.setEditable(false);
             passwordField.setEditable(false);
             dobDay.setEditable(false);
             dobMonth.setEditable(false);
             dobYear.setEditable(false);
             hideAllErrors();
-        } else {
-            
+
             restoreOriginalValues();
             setEditMode(false);
-        }
+
+        });
+
+        cancelBtn.setOnAction(ev -> {
+            confirmed[0] = false;
+            dialogStage.close();
+            restoreOriginalValues();
+            setEditMode(false);
+        });
+
+        dialogStage.showAndWait();
+
+
     }
 
     @FXML
@@ -424,10 +486,72 @@ private void validateDob() {
         saveOriginalValues();
         setEditMode(true);
     }
-        
-        
+
+    private void loadSessions() {
+        User user = app.getCurrentUser();
+        if(user == null) return;
+
+        FlowPane.getChildren().clear();
+        FlowPane.setHgap(12);
+        FlowPane.setVgap(12);
+        FlowPane.setPrefWrapLength(760);
+        FlowPane.setStyle("-fx-background-color: #c8f000; -fx-padding: 16; -fx-background-radius: 10;");
+
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        List<Session> sessions = app.getSessionsByUser(user);
+
+        for(int i = 0; i < sessions.size(); i++) {
+            Session session = sessions.get(i);
+
+            long totalSeconds = (long) session.getDuration().getSeconds();
+            long hours = totalSeconds / 3600;
+            long minutes = (totalSeconds % 3600) / 60;
+            String duration = hours + "h " + minutes + "min ";
+
+            VBox card = new VBox(6);
+            card.setStyle("-fx-background-color: #d4f535; -fx-background-radius: 8; -fx-padding: 14;");
+            card.setPrefWidth(220);
+
+            Label titleLabel = new Label("Session " + (i + 1));
+            titleLabel.setStyle("-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #111111; ");
+
+            Label durationLabel = new Label("Duration: " + duration);
+            durationLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333;");
+
+            Label startLabel = new Label("Start: " + session.getStartTime().format(fmt));
+            startLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+
+            Label endLabel = new Label("End: " + session.getEndTime().format(fmt));
+            endLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+
+            Label importedLabel = new Label("Imported activities: " + session.getImportedActivities());
+            importedLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+
+            Label viewedLabel = new Label("Viewed activities: " + session.getViewedActivities());
+            viewedLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+
+            Label annotationsLabel = new Label("Annotations created: " + session.getAnnotationsCreated());
+            annotationsLabel.setStyle("-fx-font-size: 11); -fx-text-fill: #333333; ");
+
+
+            card.getChildren().addAll(titleLabel, durationLabel, startLabel, endLabel, importedLabel, viewedLabel, annotationsLabel);
+
+            FlowPane.getChildren().add(card);
+            FlowPane.setMaxWidth(Double.MAX_VALUE);
+
+
+        }
+
+
     }
-        
+
+    @Override
+    public void onNavigate() {
+
+    }
+}
         
         
         

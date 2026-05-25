@@ -19,43 +19,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="540.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
+<BorderPane prefHeight="540.0" prefWidth="830.0" stylesheets="@ProfileStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
 
     <left>
-        <VBox prefWidth="180.0" style="-fx-background-color: #1a1a1a;">
+        <VBox prefWidth="180.0" styleClass="sidebar">
 
-            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 20 15 20 15;">
+            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-header">
                 <StackPane>
                     <Circle fx:id="sidebarAvatarCircle" fill="#c8f000" radius="28.0" />
-                    <Label fx:id="sidebarAvatarIcon" style="-fx-text-fill: #1a1a1a; -fx-font-size: 22; -fx-font-weight: bold;" text="👤" />
+                    <Label fx:id="sidebarAvatarIcon" text="👤" />
                 </StackPane>
                 <VBox alignment="CENTER" spacing="2.0">
-                    <Label fx:id="sidebarNicknameLabel" style="-fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold;" text="Nickname" />
+                    <Label fx:id="sidebarNicknameLabel" text="Nickname" />
                 </VBox>
             </HBox>
 
-            <AnchorPane prefHeight="1.0" style="-fx-background-color: #333333;" />
+            <AnchorPane prefHeight="1.0" styleClass="sidebar-separator" />
 
             <VBox spacing="0.0" VBox.vgrow="ALWAYS">
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Profile" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-active" text="Profile" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Activities" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Activities" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Map" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Map" />
 
-                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Dashboard" />
+                <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="45.0" styleClass="sidebar-menu-item" text="Dashboard" />
             </VBox>
 
-            <AnchorPane prefHeight="1.0" style="-fx-background-color: #333333;" />
-            <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14; -fx-padding: 0 0 0 20;" text="Log out" />
+            <AnchorPane prefHeight="1.0" styleClass="sidebar-separator" />
+            <Label alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="sidebar-menu-item" text="Log out" />
 
         </VBox>
     </left>
 
     <center>
-        <ScrollPane fx:id="ScrollPane" fitToWidth="true" style="-fx-background-color: white; -fx-background: white;">
+        <ScrollPane fx:id="ScrollPane" fitToWidth="true">
             <content>
-                <VBox spacing="0.0" style="-fx-background-color: white; -fx-padding: 25 30 30 30;">
+                <VBox spacing="0.0" styleClass="content-pane">
 
                     <HBox alignment="CENTER_LEFT" spacing="18.0">
                         <VBox.margin>
@@ -64,22 +64,22 @@
 
                         <StackPane>
                             <Circle fx:id="CircleAvatar" fill="#c8f000" radius="40.0" />
-                            <Label fx:id="avatarIcon" style="-fx-text-fill: #1a1a1a; -fx-font-size: 32;" text="👤" />
+                            <Label fx:id="avatarIcon" text="👤" />
                         </StackPane>
 
                         <VBox alignment="CENTER_LEFT" spacing="6.0">
-                            <Label fx:id="NicknameLabel" style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Nickname" />
-                            <Button fx:id="ChangeAvatar" disable="true" mnemonicParsing="false" onAction="#handleChangeAvatar" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 11; -fx-padding: 4 10 4 10; -fx-background-radius: 4;" text="Change Avatar" />
+                            <Label fx:id="NicknameLabel" text="Nickname" />
+                            <Button fx:id="ChangeAvatar" disable="true" mnemonicParsing="false" onAction="#handleChangeAvatar" text="Change Avatar" />
                         </VBox>
 
                         <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="EditButton" mnemonicParsing="false" onAction="#handleEdit" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 11;" text="Edit">
+                        <Button fx:id="EditButton" mnemonicParsing="false" onAction="#handleEdit" text="Edit">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="SaveButton" disable="true" mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 11; -fx-background-radius: 4;" text="Save" />
+                        <Button fx:id="SaveButton" disable="true" mnemonicParsing="false" onAction="#handleSave" text="Save" />
                         <ImageView fitHeight="57.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" translateX="15.0" translateY="-16.0">
                            <image>
                               <Image url="@../resources/WhatsApp_Image_2026-05-24_at_18.08.21-removebg-preview.png" />
@@ -91,7 +91,7 @@
                      </children></HBox>
                     </HBox>
 
-                    <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Profile information">
+                    <Label styleClass="section-title" text="Profile information">
                         <VBox.margin>
                             <Insets bottom="12.0" />
                         </VBox.margin>
@@ -111,11 +111,11 @@
                         </rowConstraints>
 
                         <VBox spacing="3.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Email:" />
+                            <Label styleClass="field-label" text="Email:" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
-                                <TextField fx:id="emailField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="238.0" promptText="youremail@gmail.com" style="-fx-background-color: #c8f000; -fx-border-color: transparent; -fx-background-radius: 5; -fx-font-size: 12; -fx-padding: 6 10 6 10;" text="youremail@gmail.com" HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="emailField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="238.0" promptText="youremail@gmail.com" text="youremail@gmail.com" HBox.hgrow="ALWAYS" />
                             </HBox>
-                            <Label fx:id="emailError" style="-fx-text-fill: #cc3300; -fx-font-size: 10;" text="invalid email" />
+                            <Label fx:id="emailError" text="invalid email" />
                         </VBox>
 
                         <VBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -123,33 +123,33 @@
                         </VBox>
 
                         <VBox spacing="3.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Password:" />
+                            <Label styleClass="field-label" text="Password:" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
-                                <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="235.0" promptText="••••••••••••" style="-fx-background-color: #c8f000; -fx-border-color: transparent; -fx-background-radius: 5; -fx-font-size: 12; -fx-padding: 6 10 6 10;" text="••••••••••••" HBox.hgrow="ALWAYS" />
+                                <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="235.0" promptText="••••••••••••" text="••••••••••••" HBox.hgrow="ALWAYS" />
                             </HBox>
-                            <Label fx:id="passwordError" style="-fx-text-fill: #cc3300; -fx-font-size: 10;" text="invalid password" />
+                            <Label fx:id="passwordError" text="invalid password" />
                         </VBox>
 
                         <VBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <Label style="-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Date of birth:" translateY="-25.0" />
+                            <Label styleClass="field-label" text="Date of birth:" translateY="-25.0" />
                             <HBox alignment="CENTER_LEFT" spacing="6.0">
-                                <TextField fx:id="dobDay" maxWidth="45.0" promptText="DD" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 12; -fx-padding: 5 8 5 8;" translateY="-25.0" />
-                                <TextField fx:id="dobMonth" maxWidth="45.0" promptText="MM" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 12; -fx-padding: 5 8 5 8;" translateY="-25.0" />
-                                <TextField fx:id="dobYear" maxWidth="60.0" promptText="YYYY" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 12; -fx-padding: 5 8 5 8;" translateY="-25.0" />
+                                <TextField fx:id="dobDay" maxWidth="45.0" promptText="DD" styleClass="dob-field" translateY="-25.0" />
+                                <TextField fx:id="dobMonth" maxWidth="45.0" promptText="MM" styleClass="dob-field" translateY="-25.0" />
+                                <TextField fx:id="dobYear" maxWidth="60.0" promptText="YYYY" styleClass="dob-field" translateY="-25.0" />
                                 <HBox HBox.hgrow="ALWAYS" />
                             </HBox>
-                            <Label fx:id="dobError" style="-fx-text-fill: #cc3300; -fx-font-size: 10;" text="must be &gt; 12 years old" translateY="-25.0" />
+                            <Label fx:id="dobError" text="must be &gt; 12 years old" translateY="-25.0" />
                         </VBox>
 
                     </GridPane>
 
-                    <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #111111;" text="Session history">
+                    <Label styleClass="section-title" text="Session history">
                         <VBox.margin>
                             <Insets bottom="12.0" />
                         </VBox.margin>
                     </Label>
 
-                    <HBox spacing="16.0" style="-fx-background-color: #c8f000; -fx-background-radius: 10; -fx-padding: 16;">
+                    <HBox spacing="16.0" styleClass="session-history-box">
                   <children>
                      <ScrollPane fitToWidth="true">
                         <content>

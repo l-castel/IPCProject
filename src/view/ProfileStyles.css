@@ -1,0 +1,136 @@
+.sidebar {
+    -fx-background-color: #1a1a1a;
+}
+
+.sidebar-header {
+    -fx-padding: 20 15 20 15;
+}
+
+.sidebar-separator {
+    -fx-background-color: #333333;
+}
+
+#sidebarAvatarIcon {
+    -fx-text-fill: #1a1a1a;
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+}
+
+#sidebarNicknameLabel {
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+}
+
+.sidebar-menu-active {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-padding: 0 0 0 20;
+}
+
+.sidebar-menu-item {
+    -fx-text-fill: #bbbbbb;
+    -fx-font-size: 14;
+    -fx-padding: 0 0 0 20;
+}
+
+#ScrollPane {
+    -fx-background-color: white;
+    -fx-background: white;
+}
+
+.content-pane {
+    -fx-background-color: white;
+    -fx-padding: 25 30 30 30;
+}
+
+#avatarIcon {
+    -fx-text-fill: #1a1a1a;
+    -fx-font-size: 32;
+}
+
+#NicknameLabel {
+    -fx-font-size: 26;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+}
+
+#ChangeAvatar {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: white;
+    -fx-font-size: 11;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 4;
+}
+
+#EditButton {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: white;
+    -fx-font-size: 11;
+}
+
+#SaveButton {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-size: 11;
+    -fx-background-radius: 4;
+}
+
+.section-title {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+}
+
+.field-label {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111111;
+}
+
+#emailField {
+    -fx-background-color: #c8f000;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+    -fx-font-size: 12;
+    -fx-padding: 6 10 6 10;
+}
+
+#emailError {
+    -fx-text-fill: #cc3300;
+    -fx-font-size: 10;
+}
+
+#passwordField {
+    -fx-background-color: #c8f000;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+    -fx-font-size: 12;
+    -fx-padding: 6 10 6 10;
+}
+
+#passwordError {
+    -fx-text-fill: #cc3300;
+    -fx-font-size: 10;
+}
+
+.dob-field {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-size: 12;
+    -fx-padding: 5 8 5 8;
+}
+
+#dobError {
+    -fx-text-fill: #cc3300;
+    -fx-font-size: 10;
+}
+
+.session-history-box {
+    -fx-background-color: #c8f000;
+    -fx-background-radius: 10;
+    -fx-padding: 16;
+}

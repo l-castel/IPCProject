@@ -117,7 +117,6 @@ public class ProfileController implements Initializable, Navigable {
         hideAllErrors();
 
         app = SportActivityApp.getInstance();
-        loadUserData();
 
         setEditMode(false);
 
@@ -549,6 +548,10 @@ public class ProfileController implements Initializable, Navigable {
 
     @Override
     public void onNavigate() {
+
+
+        loadUserData();
+        loadSessions();
 
     }
 }
